@@ -88,28 +88,30 @@ st.markdown(
 
 pages = [
     ("Market Intelligence", "Market Climate",
-     "Is now a good time to invest in Australian property?", True),
+     "Is now a good time to invest in Australian property?", True, "/Market_Climate"),
     ("Financial Capacity", "Borrowing Power",
-     "How much can you borrow and what can you buy?", True),
+     "How much can you borrow and what can you buy?", True, "/Borrowing_Power"),
     ("Deal Analysis", "Property Analyser",
-     "Is this specific property a good investment?", True),
+     "Is this specific property a good investment?", True, "/Property_Analyser"),
     ("Due Diligence", "Buying Assistant",
-     "What do you need to check before buying?", False),
+     "What do you need to check before buying?", False, "/Buying_Assistant"),
 ]
 
 tiles = '<div class="page-row">'
-for cat, name, desc, active in pages:
+for cat, name, desc, active, href in pages:
     dot = "status-active" if active else "status-soon"
     status = "Active" if active else "Coming Soon"
     cls = "page-tile page-tile-active" if active else "page-tile"
     tiles += (
-        f'<div class="{cls}">'
+        f'<a href="{href}" target="_self" '
+        f'style="text-decoration:none;color:inherit;display:block;flex:1">'
+        f'<div class="{cls}" style="cursor:pointer;height:100%">'
         f'<div class="page-tile-cat">{cat}</div>'
         f'<div class="page-tile-name">{name}</div>'
         f'<div class="page-tile-desc">{desc}</div>'
         f'<span class="status-dot {dot}"></span>'
         f'<span class="status-text">{status}</span>'
-        '</div>'
+        '</div></a>'
     )
 tiles += '</div>'
 st.markdown(tiles, unsafe_allow_html=True)

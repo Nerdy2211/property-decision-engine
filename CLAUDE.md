@@ -1,144 +1,95 @@
-# CLAUDE.md — Property Decision Engine
+# CLAUDE.md — Aurelia
 
-## What This Project Is
-A Streamlit-based decision-support tool for Australian property investors. Four pages, one user flow:
+## What This Is
+**Aurelia** — institutional-grade property investment intelligence for the Australian market. Streamlit app, four pages:
 
-1. **Is it a good time to invest?** → Market Climate Dashboard
-2. **How much can I invest?** → Borrowing Power Estimator
-3. **What property should I pick?** → Property Analyser
-4. **What are the next steps?** → Buying Assistant
+1. **Market Climate** → 9-factor scoring model, city rankings, historical trends
+2. **Borrowing Power** → APRA serviceability, LVR comparison table, equity analysis
+3. **Property Analyser** → Yield, cash flow, deal score, suburb comparison
+4. **Buying Assistant** → Due diligence workflow (stub — next to build)
 
-**This is NOT financial advice.** Every page must include a disclaimer.
+**Not financial advice.** Every page includes a disclaimer.
 
 ---
 
 ## Tech Stack
-- Python 3.11+, Streamlit (dark theme, custom CSS)
-- Pandas / NumPy, Plotly (dark-themed charts, teal/cyan accent)
-- Local CSV/JSON data (hardcoded — live feeds later)
+- Python 3.11+, Streamlit, Pandas/NumPy, Plotly
+- Google Fonts: Playfair Display, DM Sans, Cormorant Garamond
+- Local CSV/JSON data (March 2026 baseline)
 
 ---
 
 ## Project Structure
 ```
 property-decision-engine/
-├── CLAUDE.md
-├── Home.py                        ← Streamlit entry point
-├── .streamlit/config.toml
+├── Home.py                          ← Landing page ("Aurelia")
+├── .streamlit/config.toml           ← Dark theme, gold primary
 ├── core/
-│   ├── __init__.py
-│   ├── charts.py                  ← Plotly chart builders
-│   ├── config.py                  ← weights, thresholds, city offsets (LOCKED)
-│   ├── data_loader.py             ← load market_data.json + historical CSVs
-│   ├── factors.py                 ← sub-score calculations (0–100)
-│   ├── locations.py               ← state/suburb lookups, market city mapping
-│   ├── reporting.py               ← template-based summary text
-│   ├── scoring.py                 ← national/city/state score aggregation
-│   └── tax.py                     ← income tax (2024–25), stamp duty by state
+│   ├── styles.py                    ← Shared design system + CSS
+│   ├── charts.py                    ← Plotly builders (gold palette)
+│   ├── config.py                    ← Scoring weights/thresholds (LOCKED)
+│   ├── tax.py                       ← Income tax (2024–25), stamp duty
+│   ├── locations.py                 ← State/suburb lookups
+│   ├── scoring.py                   ← National/city score aggregation
+│   ├── factors.py                   ← Sub-score calculations (0–100)
+│   ├── data_loader.py               ← Load market_data.json + CSVs
+│   └── reporting.py                 ← Summary text templates
 ├── pages/
-│   ├── 01_market_climate.py       ← Page 1 ✅
-│   ├── 02_borrowing_power.py      ← Page 2 ✅
-│   ├── 03_property_analyser.py    ← Page 3 ✅
-│   └── 04_buying_assistant.py     ← Page 4 (stub)
+│   ├── 01_Market_Climate.py         ← Page 1 ✅
+│   ├── 02_Borrowing_Power.py        ← Page 2 ✅
+│   ├── 03_Property_Analyser.py      ← Page 3 ✅
+│   └── 04_Buying_Assistant.py       ← Page 4 (styled stub)
 ├── data/
-│   ├── market_data.json           ← national factor values (March 2026)
-│   ├── suburb_data.json           ← sample suburb medians + 7yr history
-│   └── historical/                ← CSV time series (rates, inflation, unemployment)
-├── tests/
-│   └── test_scoring.py
-├── PROJECT_SPEC.md
-├── UI_NOTES.md
+│   ├── market_data.json, suburb_data.json
+│   └── historical/*.csv
 └── requirements.txt
 ```
 
 ---
 
-## Design System
-- **Background:** #0E1117 · **Cards:** #1A1D23 · **Accent:** #00BFA5 (teal)
-- **Positive:** #00BFA5 / #4CAF50 · **Negative:** #EF5350 · **Caution:** #FFC107
-- **Text:** #FAFAFA primary, rgba(255,255,255,0.45) secondary
-- Plotly: `plot_bgcolor="#1A1D23"`, `paper_bgcolor="#1A1D23"`
-- Report-style layout, card-based sections, expanders for methodology
-- Language: practical, confident, never academic
+## Design System — Editorial Luxury
+**Fonts:** Playfair Display (headings), DM Sans (body/labels), Cormorant Garamond (data numbers)
+**Palette:** Gold `#C5A880` primary, charcoal `#161618` background, `#222225` surface, `#333336` borders, `#8A8A93` muted text, `#F4F4F5` primary text. Positive `#3B4A42`/`#6B8F7B`, negative `#6B3A3A`/`#C47070`.
+**Cards:** Sharp edges (0px radius), 1px solid `#333336` border, no shadows. Padding 24px.
+**Badges:** Outlined only — transparent bg, 1px border, 0px radius, 3px 12px padding.
+**Section headers:** Gold left border (4px solid `#C5A880`), Playfair Display.
+**Score display:** Cormorant Garamond 72px (hero) or 28px (cards), with gold hairline divider.
+**Charts:** Gold `#C5A880` lines, transparent backgrounds, `#8A8A93` axis text.
+
+All styles in `core/styles.py`. Pages import `get_common_css()` and `sidebar_branding()`.
 
 ---
 
 ## Build Status
 
-### Page 1 — Market Climate Dashboard ✅
-652 lines. Overall climate score (67/100), 9-factor weighted model, factor cards grouped by theme, bar chart sorted by weight, key stat cards, "What's Changed Recently", historical trend charts, city rankings with offsets, tailwinds & risks, methodology expander.
+### Page 1 — Market Climate ✅
+Score card hero (67/100), 4 KPI cards with absolute-positioned badges, factor cards with gold progress bars, ledger-style city rankings with header row and inline score bars, tailwinds/risks with coloured dots, historical trend charts, methodology expander. Scoring model locked in `core/config.py`.
 
-Scoring model locked in `core/config.py` — do not change weights or thresholds without explicit instruction.
-
-### Page 2 — Borrowing Power Estimator ✅
-~640 lines. Rebuilt from scratch with clear section hierarchy:
-- **Section 1 — Inputs:** Income (per-person tax), HEM (income-scaled), debts, investment properties (up to 3 with equity/gearing), loan settings, repayment frequency toggle (weekly/fortnightly/monthly).
-- **Section 2 — Borrowing Power:** Single hero number (pure serviceability), expandable math breakdown.
-- **Section 3 — What Can You Buy?:** 4-column LVR comparison table (80/85/90/95%), each showing purchase, loan, deposit, LMI, stamp duty, total upfront, verdict (funded/short). If equity exists, shows "cash only" and "with equity" rows per tier. Best-fit auto-selects lowest fully-funded LVR.
-- **Section 4 — Selected Deal:** Financing + upfront costs in two-column layout. Repayment comparison (P&I vs IO). Portfolio aggregate LVR (existing + new properties) with >80% caution warning.
-- **Section 5 — Things to Consider:** Dynamic caution notes.
-- **Section 6 — Methodology:** Full expander.
-
-Key calculations: APRA +3% buffer, per-individual tax, income-scaled HEM ($750/mo per $40k above $80k), 80% rental income haircut, available equity = value×80%−loan.
+### Page 2 — Borrowing Power ✅
+Hero borrowing amount (Cormorant 48px), serviceability math breakdown, 4-column LVR comparison (80/85/90/95%) with cash-only and cash+equity rows, best-fit auto-selection (lowest fully-funded LVR), selected deal with financing/upfront costs, repayment frequency toggle, portfolio aggregate LVR. Per-individual tax, income-scaled HEM, APRA +3% buffer.
 
 ### Page 3 — Property Analyser ✅
-~660 lines. Yield calculations, cash flow, deal scoring, tax estimate, suburb comparison, historical charts.
-- State/suburb selection via `core/locations.py` (searchable selectbox)
-- Simple (1.5%) or detailed expense mode
-- Net yield score (55%) + market score (35%) + cash flow score (10%) = blended deal score
-- Tax estimate section with marginal rate selector
-- Cash flow frequency toggle (weekly/fortnightly/monthly/annual)
-- Suburb comparison against local medians (price, rent, yield)
-- Historical context charts (2019–2025) from `suburb_data.json`
-- Post–Stage 3 tax brackets (0%, 16%, 30%, 37%, 45%) via `core/tax.py`
+Yield/cash flow/deal score KPIs, financing breakdown tables, tax estimate with marginal rate selector, deal score gauge (medium), suburb comparison with editorial badges, historical price/rent charts, cash flow frequency toggle. State/suburb via `core/locations.py`.
 
-### Page 4 — Buying Assistant 📋 STUB — NEXT TO BUILD
-10-line placeholder. Planned features:
-
-**Pre-purchase checklist:** Due diligence steps (building inspection, pest, strata report, flood zone, zoning check, title search). Toggleable checklist the user works through.
-
-**Questions for the agent:** Template questions to ask at inspections (body corp fees, current tenancy, reason for sale, days on market, comparable sales).
-
-**Upfront cost summary:** Pull deposit, stamp duty, LMI, legals into one consolidated view. Could link to Borrowing Power page data if user has filled it in.
-
-**Risk flags:** Auto-flag based on property details (high LVR, negative gearing, low yield, high strata).
-
-**Settlement timeline:** Simple visual timeline of typical AU settlement process (contract → cooling off → finance → settlement, ~6 weeks).
-
-**Property comparison notes:** Side-by-side comparison if user is evaluating 2–3 properties.
-
----
-
-## Data Strategy
-**Current (MVP):** All data hardcoded in JSON/CSV. March 2026 values. Sample suburbs only (4 per capital city).
-**Future:** RBA, ABS, SQM Research feeds. CoreLogic/PropTrack API. State revenue office stamp duty. Full suburb coverage via `core/locations.py` backend swap.
+### Page 4 — Buying Assistant (styled stub)
+Gold left-border card with planned features: pre-purchase checklist, agent questions, upfront cost summary, risk flags, settlement timeline, property comparison.
 
 ---
 
 ## Key Rules
-1. **Keep code modular.** Pages in `pages/`, shared logic in `core/`.
-2. **No overengineering.** MVP first.
-3. **Match Page 1's design.** Same dark theme, card CSS, colour coding.
-4. **Make assumptions explicit.** Show them to the user.
-5. **Disclaimers on every page.** "Indicative only · Not financial advice."
-6. **Australian context.** AUD, AU tax rates, state-based stamp duty, APRA terminology.
-7. **Don't break what works.** Preserve existing functionality.
-8. **Test before finishing.** Run `streamlit run Home.py` to verify.
+1. Pages in `pages/`, shared logic in `core/`. Keep modular.
+2. MVP first. No overengineering.
+3. Match the editorial design system. Gold accents, sharp edges, Playfair headings.
+4. Disclaimers on every page. Australian context (AUD, APRA, state-based).
+5. Don't break what works. Test with `streamlit run Home.py`.
 
 ---
 
 ## Self-Review Protocol
-After building or modifying any feature with calculations or financial logic:
-
-- **Logic:** Challenge hardcoded numbers. Check edge cases ($0 income, $5M property, 0% deposit). Run a worked example.
-- **Domain:** Are tax rates, stamp duty, LMI triggers current? Would an experienced AU investor trust it?
-- **UI:** Does it match Page 1? Numbers formatted correctly? Clear hierarchy?
-- **Output:** ✅ Confident / ⚠️ Assumptions / 🔍 Worth checking
-
----
+After modifying calculations: challenge hardcoded numbers, check edge cases ($0 income, $5M property), run a worked example. Verify tax rates and stamp duty are current. Check UI matches design system. Output: ✅ Confident / ⚠️ Assumptions / 🔍 Worth checking.
 
 ## Debug Protocol
-Reproduce → Diagnose → Fix (minimum change) → Verify. Common issues: caching (`st.cache_data.clear()`), imports (sys.path hack), CSS (`unsafe_allow_html=True`), annual vs monthly vs gross vs net.
+Reproduce → Diagnose → Fix (minimum change) → Verify. Common issues: caching, sys.path imports, `unsafe_allow_html=True`, annual vs monthly vs gross vs net.
 
 ---
 
@@ -147,5 +98,6 @@ Reproduce → Diagnose → Fix (minimum change) → Verify. Common issues: cachi
 2. ~~Page 2 — Borrowing Power~~ ✅
 3. ~~Page 3 — Property Analyser~~ ✅
 4. **Page 4 — Buying Assistant** ← CURRENT PRIORITY
-5. Data automation + full suburb coverage
-6. Cross-page data sharing (pass borrowing power results to property analyser)
+5. Live data feeds (RBA, ABS, CoreLogic)
+6. Full suburb coverage via `core/locations.py` backend swap
+7. Cross-page data sharing (borrowing power → property analyser)
