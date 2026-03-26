@@ -1,0 +1,786 @@
+{
+  "Sydney": {
+    "Newtown": {
+      "median_house_price": 1450000,
+      "median_unit_price": 730000,
+      "median_weekly_rent_house": 700,
+      "median_weekly_rent_unit": 550,
+      "price_history": [
+        {"year": 2019, "value": 1050000},
+        {"year": 2020, "value": 1020000},
+        {"year": 2021, "value": 1250000},
+        {"year": 2022, "value": 1320000},
+        {"year": 2023, "value": 1270000},
+        {"year": 2024, "value": 1400000},
+        {"year": 2025, "value": 1450000}
+      ],
+      "rent_history": [
+        {"year": 2019, "value": 560},
+        {"year": 2020, "value": 540},
+        {"year": 2021, "value": 555},
+        {"year": 2022, "value": 610},
+        {"year": 2023, "value": 660},
+        {"year": 2024, "value": 685},
+        {"year": 2025, "value": 700}
+      ]
+    },
+    "Bondi": {
+      "median_house_price": 2950000,
+      "median_unit_price": 1150000,
+      "median_weekly_rent_house": 950,
+      "median_weekly_rent_unit": 720,
+      "price_history": [
+        {"year": 2019, "value": 2100000},
+        {"year": 2020, "value": 2000000},
+        {"year": 2021, "value": 2500000},
+        {"year": 2022, "value": 2650000},
+        {"year": 2023, "value": 2550000},
+        {"year": 2024, "value": 2800000},
+        {"year": 2025, "value": 2950000}
+      ],
+      "rent_history": [
+        {"year": 2019, "value": 760},
+        {"year": 2020, "value": 730},
+        {"year": 2021, "value": 760},
+        {"year": 2022, "value": 840},
+        {"year": 2023, "value": 900},
+        {"year": 2024, "value": 930},
+        {"year": 2025, "value": 950}
+      ]
+    },
+    "Parramatta": {
+      "median_house_price": 1050000,
+      "median_unit_price": 580000,
+      "median_weekly_rent_house": 580,
+      "median_weekly_rent_unit": 460,
+      "price_history": [
+        {"year": 2019, "value": 820000},
+        {"year": 2020, "value": 810000},
+        {"year": 2021, "value": 960000},
+        {"year": 2022, "value": 1000000},
+        {"year": 2023, "value": 950000},
+        {"year": 2024, "value": 1000000},
+        {"year": 2025, "value": 1050000}
+      ],
+      "rent_history": [
+        {"year": 2019, "value": 450},
+        {"year": 2020, "value": 440},
+        {"year": 2021, "value": 455},
+        {"year": 2022, "value": 510},
+        {"year": 2023, "value": 545},
+        {"year": 2024, "value": 565},
+        {"year": 2025, "value": 580}
+      ]
+    },
+    "Cronulla": {
+      "median_house_price": 1800000,
+      "median_unit_price": 850000,
+      "median_weekly_rent_house": 800,
+      "median_weekly_rent_unit": 600,
+      "price_history": [
+        {"year": 2019, "value": 1300000},
+        {"year": 2020, "value": 1250000},
+        {"year": 2021, "value": 1600000},
+        {"year": 2022, "value": 1700000},
+        {"year": 2023, "value": 1650000},
+        {"year": 2024, "value": 1750000},
+        {"year": 2025, "value": 1800000}
+      ],
+      "rent_history": [
+        {"year": 2019, "value": 650},
+        {"year": 2020, "value": 630},
+        {"year": 2021, "value": 655},
+        {"year": 2022, "value": 720},
+        {"year": 2023, "value": 770},
+        {"year": 2024, "value": 790},
+        {"year": 2025, "value": 800}
+      ]
+    }
+  },
+  "Melbourne": {
+    "Fitzroy": {
+      "median_house_price": 1300000,
+      "median_unit_price": 640000,
+      "median_weekly_rent_house": 620,
+      "median_weekly_rent_unit": 480,
+      "price_history": [
+        {"year": 2019, "value": 1100000},
+        {"year": 2020, "value": 1000000},
+        {"year": 2021, "value": 1150000},
+        {"year": 2022, "value": 1220000},
+        {"year": 2023, "value": 1180000},
+        {"year": 2024, "value": 1250000},
+        {"year": 2025, "value": 1300000}
+      ],
+      "rent_history": [
+        {"year": 2019, "value": 510},
+        {"year": 2020, "value": 490},
+        {"year": 2021, "value": 500},
+        {"year": 2022, "value": 560},
+        {"year": 2023, "value": 595},
+        {"year": 2024, "value": 610},
+        {"year": 2025, "value": 620}
+      ]
+    },
+    "Brighton": {
+      "median_house_price": 2500000,
+      "median_unit_price": 780000,
+      "median_weekly_rent_house": 800,
+      "median_weekly_rent_unit": 560,
+      "price_history": [
+        {"year": 2019, "value": 2000000},
+        {"year": 2020, "value": 1900000},
+        {"year": 2021, "value": 2200000},
+        {"year": 2022, "value": 2350000},
+        {"year": 2023, "value": 2250000},
+        {"year": 2024, "value": 2400000},
+        {"year": 2025, "value": 2500000}
+      ],
+      "rent_history": [
+        {"year": 2019, "value": 660},
+        {"year": 2020, "value": 630},
+        {"year": 2021, "value": 645},
+        {"year": 2022, "value": 710},
+        {"year": 2023, "value": 760},
+        {"year": 2024, "value": 780},
+        {"year": 2025, "value": 800}
+      ]
+    },
+    "Frankston": {
+      "median_house_price": 700000,
+      "median_unit_price": 450000,
+      "median_weekly_rent_house": 490,
+      "median_weekly_rent_unit": 380,
+      "price_history": [
+        {"year": 2019, "value": 540000},
+        {"year": 2020, "value": 535000},
+        {"year": 2021, "value": 640000},
+        {"year": 2022, "value": 670000},
+        {"year": 2023, "value": 650000},
+        {"year": 2024, "value": 680000},
+        {"year": 2025, "value": 700000}
+      ],
+      "rent_history": [
+        {"year": 2019, "value": 390},
+        {"year": 2020, "value": 380},
+        {"year": 2021, "value": 395},
+        {"year": 2022, "value": 440},
+        {"year": 2023, "value": 470},
+        {"year": 2024, "value": 482},
+        {"year": 2025, "value": 490}
+      ]
+    },
+    "Essendon": {
+      "median_house_price": 1150000,
+      "median_unit_price": 570000,
+      "median_weekly_rent_house": 580,
+      "median_weekly_rent_unit": 440,
+      "price_history": [
+        {"year": 2019, "value": 950000},
+        {"year": 2020, "value": 900000},
+        {"year": 2021, "value": 1050000},
+        {"year": 2022, "value": 1100000},
+        {"year": 2023, "value": 1050000},
+        {"year": 2024, "value": 1100000},
+        {"year": 2025, "value": 1150000}
+      ],
+      "rent_history": [
+        {"year": 2019, "value": 480},
+        {"year": 2020, "value": 465},
+        {"year": 2021, "value": 475},
+        {"year": 2022, "value": 530},
+        {"year": 2023, "value": 560},
+        {"year": 2024, "value": 572},
+        {"year": 2025, "value": 580}
+      ]
+    }
+  },
+  "Brisbane": {
+    "New Farm": {
+      "median_house_price": 1650000,
+      "median_unit_price": 750000,
+      "median_weekly_rent_house": 850,
+      "median_weekly_rent_unit": 620,
+      "price_history": [
+        {"year": 2019, "value": 950000},
+        {"year": 2020, "value": 960000},
+        {"year": 2021, "value": 1200000},
+        {"year": 2022, "value": 1500000},
+        {"year": 2023, "value": 1550000},
+        {"year": 2024, "value": 1600000},
+        {"year": 2025, "value": 1650000}
+      ],
+      "rent_history": [
+        {"year": 2019, "value": 620},
+        {"year": 2020, "value": 620},
+        {"year": 2021, "value": 660},
+        {"year": 2022, "value": 760},
+        {"year": 2023, "value": 820},
+        {"year": 2024, "value": 840},
+        {"year": 2025, "value": 850}
+      ]
+    },
+    "Logan Central": {
+      "median_house_price": 580000,
+      "median_unit_price": 370000,
+      "median_weekly_rent_house": 460,
+      "median_weekly_rent_unit": 360,
+      "price_history": [
+        {"year": 2019, "value": 350000},
+        {"year": 2020, "value": 365000},
+        {"year": 2021, "value": 470000},
+        {"year": 2022, "value": 540000},
+        {"year": 2023, "value": 555000},
+        {"year": 2024, "value": 570000},
+        {"year": 2025, "value": 580000}
+      ],
+      "rent_history": [
+        {"year": 2019, "value": 320},
+        {"year": 2020, "value": 325},
+        {"year": 2021, "value": 360},
+        {"year": 2022, "value": 420},
+        {"year": 2023, "value": 445},
+        {"year": 2024, "value": 452},
+        {"year": 2025, "value": 460}
+      ]
+    },
+    "Chermside": {
+      "median_house_price": 870000,
+      "median_unit_price": 530000,
+      "median_weekly_rent_house": 580,
+      "median_weekly_rent_unit": 480,
+      "price_history": [
+        {"year": 2019, "value": 570000},
+        {"year": 2020, "value": 580000},
+        {"year": 2021, "value": 720000},
+        {"year": 2022, "value": 820000},
+        {"year": 2023, "value": 840000},
+        {"year": 2024, "value": 858000},
+        {"year": 2025, "value": 870000}
+      ],
+      "rent_history": [
+        {"year": 2019, "value": 430},
+        {"year": 2020, "value": 435},
+        {"year": 2021, "value": 470},
+        {"year": 2022, "value": 540},
+        {"year": 2023, "value": 565},
+        {"year": 2024, "value": 574},
+        {"year": 2025, "value": 580}
+      ]
+    },
+    "Ipswich": {
+      "median_house_price": 530000,
+      "median_unit_price": 345000,
+      "median_weekly_rent_house": 430,
+      "median_weekly_rent_unit": 340,
+      "price_history": [
+        {"year": 2019, "value": 300000},
+        {"year": 2020, "value": 310000},
+        {"year": 2021, "value": 400000},
+        {"year": 2022, "value": 490000},
+        {"year": 2023, "value": 508000},
+        {"year": 2024, "value": 520000},
+        {"year": 2025, "value": 530000}
+      ],
+      "rent_history": [
+        {"year": 2019, "value": 300},
+        {"year": 2020, "value": 305},
+        {"year": 2021, "value": 340},
+        {"year": 2022, "value": 395},
+        {"year": 2023, "value": 416},
+        {"year": 2024, "value": 424},
+        {"year": 2025, "value": 430}
+      ]
+    }
+  },
+  "Perth": {
+    "Subiaco": {
+      "median_house_price": 1150000,
+      "median_unit_price": 560000,
+      "median_weekly_rent_house": 680,
+      "median_weekly_rent_unit": 520,
+      "price_history": [
+        {"year": 2019, "value": 820000},
+        {"year": 2020, "value": 830000},
+        {"year": 2021, "value": 920000},
+        {"year": 2022, "value": 990000},
+        {"year": 2023, "value": 1050000},
+        {"year": 2024, "value": 1100000},
+        {"year": 2025, "value": 1150000}
+      ],
+      "rent_history": [
+        {"year": 2019, "value": 500},
+        {"year": 2020, "value": 490},
+        {"year": 2021, "value": 540},
+        {"year": 2022, "value": 610},
+        {"year": 2023, "value": 648},
+        {"year": 2024, "value": 665},
+        {"year": 2025, "value": 680}
+      ]
+    },
+    "Fremantle": {
+      "median_house_price": 980000,
+      "median_unit_price": 490000,
+      "median_weekly_rent_house": 620,
+      "median_weekly_rent_unit": 490,
+      "price_history": [
+        {"year": 2019, "value": 700000},
+        {"year": 2020, "value": 710000},
+        {"year": 2021, "value": 800000},
+        {"year": 2022, "value": 880000},
+        {"year": 2023, "value": 930000},
+        {"year": 2024, "value": 960000},
+        {"year": 2025, "value": 980000}
+      ],
+      "rent_history": [
+        {"year": 2019, "value": 450},
+        {"year": 2020, "value": 445},
+        {"year": 2021, "value": 490},
+        {"year": 2022, "value": 560},
+        {"year": 2023, "value": 595},
+        {"year": 2024, "value": 610},
+        {"year": 2025, "value": 620}
+      ]
+    },
+    "Morley": {
+      "median_house_price": 720000,
+      "median_unit_price": 430000,
+      "median_weekly_rent_house": 560,
+      "median_weekly_rent_unit": 440,
+      "price_history": [
+        {"year": 2019, "value": 490000},
+        {"year": 2020, "value": 495000},
+        {"year": 2021, "value": 570000},
+        {"year": 2022, "value": 640000},
+        {"year": 2023, "value": 682000},
+        {"year": 2024, "value": 703000},
+        {"year": 2025, "value": 720000}
+      ],
+      "rent_history": [
+        {"year": 2019, "value": 390},
+        {"year": 2020, "value": 388},
+        {"year": 2021, "value": 430},
+        {"year": 2022, "value": 500},
+        {"year": 2023, "value": 532},
+        {"year": 2024, "value": 548},
+        {"year": 2025, "value": 560}
+      ]
+    },
+    "Joondalup": {
+      "median_house_price": 680000,
+      "median_unit_price": 420000,
+      "median_weekly_rent_house": 540,
+      "median_weekly_rent_unit": 430,
+      "price_history": [
+        {"year": 2019, "value": 470000},
+        {"year": 2020, "value": 478000},
+        {"year": 2021, "value": 555000},
+        {"year": 2022, "value": 622000},
+        {"year": 2023, "value": 649000},
+        {"year": 2024, "value": 665000},
+        {"year": 2025, "value": 680000}
+      ],
+      "rent_history": [
+        {"year": 2019, "value": 370},
+        {"year": 2020, "value": 368},
+        {"year": 2021, "value": 410},
+        {"year": 2022, "value": 480},
+        {"year": 2023, "value": 511},
+        {"year": 2024, "value": 528},
+        {"year": 2025, "value": 540}
+      ]
+    }
+  },
+  "Adelaide": {
+    "Norwood": {
+      "median_house_price": 1050000,
+      "median_unit_price": 580000,
+      "median_weekly_rent_house": 560,
+      "median_weekly_rent_unit": 430,
+      "price_history": [
+        {"year": 2019, "value": 680000},
+        {"year": 2020, "value": 695000},
+        {"year": 2021, "value": 810000},
+        {"year": 2022, "value": 940000},
+        {"year": 2023, "value": 990000},
+        {"year": 2024, "value": 1020000},
+        {"year": 2025, "value": 1050000}
+      ],
+      "rent_history": [
+        {"year": 2019, "value": 430},
+        {"year": 2020, "value": 430},
+        {"year": 2021, "value": 465},
+        {"year": 2022, "value": 520},
+        {"year": 2023, "value": 543},
+        {"year": 2024, "value": 552},
+        {"year": 2025, "value": 560}
+      ]
+    },
+    "Unley": {
+      "median_house_price": 1150000,
+      "median_unit_price": 600000,
+      "median_weekly_rent_house": 580,
+      "median_weekly_rent_unit": 450,
+      "price_history": [
+        {"year": 2019, "value": 750000},
+        {"year": 2020, "value": 760000},
+        {"year": 2021, "value": 900000},
+        {"year": 2022, "value": 1040000},
+        {"year": 2023, "value": 1090000},
+        {"year": 2024, "value": 1120000},
+        {"year": 2025, "value": 1150000}
+      ],
+      "rent_history": [
+        {"year": 2019, "value": 440},
+        {"year": 2020, "value": 440},
+        {"year": 2021, "value": 475},
+        {"year": 2022, "value": 535},
+        {"year": 2023, "value": 558},
+        {"year": 2024, "value": 568},
+        {"year": 2025, "value": 580}
+      ]
+    },
+    "Marion": {
+      "median_house_price": 720000,
+      "median_unit_price": 420000,
+      "median_weekly_rent_house": 490,
+      "median_weekly_rent_unit": 380,
+      "price_history": [
+        {"year": 2019, "value": 450000},
+        {"year": 2020, "value": 458000},
+        {"year": 2021, "value": 560000},
+        {"year": 2022, "value": 660000},
+        {"year": 2023, "value": 693000},
+        {"year": 2024, "value": 708000},
+        {"year": 2025, "value": 720000}
+      ],
+      "rent_history": [
+        {"year": 2019, "value": 360},
+        {"year": 2020, "value": 362},
+        {"year": 2021, "value": 390},
+        {"year": 2022, "value": 445},
+        {"year": 2023, "value": 468},
+        {"year": 2024, "value": 480},
+        {"year": 2025, "value": 490}
+      ]
+    },
+    "Salisbury": {
+      "median_house_price": 580000,
+      "median_unit_price": 360000,
+      "median_weekly_rent_house": 440,
+      "median_weekly_rent_unit": 340,
+      "price_history": [
+        {"year": 2019, "value": 350000},
+        {"year": 2020, "value": 355000},
+        {"year": 2021, "value": 445000},
+        {"year": 2022, "value": 535000},
+        {"year": 2023, "value": 560000},
+        {"year": 2024, "value": 572000},
+        {"year": 2025, "value": 580000}
+      ],
+      "rent_history": [
+        {"year": 2019, "value": 310},
+        {"year": 2020, "value": 312},
+        {"year": 2021, "value": 345},
+        {"year": 2022, "value": 400},
+        {"year": 2023, "value": 422},
+        {"year": 2024, "value": 432},
+        {"year": 2025, "value": 440}
+      ]
+    }
+  },
+  "Canberra": {
+    "Braddon": {
+      "median_house_price": 1000000,
+      "median_unit_price": 570000,
+      "median_weekly_rent_house": 620,
+      "median_weekly_rent_unit": 500,
+      "price_history": [
+        {"year": 2019, "value": 790000},
+        {"year": 2020, "value": 795000},
+        {"year": 2021, "value": 930000},
+        {"year": 2022, "value": 980000},
+        {"year": 2023, "value": 955000},
+        {"year": 2024, "value": 980000},
+        {"year": 2025, "value": 1000000}
+      ],
+      "rent_history": [
+        {"year": 2019, "value": 530},
+        {"year": 2020, "value": 520},
+        {"year": 2021, "value": 545},
+        {"year": 2022, "value": 590},
+        {"year": 2023, "value": 607},
+        {"year": 2024, "value": 614},
+        {"year": 2025, "value": 620}
+      ]
+    },
+    "Belconnen": {
+      "median_house_price": 760000,
+      "median_unit_price": 480000,
+      "median_weekly_rent_house": 520,
+      "median_weekly_rent_unit": 420,
+      "price_history": [
+        {"year": 2019, "value": 600000},
+        {"year": 2020, "value": 606000},
+        {"year": 2021, "value": 710000},
+        {"year": 2022, "value": 750000},
+        {"year": 2023, "value": 730000},
+        {"year": 2024, "value": 748000},
+        {"year": 2025, "value": 760000}
+      ],
+      "rent_history": [
+        {"year": 2019, "value": 440},
+        {"year": 2020, "value": 432},
+        {"year": 2021, "value": 458},
+        {"year": 2022, "value": 500},
+        {"year": 2023, "value": 511},
+        {"year": 2024, "value": 516},
+        {"year": 2025, "value": 520}
+      ]
+    },
+    "Woden": {
+      "median_house_price": 820000,
+      "median_unit_price": 510000,
+      "median_weekly_rent_house": 545,
+      "median_weekly_rent_unit": 430,
+      "price_history": [
+        {"year": 2019, "value": 640000},
+        {"year": 2020, "value": 645000},
+        {"year": 2021, "value": 760000},
+        {"year": 2022, "value": 800000},
+        {"year": 2023, "value": 785000},
+        {"year": 2024, "value": 805000},
+        {"year": 2025, "value": 820000}
+      ],
+      "rent_history": [
+        {"year": 2019, "value": 460},
+        {"year": 2020, "value": 452},
+        {"year": 2021, "value": 478},
+        {"year": 2022, "value": 520},
+        {"year": 2023, "value": 534},
+        {"year": 2024, "value": 540},
+        {"year": 2025, "value": 545}
+      ]
+    },
+    "Tuggeranong": {
+      "median_house_price": 680000,
+      "median_unit_price": 430000,
+      "median_weekly_rent_house": 490,
+      "median_weekly_rent_unit": 390,
+      "price_history": [
+        {"year": 2019, "value": 530000},
+        {"year": 2020, "value": 535000},
+        {"year": 2021, "value": 635000},
+        {"year": 2022, "value": 665000},
+        {"year": 2023, "value": 650000},
+        {"year": 2024, "value": 668000},
+        {"year": 2025, "value": 680000}
+      ],
+      "rent_history": [
+        {"year": 2019, "value": 410},
+        {"year": 2020, "value": 403},
+        {"year": 2021, "value": 428},
+        {"year": 2022, "value": 468},
+        {"year": 2023, "value": 480},
+        {"year": 2024, "value": 486},
+        {"year": 2025, "value": 490}
+      ]
+    }
+  },
+  "Hobart": {
+    "Sandy Bay": {
+      "median_house_price": 900000,
+      "median_unit_price": 560000,
+      "median_weekly_rent_house": 560,
+      "median_weekly_rent_unit": 440,
+      "price_history": [
+        {"year": 2019, "value": 680000},
+        {"year": 2020, "value": 695000},
+        {"year": 2021, "value": 820000},
+        {"year": 2022, "value": 880000},
+        {"year": 2023, "value": 870000},
+        {"year": 2024, "value": 886000},
+        {"year": 2025, "value": 900000}
+      ],
+      "rent_history": [
+        {"year": 2019, "value": 460},
+        {"year": 2020, "value": 455},
+        {"year": 2021, "value": 490},
+        {"year": 2022, "value": 535},
+        {"year": 2023, "value": 549},
+        {"year": 2024, "value": 555},
+        {"year": 2025, "value": 560}
+      ]
+    },
+    "Hobart CBD": {
+      "median_house_price": 720000,
+      "median_unit_price": 470000,
+      "median_weekly_rent_house": 490,
+      "median_weekly_rent_unit": 400,
+      "price_history": [
+        {"year": 2019, "value": 540000},
+        {"year": 2020, "value": 555000},
+        {"year": 2021, "value": 665000},
+        {"year": 2022, "value": 715000},
+        {"year": 2023, "value": 705000},
+        {"year": 2024, "value": 714000},
+        {"year": 2025, "value": 720000}
+      ],
+      "rent_history": [
+        {"year": 2019, "value": 390},
+        {"year": 2020, "value": 385},
+        {"year": 2021, "value": 420},
+        {"year": 2022, "value": 462},
+        {"year": 2023, "value": 476},
+        {"year": 2024, "value": 484},
+        {"year": 2025, "value": 490}
+      ]
+    },
+    "Glenorchy": {
+      "median_house_price": 580000,
+      "median_unit_price": 390000,
+      "median_weekly_rent_house": 440,
+      "median_weekly_rent_unit": 350,
+      "price_history": [
+        {"year": 2019, "value": 420000},
+        {"year": 2020, "value": 432000},
+        {"year": 2021, "value": 525000},
+        {"year": 2022, "value": 565000},
+        {"year": 2023, "value": 558000},
+        {"year": 2024, "value": 571000},
+        {"year": 2025, "value": 580000}
+      ],
+      "rent_history": [
+        {"year": 2019, "value": 340},
+        {"year": 2020, "value": 338},
+        {"year": 2021, "value": 370},
+        {"year": 2022, "value": 412},
+        {"year": 2023, "value": 427},
+        {"year": 2024, "value": 434},
+        {"year": 2025, "value": 440}
+      ]
+    },
+    "Kingston": {
+      "median_house_price": 640000,
+      "median_unit_price": 430000,
+      "median_weekly_rent_house": 470,
+      "median_weekly_rent_unit": 370,
+      "price_history": [
+        {"year": 2019, "value": 480000},
+        {"year": 2020, "value": 492000},
+        {"year": 2021, "value": 590000},
+        {"year": 2022, "value": 632000},
+        {"year": 2023, "value": 626000},
+        {"year": 2024, "value": 634000},
+        {"year": 2025, "value": 640000}
+      ],
+      "rent_history": [
+        {"year": 2019, "value": 365},
+        {"year": 2020, "value": 362},
+        {"year": 2021, "value": 395},
+        {"year": 2022, "value": 440},
+        {"year": 2023, "value": 457},
+        {"year": 2024, "value": 464},
+        {"year": 2025, "value": 470}
+      ]
+    }
+  },
+  "Darwin": {
+    "Larrakeyah": {
+      "median_house_price": 620000,
+      "median_unit_price": 400000,
+      "median_weekly_rent_house": 550,
+      "median_weekly_rent_unit": 430,
+      "price_history": [
+        {"year": 2019, "value": 580000},
+        {"year": 2020, "value": 540000},
+        {"year": 2021, "value": 590000},
+        {"year": 2022, "value": 615000},
+        {"year": 2023, "value": 618000},
+        {"year": 2024, "value": 619000},
+        {"year": 2025, "value": 620000}
+      ],
+      "rent_history": [
+        {"year": 2019, "value": 520},
+        {"year": 2020, "value": 490},
+        {"year": 2021, "value": 510},
+        {"year": 2022, "value": 540},
+        {"year": 2023, "value": 545},
+        {"year": 2024, "value": 548},
+        {"year": 2025, "value": 550}
+      ]
+    },
+    "Nightcliff": {
+      "median_house_price": 650000,
+      "median_unit_price": 420000,
+      "median_weekly_rent_house": 570,
+      "median_weekly_rent_unit": 450,
+      "price_history": [
+        {"year": 2019, "value": 610000},
+        {"year": 2020, "value": 565000},
+        {"year": 2021, "value": 620000},
+        {"year": 2022, "value": 645000},
+        {"year": 2023, "value": 648000},
+        {"year": 2024, "value": 649000},
+        {"year": 2025, "value": 650000}
+      ],
+      "rent_history": [
+        {"year": 2019, "value": 540},
+        {"year": 2020, "value": 510},
+        {"year": 2021, "value": 530},
+        {"year": 2022, "value": 560},
+        {"year": 2023, "value": 565},
+        {"year": 2024, "value": 568},
+        {"year": 2025, "value": 570}
+      ]
+    },
+    "Palmerston": {
+      "median_house_price": 490000,
+      "median_unit_price": 330000,
+      "median_weekly_rent_house": 460,
+      "median_weekly_rent_unit": 380,
+      "price_history": [
+        {"year": 2019, "value": 455000},
+        {"year": 2020, "value": 420000},
+        {"year": 2021, "value": 465000},
+        {"year": 2022, "value": 482000},
+        {"year": 2023, "value": 484000},
+        {"year": 2024, "value": 487000},
+        {"year": 2025, "value": 490000}
+      ],
+      "rent_history": [
+        {"year": 2019, "value": 430},
+        {"year": 2020, "value": 405},
+        {"year": 2021, "value": 425},
+        {"year": 2022, "value": 452},
+        {"year": 2023, "value": 456},
+        {"year": 2024, "value": 459},
+        {"year": 2025, "value": 460}
+      ]
+    },
+    "Fannie Bay": {
+      "median_house_price": 700000,
+      "median_unit_price": 450000,
+      "median_weekly_rent_house": 590,
+      "median_weekly_rent_unit": 460,
+      "price_history": [
+        {"year": 2019, "value": 650000},
+        {"year": 2020, "value": 605000},
+        {"year": 2021, "value": 660000},
+        {"year": 2022, "value": 688000},
+        {"year": 2023, "value": 693000},
+        {"year": 2024, "value": 697000},
+        {"year": 2025, "value": 700000}
+      ],
+      "rent_history": [
+        {"year": 2019, "value": 560},
+        {"year": 2020, "value": 530},
+        {"year": 2021, "value": 550},
+        {"year": 2022, "value": 578},
+        {"year": 2023, "value": 583},
+        {"year": 2024, "value": 587},
+        {"year": 2025, "value": 590}
+      ]
+    }
+  }
+}

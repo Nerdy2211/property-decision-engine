@@ -1,0 +1,152 @@
+{
+  "_meta": {
+    "data_as_of": "March 2026",
+    "notes": "All values are approximate. Manually updated. Not financial advice."
+  },
+  "national": {
+    "interest_rate": {
+      "value": 4.10,
+      "unit": "percent",
+      "label": "RBA Cash Rate",
+      "source": "Reserve Bank of Australia"
+    },
+    "inflation": {
+      "value": 3.2,
+      "unit": "percent_annual",
+      "label": "CPI (Annual)",
+      "source": "ABS Consumer Price Index"
+    },
+    "unemployment": {
+      "value": 4.1,
+      "unit": "percent",
+      "label": "Unemployment Rate",
+      "source": "ABS Labour Force"
+    },
+    "wages_growth": {
+      "value": 3.4,
+      "unit": "percent_annual",
+      "label": "Wage Price Index (Annual)",
+      "source": "ABS Wage Price Index"
+    },
+    "population_growth": {
+      "value": 365000,
+      "unit": "persons_annual",
+      "label": "Net Overseas Migration",
+      "source": "ABS Population Statistics"
+    },
+    "housing_supply": {
+      "value": 163000,
+      "unit": "approvals_annual",
+      "label": "Dwelling Approvals",
+      "source": "ABS Building Approvals"
+    },
+    "rental_vacancy": {
+      "value": 1.0,
+      "unit": "percent",
+      "label": "National Rental Vacancy Rate",
+      "source": "SQM Research"
+    },
+    "consumer_sentiment": {
+      "value": 84,
+      "unit": "index",
+      "label": "Westpac-Melbourne Institute Consumer Sentiment",
+      "source": "Westpac-MI"
+    },
+    "global_macro_risk": {
+      "value": 4,
+      "unit": "score_1_to_5",
+      "label": "Global Macro Risk",
+      "source": "Manual assessment",
+      "notes": "1=low risk, 5=high risk. Current drivers: US tariff escalation and trade fragmentation, China structural slowdown, elevated geopolitical tensions (Ukraine, Middle East), high global public debt levels."
+    }
+  },
+  "cities": {
+    "Perth": {
+      "state": "WA",
+      "offset": 8,
+      "rationale": "Mining economy resilience, very low vacancy, strong interstate and overseas migration inflows"
+    },
+    "Brisbane": {
+      "state": "QLD",
+      "offset": 6,
+      "rationale": "Population surge from interstate migration, SEQ infrastructure pipeline, relative affordability vs Sydney/Melbourne"
+    },
+    "Adelaide": {
+      "state": "SA",
+      "offset": 5,
+      "rationale": "Persistently low vacancy, steady interstate migration, smaller and tighter market"
+    },
+    "Sydney": {
+      "state": "NSW",
+      "offset": 0,
+      "rationale": "Tight supply supports prices but affordability ceiling limits further upside; balanced risk/reward"
+    },
+    "Canberra": {
+      "state": "ACT",
+      "offset": -2,
+      "rationale": "Public sector employment stability but lower population growth and capital growth potential"
+    },
+    "Hobart": {
+      "state": "TAS",
+      "offset": -3,
+      "rationale": "Cooling from pandemic-era peak, tourism-dependent economy, lower liquidity and smaller investor base"
+    },
+    "Melbourne": {
+      "state": "VIC",
+      "offset": -5,
+      "rationale": "Oversupply risk in apartment market, elevated land tax burden on investors, weaker investor sentiment"
+    },
+    "Darwin": {
+      "state": "NT",
+      "offset": -8,
+      "rationale": "High price volatility, low market liquidity, weak underlying demand fundamentals"
+    }
+  },
+  "recent_shifts": [
+    {
+      "factor": "Interest Rates",
+      "direction": "negative",
+      "text": "The RBA raised rates in February and March 2026. Policy remains restrictive, and markets currently price in the possibility of further hikes — though the path ahead is uncertain."
+    },
+    {
+      "factor": "Inflation",
+      "direction": "neutral",
+      "text": "Inflation has eased from its 2022–23 peak but remains slightly above the RBA's 2–3% target band."
+    },
+    {
+      "factor": "Unemployment",
+      "direction": "neutral",
+      "text": "Unemployment has drifted up from the 3.4% trough. Forward indicators — job ads, hours worked — suggest further softening is possible in 2026."
+    },
+    {
+      "factor": "Wages Growth",
+      "direction": "positive",
+      "text": "Wage growth has outpaced inflation over the past year, improving real purchasing power for buyers."
+    },
+    {
+      "factor": "Population Growth",
+      "direction": "positive",
+      "text": "Migration remains well above the long-run average, though the pace has moderated from the 2022–23 post-COVID surge above 500k. Still a meaningful demand driver."
+    },
+    {
+      "factor": "Housing Supply",
+      "direction": "negative",
+      "text": "Dwelling approvals remain well below what is needed to meet population growth — supply constraints persist."
+    },
+    {
+      "factor": "Rental Vacancy",
+      "direction": "positive",
+      "text": "National vacancy rates remain near record lows, keeping rental yields elevated and investor returns firm."
+    },
+    {
+      "factor": "Consumer Sentiment",
+      "direction": "neutral",
+      "text": "Sentiment improved modestly after the first rate cut, but remains below the long-run neutral level of 100."
+    },
+    {
+      "factor": "Global Macro Risk",
+      "direction": "negative",
+      "text": "Risk is elevated. US tariff escalation, a slowing China, geopolitical tensions, and high global debt levels create a genuinely uncertain external backdrop for Australia."
+    }
+  ]
+}
