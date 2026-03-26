@@ -6,6 +6,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), ".."
 import streamlit as st
 from core.tax import income_tax, stamp_duty
 from core.locations import STATES
+from core.styles import get_common_css, sidebar_branding, gauge_svg, score_color
 
 st.set_page_config(
     page_title="Borrowing Power | Property Decision Engine",
@@ -13,34 +14,25 @@ st.set_page_config(
     initial_sidebar_state="expanded",
 )
 
-# ─── CSS ──────────────────────────────────────────────────────────────────
+st.markdown(get_common_css(), unsafe_allow_html=True)
+st.sidebar.markdown(sidebar_branding(), unsafe_allow_html=True)
+
+# ─── Page-specific CSS ───────────────────────────────────────────────────
 st.markdown("""<style>
-.bp-card{background:#1A1D23;border-radius:10px;padding:16px 18px 14px 18px}
-.bp-lbl{font-size:11px;color:rgba(255,255,255,0.45);text-transform:uppercase;
-         letter-spacing:.06em;margin-bottom:4px}
-.bp-val{font-size:28px;font-weight:700;color:#FAFAFA;line-height:1.15;margin-bottom:2px}
-.bp-sub{font-size:12px;font-weight:500}
-.bp-row{display:flex;gap:12px;align-items:stretch;margin-bottom:0}
-.bp-row>.bp-card{flex:1;box-sizing:border-box}
-.math-tbl{width:100%;font-size:13px;color:#FAFAFA;border-collapse:collapse;margin-top:6px}
-.math-tbl td{padding:3px 0}
-.math-tbl .lbl{color:rgba(255,255,255,0.5)}
-.math-tbl .val{text-align:right}
-.math-tbl .sep{border-top:1px solid rgba(255,255,255,0.1)}
-.math-tbl .total .lbl{color:rgba(255,255,255,0.5);padding-top:6px}
-.math-tbl .total .val{text-align:right;font-weight:700;padding-top:6px}
-.tier-card{background:#1A1D23;border-radius:10px;padding:12px 14px 10px 14px;
+.tier-card{background:#111827;border:1px solid rgba(0,191,165,0.06);
+           border-radius:12px;padding:12px 14px 10px 14px;
            height:100%;box-sizing:border-box}
-.tier-title{font-size:13px;font-weight:700;color:#FAFAFA;margin-bottom:6px}
-.tier-tbl{width:100%;font-size:11px;color:#FAFAFA;border-collapse:collapse}
+.tier-card-best{border-left:3px solid #00BFA5}
+.tier-title{font-size:13px;font-weight:700;color:#F1F5F9;margin-bottom:6px}
+.tier-tbl{width:100%;font-size:11px;color:#F1F5F9;border-collapse:collapse}
 .tier-tbl td{padding:3px 0}
 .tier-tbl .lbl{color:rgba(255,255,255,0.45)}
 .tier-tbl .val{text-align:right}
-.tier-tbl .sep{border-top:1px solid rgba(255,255,255,0.08)}
+.tier-tbl .sep{border-top:1px solid rgba(255,255,255,0.06)}
 .tier-tbl .bold .val{font-weight:700}
-.inv-box{background:#1A1D23;border-radius:8px;padding:10px 14px;margin-top:6px;
+.inv-box{background:#111827;border:1px solid rgba(0,191,165,0.06);
+         border-radius:12px;padding:10px 14px;margin-top:6px;
          font-size:12px;color:rgba(255,255,255,0.6)}
-.signal-green{color:#00BFA5}.signal-amber{color:#FFC107}.signal-red{color:#EF5350}
 </style>""", unsafe_allow_html=True)
 
 # ─── Constants ────────────────────────────────────────────────────────────
@@ -145,7 +137,7 @@ def _tier(svc_max, cash, equity, lvr_pct, rate, term, is_pi, st_code, fhb):
 # SECTION 1 — INPUTS
 # ═══════════════════════════════════════════════════════════════════════════
 st.markdown("## Borrowing Power Estimator")
-st.caption("Indicative only \u00b7 Not financial advice.")
+st.caption("Indicative only · Not financial advice.")
 st.divider()
 
 st.subheader("Your Situation")
@@ -223,7 +215,7 @@ if has_inv:
         eq = _equity(iv, il)
         rmo = iw * 52 / 12
         gear = "Positive" if rmo >= ir else "Negative"
-        gc = "#00BFA5" if rmo >= ir else "#EF5350"
+        gc = "#00BFA5" if rmo >= ir else "#EF4444"
         inv_repay_mo += ir
         inv_rent_mo += rmo
         inv_equity += eq
@@ -232,7 +224,7 @@ if has_inv:
 
         st.markdown(
             f'<div class="inv-box">Equity: <b>${iv - il:,.0f}</b> '
-            f'(available: <b>${eq:,.0f}</b> = ${iv:,.0f} \u00d7 80% \u2212 ${il:,.0f}) &middot; '
+            f'(available: <b>${eq:,.0f}</b> = ${iv:,.0f} × 80% − ${il:,.0f}) &middot; '
             f'<span style="color:{gc}">{gear}ly geared</span> '
             f'(${rmo:,.0f}/mo rent vs ${ir:,}/mo repay)</div>',
             unsafe_allow_html=True)
@@ -243,8 +235,8 @@ if has_inv:
         f'<div class="inv-box" style="border-left:3px solid #00BFA5;margin-top:10px">'
         f'<b>Totals:</b> Available equity (80% LVR) <b>${inv_equity:,.0f}</b> &middot; '
         f'Rental credit (80%) <b>+${rental_credit:,.0f}/mo</b> &middot; '
-        f'Repayments <b>\u2212${inv_repay_mo:,.0f}/mo</b> &middot; '
-        f'Net <b style="color:{"#00BFA5" if net_inv >= 0 else "#EF5350"}">'
+        f'Repayments <b>−${inv_repay_mo:,.0f}/mo</b> &middot; '
+        f'Net <b style="color:{"#00BFA5" if net_inv >= 0 else "#EF4444"}">'
         f'{"+" if net_inv >= 0 else ""}{net_inv:,.0f}/mo</b></div>',
         unsafe_allow_html=True)
 else:
@@ -331,14 +323,14 @@ if combined > 0:
         st.error("Expenses and debts exceed net income. No borrowing capacity.")
 
     # Hero number
-    sig = "green" if svc_max >= 400_000 else "amber" if svc_max >= 200_000 else "red"
+    sig_color = "#00BFA5" if svc_max >= 400_000 else "#F59E0B" if svc_max >= 200_000 else "#EF4444"
     st.markdown(
-        f'<div class="bp-card" style="max-width:420px">'
-        f'<div class="bp-lbl">Max Borrowing (Serviceability)</div>'
-        f'<div class="bp-val" style="font-size:36px">${svc_max:,.0f}</div>'
-        f'<div class="bp-sub signal-{sig}">'
+        f'<div class="card" style="max-width:420px">'
+        f'<div class="lbl">Max Borrowing (Serviceability)</div>'
+        f'<div class="val" style="font-size:36px">${svc_max:,.0f}</div>'
+        f'<span class="badge badge-neu">'
         f'Assessed at {assess_rate:.1f}% ({rate:.1f}% + {APRA_BUFFER:.0f}% buffer) '
-        f'&middot; {"P&I" if is_pi else "IO"} &middot; {term}yr</div>'
+        f'· {"P&I" if is_pi else "IO"} · {term}yr</span>'
         f'</div>',
         unsafe_allow_html=True)
 
@@ -346,35 +338,35 @@ if combined > 0:
     with st.expander("How this is calculated", expanded=False):
         if partner > 0:
             tax_html = (
-                f'<tr><td class="lbl">Your income</td><td class="val">${gross:,.0f}</td></tr>'
-                f'<tr><td class="lbl">Your tax + Medicare</td><td class="val">\u2212${tax_1:,.0f}</td></tr>'
-                f'<tr><td class="lbl">Partner income</td><td class="val">${partner:,.0f}</td></tr>'
-                f'<tr><td class="lbl">Partner tax + Medicare</td><td class="val">\u2212${tax_2:,.0f}</td></tr>')
+                f'<tr><td class="mlbl">Your income</td><td class="mval">${gross:,.0f}</td></tr>'
+                f'<tr><td class="mlbl">Your tax + Medicare</td><td class="mval">−${tax_1:,.0f}</td></tr>'
+                f'<tr><td class="mlbl">Partner income</td><td class="mval">${partner:,.0f}</td></tr>'
+                f'<tr><td class="mlbl">Partner tax + Medicare</td><td class="mval">−${tax_2:,.0f}</td></tr>')
         else:
             tax_html = (
-                f'<tr><td class="lbl">Gross income</td><td class="val">${combined:,.0f}</td></tr>'
-                f'<tr><td class="lbl">Tax + Medicare</td><td class="val">\u2212${total_tax:,.0f}</td></tr>')
+                f'<tr><td class="mlbl">Gross income</td><td class="mval">${combined:,.0f}</td></tr>'
+                f'<tr><td class="mlbl">Tax + Medicare</td><td class="mval">−${total_tax:,.0f}</td></tr>')
 
         inv_html = ""
         if has_inv:
             inv_html = (
-                f'<tr><td class="lbl">Rental credit (80%)</td><td class="val">+${rental_credit:,.0f}</td></tr>'
-                f'<tr><td class="lbl">Investment repayments</td><td class="val">\u2212${inv_repay_mo:,.0f}</td></tr>')
+                f'<tr><td class="mlbl">Rental credit (80%)</td><td class="mval">+${rental_credit:,.0f}</td></tr>'
+                f'<tr><td class="mlbl">Investment repayments</td><td class="mval">−${inv_repay_mo:,.0f}</td></tr>')
 
-        avail_color = "#00BFA5" if avail > 0 else "#EF5350"
+        avail_color = "#00BFA5" if avail > 0 else "#EF4444"
         st.markdown(
             f'<table class="math-tbl">{tax_html}'
-            f'<tr class="sep total"><td class="lbl">Net monthly income</td>'
-            f'<td class="val">${net_mo:,.0f}</td></tr>'
+            f'<tr class="sep total"><td class="mlbl">Net monthly income</td>'
+            f'<td class="mval">${net_mo:,.0f}</td></tr>'
             f'{inv_html}'
-            f'<tr><td class="lbl">Living expenses (HEM)</td><td class="val">\u2212${expenses:,.0f}</td></tr>'
-            f'<tr><td class="lbl">Credit card (3% of limit)</td><td class="val">\u2212${cc_mo:,.0f}</td></tr>'
-            f'<tr><td class="lbl">HECS/HELP</td><td class="val">\u2212${hecs_mo:,.0f}</td></tr>'
-            f'<tr><td class="lbl">Other debts</td><td class="val">\u2212${other_debt:,.0f}</td></tr>'
-            f'<tr class="sep total"><td class="lbl">Available for repayments</td>'
-            f'<td class="val" style="color:{avail_color}">${avail:,.0f}/mo</td></tr>'
-            f'<tr class="sep total"><td class="lbl">Max loan at {assess_rate:.1f}%</td>'
-            f'<td class="val" style="color:{avail_color}">${svc_max:,.0f}</td></tr>'
+            f'<tr><td class="mlbl">Living expenses (HEM)</td><td class="mval">−${expenses:,.0f}</td></tr>'
+            f'<tr><td class="mlbl">Credit card (3% of limit)</td><td class="mval">−${cc_mo:,.0f}</td></tr>'
+            f'<tr><td class="mlbl">HECS/HELP</td><td class="mval">−${hecs_mo:,.0f}</td></tr>'
+            f'<tr><td class="mlbl">Other debts</td><td class="mval">−${other_debt:,.0f}</td></tr>'
+            f'<tr class="sep total"><td class="mlbl">Available for repayments</td>'
+            f'<td class="mval" style="color:{avail_color}">${avail:,.0f}/mo</td></tr>'
+            f'<tr class="sep total"><td class="mlbl">Max loan at {assess_rate:.1f}%</td>'
+            f'<td class="mval" style="color:{avail_color}">${svc_max:,.0f}</td></tr>'
             f'</table>',
             unsafe_allow_html=True)
 
@@ -397,21 +389,21 @@ if combined > 0:
         t_eq = tiers[lvr]["cash_equity"] if use_equity else None
         is_best = (lvr == best_lvr)
 
-        border = "border:2px solid #00BFA5;" if is_best else ""
+        best_cls = " tier-card-best" if is_best else ""
         lmi_label = "No LMI" if lvr <= 80 else "LMI applies"
-        lmi_color = "#00BFA5" if lvr <= 80 else "#FFC107"
+        lmi_color = "#00BFA5" if lvr <= 80 else "#F59E0B"
 
         # Cash-only row
         funded_cash = t_cash["shortfall"] == 0 and t_cash["loan"] > 0
         verdict_cash = (
-            '<span class="signal-green">Funded</span>' if funded_cash
-            else f'<span class="signal-red">Short ${t_cash["shortfall"]:,.0f}</span>')
+            '<span class="badge badge-pos">Funded</span>' if funded_cash
+            else f'<span class="badge badge-neg">Short ${t_cash["shortfall"]:,.0f}</span>')
 
         lmi_row = (f'<tr><td class="lbl">LMI</td><td class="val">${t_cash["lmi"]:,.0f}</td></tr>'
                    if t_cash["lmi"] > 0 else "")
 
         html = (
-            f'<div class="tier-card" style="{border}">'
+            f'<div class="tier-card{best_cls}">'
             f'<div class="tier-title">{lvr}% LVR</div>'
             f'<div style="font-size:10px;color:{lmi_color};margin-bottom:8px">{lmi_label}</div>'
             f'<table class="tier-tbl">'
@@ -431,14 +423,14 @@ if combined > 0:
         if use_equity and t_eq:
             funded_eq = t_eq["shortfall"] == 0 and t_eq["loan"] > 0
             verdict_eq = (
-                '<span class="signal-green">Funded</span>' if funded_eq
-                else f'<span class="signal-red">Short ${t_eq["shortfall"]:,.0f}</span>')
+                '<span class="badge badge-pos">Funded</span>' if funded_eq
+                else f'<span class="badge badge-neg">Short ${t_eq["shortfall"]:,.0f}</span>')
 
             lmi_eq_row = (f'<tr><td class="lbl">LMI</td><td class="val">${t_eq["lmi"]:,.0f}</td></tr>'
                          if t_eq["lmi"] > 0 else "")
 
             html += (
-                f'<div style="border-top:1px solid rgba(255,255,255,0.08);margin:10px 0 6px 0"></div>'
+                f'<div style="border-top:1px solid rgba(255,255,255,0.06);margin:10px 0 6px 0"></div>'
                 f'<div style="font-size:10px;color:#00BFA5;margin-bottom:4px">WITH EQUITY</div>'
                 f'<table class="tier-tbl">'
                 f'<tr class="bold"><td class="lbl">Purchase</td><td class="val">${t_eq["purchase"]:,.0f}</td></tr>'
@@ -457,16 +449,16 @@ if combined > 0:
             st.markdown(html, unsafe_allow_html=True)
             if is_best:
                 st.caption(
-                    "\u2b06 Best fit \u2014 lowest LVR where you\u2019re fully funded. "
+                    "⬆ Best fit — lowest LVR where you're fully funded. "
                     "Higher LVR tiers let you buy more but cost more in LMI."
                 )
 
     if use_equity:
         st.caption(
-            "**Equity note:** Available equity = property value \u00d7 80% \u2212 loan owing "
+            "**Equity note:** Available equity = property value × 80% − loan owing "
             "(capped at 80% LVR on the existing property). "
             "Released as cash via top-up or line of credit. "
-            "Funds deposit and costs on the new purchase \u2014 does not change the new loan\u2019s LVR. "
+            "Funds deposit and costs on the new purchase — does not change the new loan's LVR. "
             "Assessed separately; may have different terms. Cross-collateralisation has risks."
         )
 
@@ -481,7 +473,7 @@ if combined > 0:
         "LVR tier",
         LVR_TIERS,
         index=LVR_TIERS.index(best_lvr),
-        format_func=lambda x: f"{x}% LVR" + (" \u2b50 best fit" if x == best_lvr else ""),
+        format_func=lambda x: f"{x}% LVR" + (" ⭐ best fit" if x == best_lvr else ""),
     )
 
     sel = tiers[sel_lvr][funding_key]
@@ -493,34 +485,34 @@ if combined > 0:
     with fin1:
         annual_int = sel_loan * (rate / 100)
         st.markdown(
-            f'<div class="bp-card"><div class="bp-lbl">Financing</div>'
+            f'<div class="card"><div class="lbl">Financing</div>'
             f'<table class="math-tbl">'
-            f'<tr><td class="lbl">Purchase price</td><td class="val">${sel_purchase:,.0f}</td></tr>'
-            f'<tr><td class="lbl">Deposit ({100 - sel_lvr}%)</td><td class="val">\u2212${sel["dep"]:,.0f}</td></tr>'
-            f'<tr class="sep total"><td class="lbl">Loan amount</td><td class="val">${sel_loan:,.0f}</td></tr>'
-            f'<tr><td class="lbl">LVR</td><td class="val">{sel_lvr}%</td></tr>'
-            f'<tr><td class="lbl">Rate</td><td class="val">{rate:.1f}%</td></tr>'
-            f'<tr><td class="lbl">Annual interest</td><td class="val">${annual_int:,.0f}</td></tr>'
+            f'<tr><td class="mlbl">Purchase price</td><td class="mval">${sel_purchase:,.0f}</td></tr>'
+            f'<tr><td class="mlbl">Deposit ({100 - sel_lvr}%)</td><td class="mval">−${sel["dep"]:,.0f}</td></tr>'
+            f'<tr class="sep total"><td class="mlbl">Loan amount</td><td class="mval">${sel_loan:,.0f}</td></tr>'
+            f'<tr><td class="mlbl">LVR</td><td class="mval">{sel_lvr}%</td></tr>'
+            f'<tr><td class="mlbl">Rate</td><td class="mval">{rate:.1f}%</td></tr>'
+            f'<tr><td class="mlbl">Annual interest</td><td class="mval">${annual_int:,.0f}</td></tr>'
             f'</table></div>',
             unsafe_allow_html=True)
 
     with fin2:
-        lmi_row_html = (f'<tr><td class="lbl">LMI</td><td class="val">${sel["lmi"]:,.0f}</td></tr>'
+        lmi_row_html = (f'<tr><td class="mlbl">LMI</td><td class="mval">${sel["lmi"]:,.0f}</td></tr>'
                         if sel["lmi"] > 0 else "")
-        eq_row_html = (f'<tr><td class="lbl">Equity draw</td><td class="val">\u2212${sel["eq_draw"]:,.0f}</td></tr>'
+        eq_row_html = (f'<tr><td class="mlbl">Equity draw</td><td class="mval">−${sel["eq_draw"]:,.0f}</td></tr>'
                        if sel["eq_draw"] > 0 else "")
-        cash_color = "#00BFA5" if sel["shortfall"] == 0 else "#EF5350"
+        cash_color = "#00BFA5" if sel["shortfall"] == 0 else "#EF4444"
         st.markdown(
-            f'<div class="bp-card"><div class="bp-lbl">Upfront Costs</div>'
+            f'<div class="card"><div class="lbl">Upfront Costs</div>'
             f'<table class="math-tbl">'
-            f'<tr><td class="lbl">Deposit ({100 - sel_lvr}%)</td><td class="val">${sel["dep"]:,.0f}</td></tr>'
-            f'<tr><td class="lbl">Stamp duty ({state})</td><td class="val">${sel["sd"]:,.0f}</td></tr>'
+            f'<tr><td class="mlbl">Deposit ({100 - sel_lvr}%)</td><td class="mval">${sel["dep"]:,.0f}</td></tr>'
+            f'<tr><td class="mlbl">Stamp duty ({state})</td><td class="mval">${sel["sd"]:,.0f}</td></tr>'
             f'{lmi_row_html}'
-            f'<tr><td class="lbl">Legals</td><td class="val">${LEGALS:,.0f}</td></tr>'
-            f'<tr class="sep total"><td class="lbl">Total upfront</td><td class="val">${sel["total"]:,.0f}</td></tr>'
+            f'<tr><td class="mlbl">Legals</td><td class="mval">${LEGALS:,.0f}</td></tr>'
+            f'<tr class="sep total"><td class="mlbl">Total upfront</td><td class="mval">${sel["total"]:,.0f}</td></tr>'
             f'{eq_row_html}'
-            f'<tr class="sep total"><td class="lbl">Cash required</td>'
-            f'<td class="val" style="color:{cash_color}">${sel["cash_req"]:,.0f}</td></tr>'
+            f'<tr class="sep total"><td class="mlbl">Cash required</td>'
+            f'<td class="mval" style="color:{cash_color}">${sel["cash_req"]:,.0f}</td></tr>'
             f'</table></div>',
             unsafe_allow_html=True)
 
@@ -552,7 +544,7 @@ if combined > 0:
             st.warning(
                 f"**Aggregate portfolio LVR is {port_lvr:.0f}%.** "
                 "Some lenders cap aggregate LVR at 80% across all properties "
-                "\u2014 confirm with your broker before proceeding."
+                "— confirm with your broker before proceeding."
             )
 
     st.divider()
@@ -599,8 +591,8 @@ if combined > 0:
             f"(currently {assess_rate:.1f}%).\n\n"
 
             "#### Net Income\n"
-            "Each person\u2019s income taxed **separately**. "
-            "2024\u201325 post\u2013Stage 3 brackets: 0%, 16%, 30%, 37%, 45%. "
+            "Each person's income taxed **separately**. "
+            "2024–25 post–Stage 3 brackets: 0%, 16%, 30%, 37%, 45%. "
             "Medicare levy (2%) included.\n\n"
 
             "#### HEM (Living Expenses)\n"
@@ -609,25 +601,25 @@ if combined > 0:
             "#### Investment Properties\n"
             "Rental income counted at **80%** (bank risk haircut). "
             "Loan repayments deducted in full. "
-            "Available equity = Property value \u00d7 80% \u2212 Loan owing.\n\n"
+            "Available equity = Property value × 80% − Loan owing.\n\n"
             "Banks assess debt across your **entire portfolio**, not just the new loan. "
             "Aggregate LVR = Total debt / Total property value. "
             "Some lenders cap aggregate LVR at 80% even if individual properties are below that.\n\n"
 
             "#### Borrowing Power\n"
             "```\nAvailable = Net income + Rental credit"
-            "\n          \u2212 Expenses \u2212 Debts \u2212 Inv repayments"
+            "\n          − Expenses − Debts − Inv repayments"
             "\nMax loan  = PV of annuity at assessment rate\n```\n"
             "Pure serviceability. Does not depend on deposit or LVR.\n\n"
 
             "#### Comparison Table\n"
-            "Each LVR tier: `loan = min(serviceability, funds / (1 \u2212 LVR) \u00d7 LVR)`. "
-            "Equity supplements cash for deposit and costs but does not change the new loan\u2019s LVR.\n\n"
+            "Each LVR tier: `loan = min(serviceability, funds / (1 − LVR) × LVR)`. "
+            "Equity supplements cash for deposit and costs but does not change the new loan's LVR.\n\n"
 
             "#### LMI Estimate\n"
             "| LVR | Rate |\n|---|---|\n"
-            "| 80\u201385% | ~0.8% |\n| 85\u201390% | ~1.8% |\n"
-            "| 90\u201395% | ~2.8% |\n| 95%+ | ~4.0% |\n\n"
+            "| 80–85% | ~0.8% |\n| 85–90% | ~1.8% |\n"
+            "| 90–95% | ~2.8% |\n| 95%+ | ~4.0% |\n\n"
 
             "---\n"
             "*Indicative only. Every lender has different policies and benchmarks. "

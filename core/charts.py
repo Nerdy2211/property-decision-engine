@@ -11,9 +11,9 @@ def _score_color(score: float) -> str:
     if score >= 65:
         return "#00BFA5"   # teal / green
     elif score >= 40:
-        return "#FFC107"   # amber
+        return "#F59E0B"   # amber
     else:
-        return "#EF5350"   # red
+        return "#EF4444"   # red
 
 
 def factor_bar_chart(sub_scores: dict) -> go.Figure:
@@ -50,12 +50,12 @@ def factor_bar_chart(sub_scores: dict) -> go.Figure:
     ))
 
     fig.update_layout(
-        title=dict(text="Factor Scores", font=dict(size=15, color="#FAFAFA")),
+        title=dict(text="Factor Scores", font=dict(size=15, color="#F1F5F9")),
         xaxis=dict(range=[0, 115], showgrid=False, zeroline=False, showticklabels=False),
         yaxis=dict(autorange="reversed", tickfont=dict(size=12)),
-        plot_bgcolor="#1A1D23",
-        paper_bgcolor="#1A1D23",
-        font=dict(color="#FAFAFA"),
+        plot_bgcolor="#111827",
+        paper_bgcolor="#111827",
+        font=dict(color="#F1F5F9"),
         margin=dict(l=10, r=60, t=40, b=10),
         height=360,
         bargap=0.35,
@@ -100,24 +100,24 @@ def historical_line_chart(
         )
 
     fig.update_layout(
-        title=dict(text=title, font=dict(size=14, color="#FAFAFA"), x=0),
+        title=dict(text=title, font=dict(size=14, color="#F1F5F9"), x=0),
         xaxis=dict(
             title="",
             showgrid=False,
             zeroline=False,
-            tickfont=dict(size=11, color="#999"),
+            tickfont=dict(size=11, color="#666"),
             tickformat="%Y",
         ),
         yaxis=dict(
-            title=dict(text=yaxis_label, font=dict(size=11, color="#888")),
+            title=dict(text=yaxis_label, font=dict(size=11, color="#666")),
             showgrid=True,
-            gridcolor="rgba(255,255,255,0.06)",
+            gridcolor="rgba(255,255,255,0.04)",
             zeroline=False,
-            tickfont=dict(size=11, color="#999"),
+            tickfont=dict(size=11, color="#666"),
         ),
-        plot_bgcolor="#1A1D23",
-        paper_bgcolor="#1A1D23",
-        font=dict(color="#FAFAFA"),
+        plot_bgcolor="#111827",
+        paper_bgcolor="#111827",
+        font=dict(color="#F1F5F9"),
         margin=dict(l=10, r=20, t=40, b=10),
         height=240,
         showlegend=False,
@@ -149,12 +149,12 @@ def city_bar_chart(city_scores: dict) -> go.Figure:
     ))
 
     fig.update_layout(
-        title=dict(text="Adjusted Investment Score by City", font=dict(size=15, color="#FAFAFA")),
+        title=dict(text="Adjusted Investment Score by City", font=dict(size=15, color="#F1F5F9")),
         xaxis=dict(range=[0, 115], showgrid=False, zeroline=False, showticklabels=False),
         yaxis=dict(autorange="reversed", tickfont=dict(size=13)),
-        plot_bgcolor="#1A1D23",
-        paper_bgcolor="#1A1D23",
-        font=dict(color="#FAFAFA"),
+        plot_bgcolor="#111827",
+        paper_bgcolor="#111827",
+        font=dict(color="#F1F5F9"),
         margin=dict(l=10, r=60, t=40, b=10),
         height=320,
         bargap=0.35,

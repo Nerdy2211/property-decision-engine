@@ -9,6 +9,7 @@ from core.data_loader import load_market_data, get_national_values
 from core.scoring import run_full_scoring
 from core.locations import STATES, get_suburbs_for_state, get_suburb_data, get_market_city
 from core.tax import MARGINAL_TAX_RATES
+from core.styles import get_common_css, sidebar_branding, gauge_svg, score_color
 
 st.set_page_config(
     page_title="Property Analyser | Property Decision Engine",
@@ -17,70 +18,18 @@ st.set_page_config(
 )
 
 # ---------------------------------------------------------------------------
-# CSS
+# Shared CSS + sidebar branding
+# ---------------------------------------------------------------------------
+st.markdown(get_common_css(), unsafe_allow_html=True)
+st.sidebar.markdown(sidebar_branding(), unsafe_allow_html=True)
+
+# ---------------------------------------------------------------------------
+# Page-specific CSS (only classes NOT covered by shared styles.py)
 # ---------------------------------------------------------------------------
 st.markdown("""
 <style>
-.pa-card {
-    background: #1A1D23;
-    border-radius: 10px;
-    padding: 16px 18px 14px 18px;
-}
-.pa-card-label {
-    font-size: 11px;
-    color: rgba(255,255,255,0.45);
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    margin-bottom: 4px;
-}
-.pa-card-value {
-    font-size: 26px;
-    font-weight: 700;
-    color: #FAFAFA;
-    line-height: 1.15;
-    margin-bottom: 2px;
-}
-.pa-card-delta { font-size: 12px; font-weight: 500; }
-.pa-card-row {
-    display: flex;
-    gap: 12px;
-    align-items: stretch;
-    margin-bottom: 0;
-}
-.pa-card { flex: 1; box-sizing: border-box; }
-.pa-compare-row {
-    display: flex;
-    gap: 12px;
-    align-items: stretch;
-}
-.pa-compare-card {
-    flex: 1;
-    background: #1A1D23;
-    border-radius: 10px;
-    padding: 14px 16px 12px 16px;
-    box-sizing: border-box;
-}
-.pa-compare-label {
-    font-size: 10px;
-    color: rgba(255,255,255,0.40);
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    margin-bottom: 3px;
-}
-.pa-compare-value { font-size: 20px; font-weight: 700; color: #FAFAFA; margin-bottom: 2px; }
-.pa-compare-sub   { font-size: 11px; color: rgba(255,255,255,0.45); }
-.pa-compare-delta-pos { color: #00BFA5; font-size: 11px; font-weight: 600; }
-.pa-compare-delta-neg { color: #EF5350; font-size: 11px; font-weight: 600; }
-.pa-compare-delta-neu { color: #FFC107; font-size: 11px; font-weight: 600; }
-.signal-green { color: #00BFA5; }
-.signal-amber { color: #FFC107; }
-.signal-red   { color: #EF5350; }
-.tax-disclaimer {
-    font-size: 11px;
-    color: rgba(255,255,255,0.4);
-    font-style: italic;
-    margin-top: 6px;
-}
+/* Override pa-card-row bottom margin for tighter spacing */
+.pa-card-row { margin-bottom: 0; }
 </style>
 """, unsafe_allow_html=True)
 
@@ -155,8 +104,8 @@ def _deal_score(ny_score: float, market_city: str, cf: float) -> int:
 
 def _verdict(score: int) -> tuple:
     if score >= 65: return "Strong Deal", "#00BFA5"
-    if score >= 45: return "Reasonable",  "#FFC107"
-    return "Avoid", "#EF5350"
+    if score >= 45: return "Reasonable",  "#F59E0B"
+    return "Avoid", "#EF4444"
 
 
 def _yield_label(y: float) -> str:
@@ -174,12 +123,13 @@ def _pct_diff(user_val: float, median_val: float) -> float:
     return (user_val - median_val) / median_val * 100
 
 
-def _diff_class(diff: float, invert: bool = False) -> str:
+def _diff_badge(diff: float, invert: bool = False) -> str:
+    """Return badge class string for a percentage diff."""
     good = diff <= -5 if invert else diff >= 5
     bad  = diff >= 5  if invert else diff <= -5
-    if good: return "pa-compare-delta-pos"
-    if bad:  return "pa-compare-delta-neg"
-    return "pa-compare-delta-neu"
+    if good: return "badge badge-pos"
+    if bad:  return "badge badge-neg"
+    return "badge badge-cau"
 
 
 def _arrow(val: float) -> str:
@@ -190,6 +140,21 @@ def _arrow(val: float) -> str:
 def _yield_arrow(diff: float) -> str:
     if abs(diff) < 0.1: return "≈ At median"
     return ("▲ " if diff > 0 else "▼ ") + f"{abs(diff):.2f}pp"
+
+
+def _yield_badge(diff: float) -> str:
+    """Return badge class for yield diff."""
+    if diff >= 0.1: return "badge badge-pos"
+    if diff <= -0.1: return "badge badge-neg"
+    return "badge badge-cau"
+
+
+def _signal_badge(val: float, thresholds: tuple = (5.5, 4.0), labels: tuple = None) -> str:
+    """Return badge class based on value vs two thresholds (high=pos, mid=cau, low=neg)."""
+    high, low = thresholds
+    if val >= high: return "badge badge-pos"
+    if val >= low:  return "badge badge-cau"
+    return "badge badge-neg"
 
 
 # ---------------------------------------------------------------------------
@@ -216,17 +181,17 @@ def _history_chart(years, values, title, yaxis_label, line_color,
             annotation_font=dict(size=11, color="rgba(255,255,255,0.45)"),
         )
     fig.update_layout(
-        title=dict(text=title, font=dict(size=13, color="#FAFAFA"), x=0),
+        title=dict(text=title, font=dict(size=13, color="#F1F5F9"), x=0),
         xaxis=dict(showgrid=False, zeroline=False,
-                   tickfont=dict(size=11, color="#999"), dtick=1),
+                   tickfont=dict(size=11, color="#666"), dtick=1),
         yaxis=dict(
-            title=dict(text=yaxis_label, font=dict(size=10, color="#888")),
-            showgrid=True, gridcolor="rgba(255,255,255,0.06)",
-            zeroline=False, tickfont=dict(size=11, color="#999"),
+            title=dict(text=yaxis_label, font=dict(size=10, color="#666")),
+            showgrid=True, gridcolor="rgba(255,255,255,0.04)",
+            zeroline=False, tickfont=dict(size=11, color="#666"),
             tickformat=",.0f",
         ),
-        plot_bgcolor="#1A1D23", paper_bgcolor="#1A1D23",
-        font=dict(color="#FAFAFA"),
+        plot_bgcolor="#111827", paper_bgcolor="#111827",
+        font=dict(color="#F1F5F9"),
         margin=dict(l=10, r=20, t=40, b=10),
         height=220, showlegend=False,
     )
@@ -357,30 +322,37 @@ if purchase_price > 0 and weekly_rent > 0:
     is_unit       = "Unit" in property_type
     type_label    = "unit" if is_unit else "house"
 
+    # Badge helpers for KPI cards
+    _gy_badge = "badge badge-pos" if gross_yld_pct >= 5.5 else ("badge badge-cau" if gross_yld_pct >= 4.0 else "badge badge-neg")
+    _ny_badge = "badge badge-pos" if net_yld_pct >= 4.0 else ("badge badge-cau" if net_yld_pct >= 2.5 else "badge badge-neg")
+    _cf_badge = "badge badge-pos" if cash_flow >= 0 else "badge badge-neg"
+    _deal_badge = "badge badge-pos" if deal >= 65 else ("badge badge-cau" if deal >= 45 else "badge badge-neg")
+    _ny_label = "Strong" if net_yld_pct >= 4.0 else ("Neutral" if net_yld_pct >= 2.5 else "Weak")
+
     # ── Headline KPIs ────────────────────────────────────────────────────
     st.subheader("Analysis")
 
     st.markdown(f"""
-    <div class="pa-card-row">
-      <div class="pa-card">
-        <div class="pa-card-label">Gross Yield</div>
-        <div class="pa-card-value">{gross_yld_pct:.2f}%</div>
-        <div class="pa-card-delta signal-{'green' if gross_yld_pct >= 5.5 else 'amber' if gross_yld_pct >= 4.0 else 'red'}">{yield_label}</div>
+    <div class="card-row">
+      <div class="card">
+        <div class="lbl">Gross Yield</div>
+        <div class="val">{gross_yld_pct:.2f}%</div>
+        <span class="{_gy_badge}">{yield_label}</span>
       </div>
-      <div class="pa-card">
-        <div class="pa-card-label">Net Yield</div>
-        <div class="pa-card-value">{net_yld_pct:.2f}%</div>
-        <div class="pa-card-delta signal-{'green' if net_yld_pct >= 4.0 else 'amber' if net_yld_pct >= 2.5 else 'red'}">{'Strong' if net_yld_pct >= 4.0 else 'Neutral' if net_yld_pct >= 2.5 else 'Weak'}</div>
+      <div class="card">
+        <div class="lbl">Net Yield</div>
+        <div class="val">{net_yld_pct:.2f}%</div>
+        <span class="{_ny_badge}">{_ny_label}</span>
       </div>
-      <div class="pa-card">
-        <div class="pa-card-label">Cash Flow</div>
-        <div class="pa-card-value">{_fmt_cf(cash_flow)}</div>
-        <div class="pa-card-delta signal-{'green' if cash_flow >= 0 else 'red'}">{gear_label}</div>
+      <div class="card">
+        <div class="lbl">Cash Flow</div>
+        <div class="val">{_fmt_cf(cash_flow)}</div>
+        <span class="{_cf_badge}">{gear_label}</span>
       </div>
-      <div class="pa-card">
-        <div class="pa-card-label">Deal Score</div>
-        <div class="pa-card-value" style="color:{verdict_color}">{deal} / 100</div>
-        <div class="pa-card-delta signal-{'green' if deal >= 65 else 'amber' if deal >= 45 else 'red'}">{verdict_label}</div>
+      <div class="card">
+        <div class="lbl">Deal Score</div>
+        <div class="val" style="color:{verdict_color}">{deal} / 100</div>
+        <span class="{_deal_badge}">{verdict_label}</span>
       </div>
     </div>
     """, unsafe_allow_html=True)
@@ -394,46 +366,47 @@ if purchase_price > 0 and weekly_rent > 0:
 
     with fin1:
         st.markdown(f"""
-        <div class="pa-card">
-          <div class="pa-card-label">Financing</div>
-          <table style="width:100%;font-size:13px;color:#FAFAFA;border-collapse:collapse;margin-top:6px">
-            <tr><td style="color:rgba(255,255,255,0.5);padding:3px 0">Purchase price</td>
-                <td style="text-align:right">${purchase_price:,.0f}</td></tr>
-            <tr><td style="color:rgba(255,255,255,0.5);padding:3px 0">Deposit</td>
-                <td style="text-align:right">−${deposit:,.0f}</td></tr>
-            <tr style="border-top:1px solid rgba(255,255,255,0.1)">
-              <td style="color:rgba(255,255,255,0.5);padding:6px 0 3px 0">Loan amount</td>
-              <td style="text-align:right;font-weight:700">${loan_amount:,.0f}</td>
+        <div class="card">
+          <div class="lbl">Financing</div>
+          <table class="math-tbl">
+            <tr><td class="mlbl">Purchase price</td>
+                <td class="mval">${purchase_price:,.0f}</td></tr>
+            <tr><td class="mlbl">Deposit</td>
+                <td class="mval">−${deposit:,.0f}</td></tr>
+            <tr class="sep total">
+              <td class="mlbl">Loan amount</td>
+              <td class="mval">${loan_amount:,.0f}</td>
             </tr>
-            <tr><td style="color:rgba(255,255,255,0.5);padding:3px 0">LVR</td>
-                <td style="text-align:right">{loan_amount / purchase_price * 100:.1f}%</td></tr>
-            <tr><td style="color:rgba(255,255,255,0.5);padding:3px 0">Rate</td>
-                <td style="text-align:right">{interest_rate:.1f}%</td></tr>
-            <tr><td style="color:rgba(255,255,255,0.5);padding:3px 0">Annual interest</td>
-                <td style="text-align:right">−${interest_cost:,.0f}</td></tr>
+            <tr><td class="mlbl">LVR</td>
+                <td class="mval">{loan_amount / purchase_price * 100:.1f}%</td></tr>
+            <tr><td class="mlbl">Rate</td>
+                <td class="mval">{interest_rate:.1f}%</td></tr>
+            <tr><td class="mlbl">Annual interest</td>
+                <td class="mval">−${interest_cost:,.0f}</td></tr>
           </table>
         </div>
         """, unsafe_allow_html=True)
 
     with fin2:
+        _cf_color = "#00BFA5" if cash_flow >= 0 else "#EF4444"
         st.markdown(f"""
-        <div class="pa-card">
-          <div class="pa-card-label">Cash Flow</div>
-          <table style="width:100%;font-size:13px;color:#FAFAFA;border-collapse:collapse;margin-top:6px">
-            <tr><td style="color:rgba(255,255,255,0.5);padding:3px 0">Annual rent</td>
-                <td style="text-align:right">${annual_rent:,.0f}</td></tr>
-            <tr><td style="color:rgba(255,255,255,0.5);padding:3px 0">Expenses ({expense_note})</td>
-                <td style="text-align:right">−${annual_expenses:,.0f}</td></tr>
-            <tr><td style="color:rgba(255,255,255,0.5);padding:3px 0">Interest</td>
-                <td style="text-align:right">−${interest_cost:,.0f}</td></tr>
-            <tr style="border-top:1px solid rgba(255,255,255,0.1)">
-              <td style="color:rgba(255,255,255,0.5);padding:6px 0 3px 0">Net cash flow</td>
-              <td style="text-align:right;font-weight:700;color:{'#00BFA5' if cash_flow >= 0 else '#EF5350'}">{_fmt_cf(cash_flow)}</td>
+        <div class="card">
+          <div class="lbl">Cash Flow</div>
+          <table class="math-tbl">
+            <tr><td class="mlbl">Annual rent</td>
+                <td class="mval">${annual_rent:,.0f}</td></tr>
+            <tr><td class="mlbl">Expenses ({expense_note})</td>
+                <td class="mval">−${annual_expenses:,.0f}</td></tr>
+            <tr><td class="mlbl">Interest</td>
+                <td class="mval">−${interest_cost:,.0f}</td></tr>
+            <tr class="sep total">
+              <td class="mlbl">Net cash flow</td>
+              <td class="mval" style="color:{_cf_color}">{_fmt_cf(cash_flow)}</td>
             </tr>
-            <tr><td style="color:rgba(255,255,255,0.5);padding:3px 0">Gross yield</td>
-                <td style="text-align:right">{gross_yld_pct:.2f}%</td></tr>
-            <tr><td style="color:rgba(255,255,255,0.5);padding:3px 0">Net yield</td>
-                <td style="text-align:right">{net_yld_pct:.2f}%</td></tr>
+            <tr><td class="mlbl">Gross yield</td>
+                <td class="mval">{gross_yld_pct:.2f}%</td></tr>
+            <tr><td class="mlbl">Net yield</td>
+                <td class="mval">{net_yld_pct:.2f}%</td></tr>
           </table>
         </div>
         """, unsafe_allow_html=True)
@@ -475,7 +448,7 @@ if purchase_price > 0 and weekly_rent > 0:
               delta_color="normal" if after_tax_cf >= 0 else "inverse")
 
     st.markdown(
-        "<div class='tax-disclaimer'>Estimate only. Assumes all losses are fully deductible in the year incurred. "
+        "<div class='disclaimer'>Estimate only. Assumes all losses are fully deductible in the year incurred. "
         "Does not account for depreciation, capital works deductions, individual circumstances, or the 50% CGT discount. "
         "Consult a tax adviser before making investment decisions.</div>",
         unsafe_allow_html=True,
@@ -486,17 +459,25 @@ if purchase_price > 0 and weekly_rent > 0:
     # ── Deal Score Derivation ────────────────────────────────────────────
     st.subheader("Deal Score Derivation")
 
-    ds1, ds2, ds3, ds4 = st.columns(4, gap="medium")
-    ds1.metric("Net Yield Score (55%)", f"{ny_score:.0f} / 100",
-               delta=f"{net_yld_pct:.2f}% net yield", delta_color="off")
-    ds2.metric(f"Market Score — {market_city} (35%)", f"{city_score} / 100",
-               delta=city_band, delta_color="off")
-    ds3.metric("Cash Flow Score (10%)", f"{cf_sub:.0f} / 100",
-               delta=gear_label,
-               delta_color="normal" if cash_flow >= 0 else "inverse")
-    ds4.metric("Blended Deal Score", f"{deal} / 100",
-               delta=verdict_label,
-               delta_color="normal" if deal >= 65 else "off" if deal >= 45 else "inverse")
+    ds_gauge, ds_detail = st.columns([1, 3], gap="large")
+
+    with ds_gauge:
+        st.markdown(
+            f'<div style="text-align:center;padding-top:8px">'
+            f'{gauge_svg(deal, verdict_color, size=120, label=verdict_label, show_micro=False)}'
+            f'</div>',
+            unsafe_allow_html=True,
+        )
+
+    with ds_detail:
+        ds1, ds2, ds3 = st.columns(3, gap="medium")
+        ds1.metric("Net Yield Score (55%)", f"{ny_score:.0f} / 100",
+                   delta=f"{net_yld_pct:.2f}% net yield", delta_color="off")
+        ds2.metric(f"Market Score — {market_city} (35%)", f"{city_score} / 100",
+                   delta=city_band, delta_color="off")
+        ds3.metric("Cash Flow Score (10%)", f"{cf_sub:.0f} / 100",
+                   delta=gear_label,
+                   delta_color="normal" if cash_flow >= 0 else "inverse")
 
     pt_note = (
         "Units can offer stronger yields but may carry strata fees. "
@@ -532,31 +513,29 @@ if purchase_price > 0 and weekly_rent > 0:
             rent_diff  = _pct_diff(weekly_rent,    median_rent)
             yield_diff = gross_yld_pct - median_gy
 
-            price_cls = _diff_class(price_diff, invert=True)
-            rent_cls  = _diff_class(rent_diff)
-            yield_cls = ("pa-compare-delta-pos" if yield_diff >= 0.1
-                         else "pa-compare-delta-neg" if yield_diff <= -0.1
-                         else "pa-compare-delta-neu")
+            price_cls = _diff_badge(price_diff, invert=True)
+            rent_cls  = _diff_badge(rent_diff)
+            yield_cls = _yield_badge(yield_diff)
 
             st.markdown(f"""
-            <div class="pa-compare-row">
-              <div class="pa-compare-card">
-                <div class="pa-compare-label">Price vs {suburb} Median {type_label.title()}</div>
-                <div class="pa-compare-value">${purchase_price:,.0f}</div>
-                <div class="pa-compare-sub">Suburb median: ${median_price:,.0f}</div>
-                <div class="{price_cls}">{_arrow(price_diff)} vs median</div>
+            <div class="card-row">
+              <div class="card">
+                <div class="lbl">Price vs {suburb} Median {type_label.title()}</div>
+                <div class="val-sm">${purchase_price:,.0f}</div>
+                <div class="sub">Suburb median: ${median_price:,.0f}</div>
+                <span class="{price_cls}">{_arrow(price_diff)} vs median</span>
               </div>
-              <div class="pa-compare-card">
-                <div class="pa-compare-label">Rent vs {suburb} Median</div>
-                <div class="pa-compare-value">${weekly_rent:,.0f}/wk</div>
-                <div class="pa-compare-sub">Suburb median: ${median_rent:,.0f}/wk</div>
-                <div class="{rent_cls}">{_arrow(rent_diff)} vs median</div>
+              <div class="card">
+                <div class="lbl">Rent vs {suburb} Median</div>
+                <div class="val-sm">${weekly_rent:,.0f}/wk</div>
+                <div class="sub">Suburb median: ${median_rent:,.0f}/wk</div>
+                <span class="{rent_cls}">{_arrow(rent_diff)} vs median</span>
               </div>
-              <div class="pa-compare-card">
-                <div class="pa-compare-label">Gross Yield vs {suburb} Median</div>
-                <div class="pa-compare-value">{gross_yld_pct:.2f}%</div>
-                <div class="pa-compare-sub">Suburb median: {median_gy:.2f}%</div>
-                <div class="{yield_cls}">{_yield_arrow(yield_diff)}</div>
+              <div class="card">
+                <div class="lbl">Gross Yield vs {suburb} Median</div>
+                <div class="val-sm">{gross_yld_pct:.2f}%</div>
+                <div class="sub">Suburb median: {median_gy:.2f}%</div>
+                <span class="{yield_cls}">{_yield_arrow(yield_diff)}</span>
               </div>
             </div>
             """, unsafe_allow_html=True)
@@ -599,7 +578,7 @@ if purchase_price > 0 and weekly_rent > 0:
                                 [r["value"] for r in rh],
                                 title=f"{suburb} — Median Weekly Rent (2019–2025)",
                                 yaxis_label="Weekly rent ($)",
-                                line_color="#FFC107",
+                                line_color="#F59E0B",
                                 current_value=weekly_rent,
                                 ref_label=f"This property: ${weekly_rent:,.0f}/wk",
                             ),
