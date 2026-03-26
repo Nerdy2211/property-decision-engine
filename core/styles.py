@@ -24,12 +24,19 @@ def get_common_css() -> str:
     --text-3: rgba(255,255,255,0.25);
 }
 
+/* ── Streamlit overrides ────────────────────────────────────────────── */
+.main .block-container { padding: 2rem 2.5rem 4rem; max-width: 1400px; }
+.main h3 { font-size: 20px !important; font-weight: 700 !important; letter-spacing: -0.3px; color: #F1F5F9 !important; }
+.main hr { border: none !important; border-top: 1px solid rgba(255,255,255,0.04) !important; margin: 1.5rem 0 !important; }
+.main .stCaption p { font-size: 12px !important; color: rgba(255,255,255,0.35) !important; }
+
 /* ── Base card ──────────────────────────────────────────────────────── */
 .card {
     background: var(--bg-card);
     border: var(--border-card);
     border-radius: var(--radius-card);
     padding: 20px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.3), 0 1px 2px rgba(0,0,0,0.2);
 }
 .card-row {
     display: flex;
@@ -150,7 +157,7 @@ section[data-testid="stSidebar"] > div:first-child {
     margin-bottom: 12px;
 }
 .sidebar-brand-title {
-    font-size: 14px;
+    font-size: 15px;
     font-weight: 700;
     color: var(--text-1);
     margin-bottom: 2px;
@@ -168,60 +175,66 @@ def sidebar_branding() -> str:
     """Return the sidebar brand HTML."""
     return (
         '<div class="sidebar-brand">'
-        '<div class="sidebar-brand-title">Property Decision Engine</div>'
+        '<div class="sidebar-brand-title">Property Decision Engine '
+        '<span class="badge badge-neu" style="font-size:9px;vertical-align:middle;margin-left:4px">v1.0</span>'
+        '</div>'
         '<div class="sidebar-brand-sub">Decision Terminal</div>'
         '</div>'
     )
 
 
-def gauge_svg(score: int, color: str = "#00BFA5", size: int = 200,
+def gauge_svg(score: int, color: str = "#00BFA5", size: int = 260,
               label: str = "", show_micro: bool = True) -> str:
     """
     Circular gauge SVG. Teal ring partially filled by score (0-100).
     Large score number centred, band label below.
     """
-    r = 80
+    r = int(size * 0.34)
     cx = cy = size // 2
     circumference = 2 * 3.14159 * r
     filled = circumference * score / 100
     gap = circumference - filled
     glow_id = f"glow_{score}"
+    # Scale font sizes with gauge size
+    score_fs = max(28, int(size * 0.215))  # 56px at 260
+    label_fs = max(11, int(size * 0.05))   # 13px at 260
+    micro_fs = max(8, int(size * 0.035))   # 9px at 260
 
     micro_line = ""
     if show_micro:
         micro_line = (
-            f'<text x="{cx}" y="{cy + 56}" text-anchor="middle" '
-            f'font-size="9" fill="rgba(255,255,255,0.25)" letter-spacing="0.04em">'
+            f'<text x="{cx}" y="{cy + int(r * 0.72)}" text-anchor="middle" '
+            f'font-size="{micro_fs}" fill="rgba(255,255,255,0.25)" letter-spacing="0.04em">'
             f'9-factor weighted \u00b7 0\u2013100 \u00b7 March 2026</text>'
         )
 
     label_line = ""
     if label:
         label_line = (
-            f'<text x="{cx}" y="{cy + 36}" text-anchor="middle" '
-            f'font-size="13" fill="rgba(255,255,255,0.45)" font-weight="500">'
+            f'<text x="{cx}" y="{cy + int(r * 0.48)}" text-anchor="middle" '
+            f'font-size="{label_fs}" fill="rgba(255,255,255,0.45)" font-weight="500">'
             f'{label}</text>'
         )
 
     return (
         f'<svg width="{size}" height="{size}" viewBox="0 0 {size} {size}">'
         f'<defs><filter id="{glow_id}" x="-30%" y="-30%" width="160%" height="160%">'
-        f'<feGaussianBlur stdDeviation="4" result="blur"/>'
+        f'<feGaussianBlur stdDeviation="5" result="blur"/>'
         f'<feComposite in="SourceGraphic" in2="blur" operator="over"/>'
         f'</filter></defs>'
         # Track
         f'<circle cx="{cx}" cy="{cy}" r="{r}" fill="none" '
-        f'stroke="rgba(255,255,255,0.04)" stroke-width="8"/>'
+        f'stroke="rgba(255,255,255,0.04)" stroke-width="9"/>'
         # Filled arc
         f'<circle cx="{cx}" cy="{cy}" r="{r}" fill="none" '
-        f'stroke="{color}" stroke-width="8" '
+        f'stroke="{color}" stroke-width="9" '
         f'stroke-dasharray="{filled:.1f} {gap:.1f}" '
         f'stroke-linecap="round" '
         f'transform="rotate(-90 {cx} {cy})" '
         f'filter="url(#{glow_id})"/>'
         # Score number
-        f'<text x="{cx}" y="{cy + 14}" text-anchor="middle" '
-        f'font-size="48" font-weight="700" fill="#F1F5F9">{score}</text>'
+        f'<text x="{cx}" y="{cy + int(score_fs * 0.3)}" text-anchor="middle" '
+        f'font-size="{score_fs}" font-weight="700" fill="#F1F5F9">{score}</text>'
         # Label
         + label_line +
         # Micro

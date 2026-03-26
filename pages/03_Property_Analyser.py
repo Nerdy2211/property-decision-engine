@@ -638,5 +638,11 @@ if purchase_price > 0 and weekly_rent > 0:
             "Treat all outputs as a first-pass screen, not a formal investment analysis.*"
         )
 
+    st.markdown(
+        '<div class="disclaimer" style="text-align:center;margin-top:32px">'
+        'Indicative only \u00b7 Not financial advice \u00b7 Data as of March 2026</div>',
+        unsafe_allow_html=True,
+    )
+
 else:
     st.info("Enter a purchase price and weekly rent above to see the analysis.")

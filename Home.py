@@ -20,39 +20,57 @@ st.sidebar.markdown(sidebar_branding(), unsafe_allow_html=True)
 # Page-specific CSS
 # ---------------------------------------------------------------------------
 st.markdown("""<style>
-.home-hero { text-align: center; padding: 40px 0 20px 0; }
+.home-hero {
+    text-align: center;
+    background: #111827;
+    border-radius: 16px;
+    padding: 48px 40px;
+    max-width: 900px;
+    margin: 16px auto 0 auto;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.3), 0 1px 2px rgba(0,0,0,0.2);
+}
 .home-title {
-    font-size: 36px; font-weight: 700; color: #F1F5F9;
-    margin-bottom: 6px;
+    font-size: 42px; font-weight: 700; color: #F1F5F9;
+    margin-bottom: 12px;
+}
+.home-accent {
+    width: 60px; height: 2px; background: #00BFA5;
+    margin: 0 auto 14px auto; border-radius: 1px;
 }
 .home-sub {
-    font-size: 15px; color: rgba(255,255,255,0.4);
-    margin-bottom: 0;
+    font-size: 16px; color: rgba(255,255,255,0.4);
+    line-height: 1.6; margin-bottom: 0;
 }
 .page-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 14px;
-    margin-top: 24px;
+    margin-top: 28px;
+    max-width: 900px;
+    margin-left: auto; margin-right: auto;
 }
 .page-tile {
     background: #111827;
     border: 1px solid rgba(0,191,165,0.06);
     border-radius: 12px;
-    padding: 22px 24px 18px 24px;
+    padding: 28px 28px 22px 28px;
+    transition: border-color 0.2s;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.3), 0 1px 2px rgba(0,0,0,0.2);
 }
+.page-tile:hover { border-color: rgba(0,191,165,0.2); }
+.page-tile-active { border-left: 3px solid #00BFA5; }
 .page-tile-cat {
     font-size: 10px; text-transform: uppercase;
     letter-spacing: 0.1em; color: rgba(255,255,255,0.25);
     margin-bottom: 6px;
 }
 .page-tile-name {
-    font-size: 17px; font-weight: 700; color: #F1F5F9;
-    margin-bottom: 4px;
+    font-size: 18px; font-weight: 700; color: #F1F5F9;
+    margin-bottom: 5px;
 }
 .page-tile-desc {
-    font-size: 12px; color: rgba(255,255,255,0.45);
-    margin-bottom: 8px;
+    font-size: 13px; color: rgba(255,255,255,0.45);
+    line-height: 1.6; margin-bottom: 10px;
 }
 .status-dot {
     display: inline-block; width: 7px; height: 7px;
@@ -74,6 +92,7 @@ st.markdown("""<style>
 st.markdown(
     '<div class="home-hero">'
     '<div class="home-title">Property Decision Engine</div>'
+    '<div class="home-accent"></div>'
     '<div class="home-sub">Make smarter property investment decisions</div>'
     '</div>',
     unsafe_allow_html=True,
@@ -97,8 +116,9 @@ tiles_html = '<div class="page-grid">'
 for cat, name, desc, active in pages:
     dot_cls = "status-active" if active else "status-soon"
     status = "Active" if active else "Coming Soon"
+    tile_cls = "page-tile page-tile-active" if active else "page-tile"
     tiles_html += (
-        '<div class="page-tile">'
+        f'<div class="{tile_cls}">'
         f'<div class="page-tile-cat">{cat}</div>'
         f'<div class="page-tile-name">{name}</div>'
         f'<div class="page-tile-desc">{desc}</div>'
@@ -110,10 +130,17 @@ tiles_html += '</div>'
 
 st.markdown(tiles_html, unsafe_allow_html=True)
 
-st.markdown("<br>", unsafe_allow_html=True)
+# Version indicator
 st.markdown(
-    '<div class="disclaimer" style="text-align:center">'
+    '<div style="text-align:center;margin-top:20px">'
+    '<span class="micro">v1.0 \u00b7 Baseline March 2026 \u00b7 Brisbane, QLD</span>'
+    '</div>',
+    unsafe_allow_html=True,
+)
+
+st.markdown(
+    '<div class="disclaimer" style="text-align:center;margin-top:24px">'
     'Indicative decision-support only \u00b7 Not financial advice \u00b7 '
-    'Data manually updated and approximate \u00b7 March 2026 baseline</div>',
+    'Data manually updated and approximate</div>',
     unsafe_allow_html=True,
 )

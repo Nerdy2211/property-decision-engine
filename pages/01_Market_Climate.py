@@ -109,11 +109,7 @@ st.markdown("""
     font-size: 11px;
     color: rgba(255,255,255,0.37);
     line-height: 1.55;
-    min-height: calc(11px * 1.55 * 3);
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
+    margin-top: 10px;
 }
 
 /* ── Group label ─────────────────────────────────────────────────── */
@@ -131,8 +127,9 @@ st.markdown("""
     background: #111827;
     border: 1px solid rgba(0,191,165,0.06);
     border-radius: 12px;
-    padding: 14px 18px 12px;
+    padding: 16px 20px 14px;
     margin-bottom: 8px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.3), 0 1px 2px rgba(0,0,0,0.2);
 }
 .shift-body { font-size: 12px; color: rgba(255,255,255,0.42); line-height: 1.55; margin-top: 4px; }
 
@@ -142,13 +139,16 @@ st.markdown("""
     border: 1px solid rgba(0,191,165,0.06);
     border-radius: 12px;
     padding: 14px 20px;
-    margin-bottom: 6px;
+    margin-bottom: 8px;
     display: flex;
     align-items: center;
     gap: 12px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.3), 0 1px 2px rgba(0,0,0,0.2);
+    transition: background 0.15s;
 }
+.rank-row:hover { background: #151d2e; }
 .rank-row.rank-top { border-left: 3px solid #00BFA5; }
-.rank-num   { font-size: 18px; font-weight: 800; color: rgba(255,255,255,0.25);
+.rank-num   { font-size: 22px; font-weight: 800; color: rgba(255,255,255,0.25);
               min-width: 40px; font-variant-numeric: tabular-nums; }
 .rank-city  { font-size: 15px; font-weight: 700; color: #F1F5F9; }
 .rank-state { font-size: 11px; color: rgba(255,255,255,0.25); margin-top: 2px; }
@@ -164,14 +164,15 @@ st.markdown("""
     letter-spacing: 2px;
     text-transform: uppercase;
     display: block;
-    margin-bottom: 14px;
+    margin-bottom: 20px;
 }
 .signal-card {
     background: #111827;
     border: 1px solid rgba(0,191,165,0.06);
     border-radius: 12px;
-    padding: 14px 18px;
+    padding: 16px 20px;
     margin-bottom: 8px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.3), 0 1px 2px rgba(0,0,0,0.2);
 }
 .signal-factor { font-size: 13px; font-weight: 700; margin-bottom: 3px; }
 .signal-desc   { font-size: 12px; color: rgba(255,255,255,0.40); line-height: 1.55; }
@@ -203,7 +204,7 @@ col_gauge, col_summary = st.columns([1, 2.2], gap="large")
 with col_gauge:
     st.markdown(
         f'<div style="text-align:center;margin-top:8px;">'
-        f'{gauge_svg(national_score, band_color, size=200, label=band_label)}'
+        f'{gauge_svg(national_score, band_color, size=260, label=band_label)}'
         f'</div>',
         unsafe_allow_html=True,
     )
@@ -270,12 +271,12 @@ for col, item in zip(kpi_cols, kpi_items):
     with col:
         spark = sparkline_svg(item["sparkline"], width=80, height=20)
         st.markdown(
-            f'<div class="card" style="padding:18px 20px 14px;">'
-            f'<div class="lbl">{item["label"]}</div>'
+            f'<div class="card" style="padding:22px 24px 16px;">'
+            f'<div class="lbl" style="margin-bottom:8px">{item["label"]}</div>'
             f'<div class="val">{item["value"]}</div>'
             f'<span class="{item["badge_cls"]}">{item["badge_text"]}</span>'
             f'<div class="sub" style="margin-top:6px;">{item["sub"]}</div>'
-            f'{spark}'
+            f'<div style="margin-top:10px">{spark}</div>'
             f'</div>',
             unsafe_allow_html=True,
         )
@@ -557,13 +558,8 @@ with st.expander("How scores are calculated"):
     )
     st.dataframe(city_df, use_container_width=True, hide_index=True)
 
-    st.markdown("---")
     st.markdown(
-        "<span style='font-size:12px;color:#888;'>"
-        "**Disclaimer:** This tool provides indicative decision-support only. "
-        "It is not financial advice, credit advice, or a substitute for professional guidance. "
-        "All data is manually updated and represents a point-in-time snapshot. "
-        "Time-series history and live data feeds are planned for a future version."
-        "</span>",
+        '<div class="disclaimer" style="text-align:center;margin-top:32px">'
+        'Indicative only \u00b7 Not financial advice \u00b7 Data as of March 2026</div>',
         unsafe_allow_html=True,
     )

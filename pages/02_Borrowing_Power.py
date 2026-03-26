@@ -627,5 +627,11 @@ if combined > 0:
             "Not a pre-approval or credit assessment.*"
         )
 
+    st.markdown(
+        '<div class="disclaimer" style="text-align:center;margin-top:32px">'
+        'Indicative only \u00b7 Not financial advice \u00b7 Data as of March 2026</div>',
+        unsafe_allow_html=True,
+    )
+
 else:
     st.info("Enter your income above to see your borrowing power.")
