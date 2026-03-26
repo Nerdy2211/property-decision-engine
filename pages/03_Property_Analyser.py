@@ -442,15 +442,32 @@ if purchase_price > 0 and weekly_rent > 0:
     after_tax_cf = cash_flow + tax_benefit
 
     t1, t2, t3 = st.columns(3, gap="medium")
-    t1.metric("Property Loss", f"${prop_loss:,.0f}",
-              delta="Deductible against income (if negatively geared)",
-              delta_color="off")
-    t2.metric("Est. Tax Benefit", f"+${tax_benefit:,.0f}",
-              delta=f"@ {tax_rate*100:.1f}% marginal rate",
-              delta_color="off" if tax_benefit == 0 else "normal")
-    t3.metric("After-tax Cash Flow", _fmt_cf(after_tax_cf),
-              delta="Positively geared" if after_tax_cf >= 0 else "Negatively geared (after tax)",
-              delta_color="normal" if after_tax_cf >= 0 else "inverse")
+    with t1:
+        st.markdown(
+            f'<div class="card" style="padding:16px 20px">'
+            f'<div class="lbl">Property Loss</div>'
+            f'<div class="val">${prop_loss:,.0f}</div>'
+            f'<span class="badge badge-neu">Deductible against income</span>'
+            f'</div>',
+            unsafe_allow_html=True)
+    with t2:
+        st.markdown(
+            f'<div class="card" style="padding:16px 20px">'
+            f'<div class="lbl">Est. Tax Benefit</div>'
+            f'<div class="val">+${tax_benefit:,.0f}</div>'
+            f'<span class="badge badge-cau">@ {tax_rate*100:.1f}% marginal rate</span>'
+            f'</div>',
+            unsafe_allow_html=True)
+    _atcf_badge = "badge badge-pos" if after_tax_cf >= 0 else "badge badge-neg"
+    _atcf_label = "Positively geared" if after_tax_cf >= 0 else "Negatively geared (after tax)"
+    with t3:
+        st.markdown(
+            f'<div class="card" style="padding:16px 20px">'
+            f'<div class="lbl">After-tax Cash Flow</div>'
+            f'<div class="val">{_fmt_cf(after_tax_cf)}</div>'
+            f'<span class="{_atcf_badge}">{_atcf_label}</span>'
+            f'</div>',
+            unsafe_allow_html=True)
 
     st.markdown(
         "<div class='disclaimer'>Estimate only. Assumes all losses are fully deductible in the year incurred. "
@@ -476,13 +493,31 @@ if purchase_price > 0 and weekly_rent > 0:
 
     with ds_detail:
         ds1, ds2, ds3 = st.columns(3, gap="medium")
-        ds1.metric("Net Yield Score (55%)", f"{ny_score:.0f} / 100",
-                   delta=f"{net_yld_pct:.2f}% net yield", delta_color="off")
-        ds2.metric(f"Market Score — {market_city} (35%)", f"{city_score} / 100",
-                   delta=city_band, delta_color="off")
-        ds3.metric("Cash Flow Score (10%)", f"{cf_sub:.0f} / 100",
-                   delta=gear_label,
-                   delta_color="normal" if cash_flow >= 0 else "inverse")
+        with ds1:
+            st.markdown(
+                f'<div class="card" style="padding:16px 20px">'
+                f'<div class="lbl">Net Yield Score (55%)</div>'
+                f'<div style="font-family:Cormorant Garamond,Georgia,serif;font-size:24px;font-weight:500;color:#F4F4F5;margin-bottom:6px">{ny_score:.0f}<span style="font-size:13px;color:#8A8A93"> /100</span></div>'
+                f'<span class="badge badge-neu">{net_yld_pct:.2f}% net yield</span>'
+                f'</div>',
+                unsafe_allow_html=True)
+        with ds2:
+            st.markdown(
+                f'<div class="card" style="padding:16px 20px">'
+                f'<div class="lbl">Market Score — {market_city} (35%)</div>'
+                f'<div style="font-family:Cormorant Garamond,Georgia,serif;font-size:24px;font-weight:500;color:#F4F4F5;margin-bottom:6px">{city_score}<span style="font-size:13px;color:#8A8A93"> /100</span></div>'
+                f'<span class="badge badge-neu">{city_band}</span>'
+                f'</div>',
+                unsafe_allow_html=True)
+        _ds_cf_badge = "badge badge-pos" if cash_flow >= 0 else "badge badge-neg"
+        with ds3:
+            st.markdown(
+                f'<div class="card" style="padding:16px 20px">'
+                f'<div class="lbl">Cash Flow Score (10%)</div>'
+                f'<div style="font-family:Cormorant Garamond,Georgia,serif;font-size:24px;font-weight:500;color:#F4F4F5;margin-bottom:6px">{cf_sub:.0f}<span style="font-size:13px;color:#8A8A93"> /100</span></div>'
+                f'<span class="{_ds_cf_badge}">{gear_label}</span>'
+                f'</div>',
+                unsafe_allow_html=True)
 
     pt_note = (
         "Units can offer stronger yields but may carry strata fees. "

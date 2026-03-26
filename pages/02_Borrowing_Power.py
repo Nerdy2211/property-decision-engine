@@ -412,15 +412,15 @@ if combined > 0:
         is_best = (lvr == best_lvr)
 
         best_cls = " tier-card-best" if is_best else ""
-        lmi_badge = ('<span class="badge badge-pos" style="border-color:#3B4A42;color:#3B4A42">No LMI</span>'
+        lmi_badge = ('<span class="badge badge-pos">No LMI</span>'
                      if lvr <= 80
-                     else '<span class="badge badge-cau" style="border-color:#C5A880;color:#C5A880">LMI applies</span>')
+                     else '<span class="badge badge-cau">LMI applies</span>')
 
         # Cash-only row
         funded_cash = t_cash["shortfall"] == 0 and t_cash["loan"] > 0
         verdict_cash = (
-            '<span class="badge badge-pos" style="border-color:#3B4A42;color:#3B4A42">Funded</span>' if funded_cash
-            else f'<span class="badge badge-neg" style="font-size:12px">Short ${t_cash["shortfall"]:,.0f}</span>')
+            '<span class="badge badge-pos">Funded</span>' if funded_cash
+            else f'<span class="badge badge-neg">Short ${t_cash["shortfall"]:,.0f}</span>')
 
         lmi_row = (f'<tr><td class="lbl">LMI</td><td class="val">${t_cash["lmi"]:,.0f}</td></tr>'
                    if t_cash["lmi"] > 0 else "")
@@ -446,8 +446,8 @@ if combined > 0:
         if use_equity and t_eq:
             funded_eq = t_eq["shortfall"] == 0 and t_eq["loan"] > 0
             verdict_eq = (
-                '<span class="badge badge-pos" style="border-color:#3B4A42;color:#3B4A42">Funded</span>' if funded_eq
-                else f'<span class="badge badge-neg" style="font-size:12px">Short ${t_eq["shortfall"]:,.0f}</span>')
+                '<span class="badge badge-pos">Funded</span>' if funded_eq
+                else f'<span class="badge badge-neg">Short ${t_eq["shortfall"]:,.0f}</span>')
 
             lmi_eq_row = (f'<tr><td class="lbl">LMI</td><td class="val">${t_eq["lmi"]:,.0f}</td></tr>'
                          if t_eq["lmi"] > 0 else "")

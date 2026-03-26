@@ -20,55 +20,69 @@ def get_common_css() -> str:
     --color-accent: #3B4A42;
     --color-neg: #C45C5C;
     --color-neg-border: #8B3A3A;
-    --color-alt-row: #1A1A1C;
+    --color-alt-row: #1C1C1E;
     --font-heading: 'Playfair Display', Georgia, serif;
     --font-body: 'DM Sans', sans-serif;
     --font-data: 'Cormorant Garamond', Georgia, serif;
     --radius: 0px;
 }
 
+/* ── Global font ────────────────────────────────────────────────────── */
+.main, .main p, .main li, .main span, .main td {
+    font-family: 'DM Sans', sans-serif !important;
+}
+
 /* ── Streamlit overrides ────────────────────────────────────────────── */
 .main .block-container { padding: 2.5rem 3rem 4rem; max-width: 1300px; }
-.main [data-testid="stMarkdown"] h2 {
-    font-family: var(--font-heading) !important;
-    font-size: 28px !important; font-weight: 600 !important;
-    color: var(--color-text) !important;
+
+/* Section headers — gold left border is THE defining editorial element */
+.main h2, .main h3,
+.main [data-testid="stMarkdown"] h2,
+.main [data-testid="stMarkdown"] h3,
+[data-testid="stHeading"] h2,
+[data-testid="stHeading"] h3 {
+    font-family: 'Playfair Display', Georgia, serif !important;
+    color: #F4F4F5 !important;
     border-left: 4px solid #C5A880 !important;
     padding-left: 16px !important;
+}
+.main h2, .main [data-testid="stMarkdown"] h2, [data-testid="stHeading"] h2 {
+    font-size: 28px !important; font-weight: 600 !important;
     margin-bottom: 8px !important;
 }
-.main [data-testid="stMarkdown"] h3 {
-    font-family: var(--font-heading) !important;
+.main h3, .main [data-testid="stMarkdown"] h3, [data-testid="stHeading"] h3 {
     font-size: 22px !important; font-weight: 600 !important;
-    color: var(--color-text) !important;
-    border-left: 4px solid #C5A880 !important;
-    padding-left: 16px !important;
 }
+
 .main hr {
     border: none !important;
-    border-top: 1px solid var(--color-border) !important;
+    border-top: 1px solid #333336 !important;
     margin: 2.5rem 0 !important;
 }
 .main .stCaption p {
-    font-family: var(--font-body) !important;
-    font-size: 13px !important; color: var(--color-muted) !important;
+    font-family: 'DM Sans', sans-serif !important;
+    font-size: 13px !important; color: #8A8A93 !important;
 }
 .main label {
-    font-family: var(--font-body) !important;
-    font-size: 13px !important; color: var(--color-muted) !important;
+    font-family: 'DM Sans', sans-serif !important;
+    font-size: 13px !important; color: #8A8A93 !important;
 }
 section[data-testid="stSidebar"] {
     background-color: #161618 !important;
-    border-right: 1px solid var(--color-border) !important;
+    border-right: 1px solid #333336 !important;
 }
 
 /* ── Alert / info box overrides ─────────────────────────────────────── */
 .stAlert {
-    background-color: #222225 !important;
+    background: transparent !important;
     border: 1px solid #333336 !important;
     border-left: 3px solid #C5A880 !important;
     border-radius: 0px !important;
+}
+.stAlert p {
     color: #8A8A93 !important;
+    font-family: 'DM Sans', sans-serif !important;
+    font-size: 13px !important;
 }
 
 /* ── st.metric overrides ────────────────────────────────────────────── */
@@ -86,11 +100,23 @@ section[data-testid="stSidebar"] {
     letter-spacing: 0.1em !important; color: #8A8A93 !important;
 }
 
+/* ── Expander overrides ─────────────────────────────────────────────── */
+[data-testid="stExpander"] {
+    border: 1px solid #333336 !important;
+    border-radius: 0px !important;
+    background: #222225 !important;
+}
+[data-testid="stExpander"] summary {
+    font-family: 'DM Sans', sans-serif !important;
+    font-size: 14px !important;
+    color: #8A8A93 !important;
+}
+
 /* ── Base card ──────────────────────────────────────────────────────── */
 .card {
-    background: var(--color-surface);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius);
+    background: #222225;
+    border: 1px solid #333336;
+    border-radius: 0px;
     padding: 24px;
 }
 .card-row {
@@ -102,100 +128,100 @@ section[data-testid="stSidebar"] {
 
 /* ── Typography ─────────────────────────────────────────────────────── */
 .lbl {
-    font-family: var(--font-body);
+    font-family: 'DM Sans', sans-serif;
     font-size: 11px;
     text-transform: uppercase;
     letter-spacing: 0.12em;
-    color: var(--color-muted);
+    color: #8A8A93;
     margin-bottom: 8px;
 }
 .val {
-    font-family: var(--font-data);
+    font-family: 'Cormorant Garamond', Georgia, serif;
     font-size: 28px;
     font-weight: 500;
-    color: var(--color-text);
+    color: #F4F4F5;
     font-variant-numeric: tabular-nums;
     line-height: 1.1;
     margin-bottom: 8px;
 }
 .val-lg {
-    font-family: var(--font-data);
+    font-family: 'Cormorant Garamond', Georgia, serif;
     font-size: 72px;
     font-weight: 500;
-    color: var(--color-text);
+    color: #F4F4F5;
     font-variant-numeric: tabular-nums;
     line-height: 1;
 }
 .val-sm {
-    font-family: var(--font-data);
+    font-family: 'Cormorant Garamond', Georgia, serif;
     font-size: 20px;
     font-weight: 500;
-    color: var(--color-text);
+    color: #F4F4F5;
     font-variant-numeric: tabular-nums;
     line-height: 1.15;
     margin-bottom: 4px;
 }
 .denom {
-    font-family: var(--font-data);
+    font-family: 'Cormorant Garamond', Georgia, serif;
     font-size: 16px;
-    color: var(--color-muted);
+    color: #8A8A93;
     font-weight: 400;
 }
 .sub {
-    font-family: var(--font-body);
+    font-family: 'DM Sans', sans-serif;
     font-size: 13px;
-    color: var(--color-muted);
+    color: #8A8A93;
     line-height: 1.6;
 }
 .micro {
-    font-family: var(--font-body);
+    font-family: 'DM Sans', sans-serif;
     font-size: 11px;
     letter-spacing: 0.04em;
-    color: var(--color-muted);
+    color: #8A8A93;
 }
 
 /* ── Badges — sharp, outlined, editorial ────────────────────────────── */
 .badge {
     display: inline-block;
-    font-family: var(--font-body);
+    font-family: 'DM Sans', sans-serif !important;
     font-size: 11px;
     font-weight: 500;
     padding: 3px 12px;
-    border-radius: var(--radius);
+    border-radius: 0px;
     line-height: 1.5;
     letter-spacing: 0.03em;
-    background: transparent;
+    background: transparent !important;
     border: 1px solid #444448;
     color: #8A8A93;
 }
-.badge-pos { border-color: #3B4A42; color: #6B8F7B; }
-.badge-neg { border-color: #6B3A3A; color: #C47070; }
-.badge-cau { border-color: #8A7A5A; color: #C5A880; }
-.badge-neu { border-color: #444448; color: #8A8A93; }
+.badge-pos { border-color: #3B4A42 !important; color: #6B8F7B !important; background: transparent !important; }
+.badge-neg { border-color: #6B3A3A !important; color: #C47070 !important; background: transparent !important; }
+.badge-cau { border-color: #8A7A5A !important; color: #C5A880 !important; background: transparent !important; }
+.badge-neu { border-color: #444448 !important; color: #8A8A93 !important; background: transparent !important; }
 
 /* ── Math / ledger tables ───────────────────────────────────────────── */
 .math-tbl {
     width: 100%;
-    font-family: var(--font-body);
+    font-family: 'DM Sans', sans-serif;
     font-size: 14px;
-    color: var(--color-text);
+    color: #F4F4F5;
     border-collapse: collapse;
     margin-top: 8px;
 }
 .math-tbl td { padding: 6px 0; border-bottom: 1px solid #2A2A2D; }
-.math-tbl .mlbl { color: var(--color-muted); }
+.math-tbl .mlbl { color: #8A8A93; }
 .math-tbl .mval { text-align: right; font-variant-numeric: tabular-nums; }
-.math-tbl .sep { border-top: 1px solid var(--color-border); }
+.math-tbl .sep { border-top: 1px solid #333336; }
 .math-tbl .sep td { padding-top: 10px; border-bottom: 1px solid #2A2A2D; }
 .math-tbl .total td { font-weight: 600; }
 
 .ledger-head {
-    font-family: var(--font-body);
+    font-family: 'DM Sans', sans-serif;
     font-size: 11px;
     text-transform: uppercase;
     letter-spacing: 0.1em;
-    color: var(--color-muted);
-    border-bottom: 1px solid var(--color-primary);
+    color: #8A8A93;
+    border-bottom: 1px solid #C5A880;
     padding-bottom: 8px;
     margin-bottom: 4px;
 }
@@ -204,36 +230,36 @@ section[data-testid="stSidebar"] {
 .prog-track {
     width: 100%;
     height: 4px;
-    background: var(--color-border);
-    border-radius: var(--radius);
+    background: #333336;
+    border-radius: 0px;
     margin: 12px 0;
     overflow: hidden;
 }
 .prog-fill {
     height: 100%;
-    border-radius: var(--radius);
-    background: var(--color-primary);
+    border-radius: 0px;
+    background: #C5A880;
 }
 
 /* ── Signal colours ─────────────────────────────────────────────────── */
 .sig-pos { color: #6B8F7B; }
 .sig-neg { color: #C47070; }
 .sig-cau { color: #C5A880; }
-.sig-neu { color: var(--color-muted); }
+.sig-neu { color: #8A8A93; }
 
 /* ── Gold hairline divider ──────────────────────────────────────────── */
 .gold-line {
     width: 60%;
     height: 1px;
-    background: var(--color-primary);
+    background: #C5A880;
     margin: 12px auto;
 }
 
 /* ── Disclaimer ─────────────────────────────────────────────────────── */
 .disclaimer {
-    font-family: var(--font-body);
+    font-family: 'DM Sans', sans-serif;
     font-size: 11px;
-    color: var(--color-muted);
+    color: #8A8A93;
     font-style: italic;
     margin-top: 8px;
 }
@@ -242,14 +268,14 @@ section[data-testid="stSidebar"] {
 section[data-testid="stSidebar"] > div:first-child { padding-top: 0; }
 .sidebar-brand {
     padding: 18px 16px 14px 16px;
-    border-bottom: 1px solid var(--color-border);
+    border-bottom: 1px solid #333336;
     margin-bottom: 12px;
 }
 .sidebar-brand-title {
     font-family: 'Playfair Display', Georgia, serif;
     font-size: 16px;
     font-weight: 600;
-    color: var(--color-text);
+    color: #F4F4F5;
     margin-bottom: 3px;
 }
 .sidebar-brand-sub {

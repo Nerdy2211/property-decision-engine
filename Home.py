@@ -33,7 +33,7 @@ st.markdown("""<style>
     margin: 20px auto 16px auto;
 }
 .page-row {
-    display: flex; gap: 14px; margin-top: 48px;
+    display: flex; gap: 20px; margin-top: 48px;
 }
 .page-tile {
     flex: 1;

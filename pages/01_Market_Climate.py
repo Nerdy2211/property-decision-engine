@@ -164,7 +164,6 @@ st.markdown("""
     align-items: center;
     gap: 12px;
 }
-.rank-row.rank-alt { background: #1A1A1C; }
 .rank-row.rank-top { border-left: 3px solid #C5A880; }
 .rank-num   { font-family: 'Cormorant Garamond', Georgia, serif; font-size: 24px; font-weight: 500; color: #8A8A93;
               min-width: 40px; font-variant-numeric: tabular-nums; }
@@ -478,12 +477,13 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
-for rank, (city, d) in enumerate(sorted_cities, 1):
+for i, (city, d) in enumerate(sorted_cities):
+    rank = i + 1
     top_cls = " rank-top" if rank == 1 else ""
-    alt_cls = " rank-alt" if rank % 2 == 0 else ""
+    alt_style = ' style="background:#1C1C1E"' if i % 2 == 1 else ""
     bar_width = int(d["score"] * 120 / 100)
     st.markdown(
-        f'<div class="rank-row{top_cls}{alt_cls}">'
+        f'<div class="rank-row{top_cls}"{alt_style}>'
         f'<div class="rank-num">{rank:02d}</div>'
         f'<div style="flex:1;">'
         f'<div class="rank-city">{city}</div>'
