@@ -35,7 +35,7 @@ def get_common_css() -> str:
 /* ── Streamlit overrides ────────────────────────────────────────────── */
 .main .block-container { padding: 2.5rem 3rem 4rem; max-width: 1300px; }
 
-/* Section headers — gold left border is THE defining editorial element */
+/* Section headers — gold top accent line */
 .main h2, .main h3,
 .main [data-testid="stMarkdown"] h2,
 .main [data-testid="stMarkdown"] h3,
@@ -43,8 +43,16 @@ def get_common_css() -> str:
 [data-testid="stHeading"] h3 {
     font-family: 'Playfair Display', Georgia, serif !important;
     color: #F4F4F5 !important;
-    border-left: 4px solid #C5A880 !important;
-    padding-left: 16px !important;
+}
+.main h2::before, .main h3::before,
+[data-testid="stHeading"] h2::before,
+[data-testid="stHeading"] h3::before {
+    content: '';
+    display: block;
+    width: 50px;
+    height: 2px;
+    background: #C5A880;
+    margin-bottom: 12px;
 }
 .main h2, .main [data-testid="stMarkdown"] h2, [data-testid="stHeading"] h2 {
     font-size: 28px !important; font-weight: 600 !important;
