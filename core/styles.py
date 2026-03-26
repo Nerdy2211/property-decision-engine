@@ -26,9 +26,22 @@ def get_common_css() -> str:
 
 /* ── Streamlit overrides ────────────────────────────────────────────── */
 .main .block-container { padding: 2rem 2.5rem 4rem; max-width: 1400px; }
-.main h3 { font-size: 20px !important; font-weight: 700 !important; letter-spacing: -0.3px; color: #F1F5F9 !important; }
-.main hr { border: none !important; border-top: 1px solid rgba(255,255,255,0.04) !important; margin: 1.5rem 0 !important; }
+.main [data-testid="stMarkdown"] h2 {
+    font-size: 22px !important; font-weight: 600 !important;
+    color: #F1F5F9 !important; letter-spacing: -0.3px;
+    margin-bottom: 4px !important;
+}
+.main [data-testid="stMarkdown"] h3 {
+    font-size: 18px !important; font-weight: 600 !important;
+    color: #F1F5F9 !important; letter-spacing: -0.3px;
+}
+.main hr {
+    border: none !important;
+    border-top: 1px solid rgba(255,255,255,0.03) !important;
+    margin: 2rem 0 !important;
+}
 .main .stCaption p { font-size: 12px !important; color: rgba(255,255,255,0.35) !important; }
+.main label { font-size: 12px !important; color: rgba(255,255,255,0.5) !important; font-weight: 500 !important; }
 
 /* ── Base card ──────────────────────────────────────────────────────── */
 .card {
@@ -58,7 +71,7 @@ def get_common_css() -> str:
     font-weight: 700;
     color: var(--text-1);
     line-height: 1.15;
-    margin-bottom: 4px;
+    margin-bottom: 8px;
 }
 .val-sm {
     font-size: 20px;
@@ -121,10 +134,10 @@ def get_common_css() -> str:
 /* ── Progress bar ───────────────────────────────────────────────────── */
 .prog-track {
     width: 100%;
-    height: 3px;
+    height: 4px;
     background: rgba(255,255,255,0.06);
     border-radius: 2px;
-    margin: 6px 0 4px 0;
+    margin: 12px 0;
     overflow: hidden;
 }
 .prog-fill {
@@ -183,11 +196,12 @@ def sidebar_branding() -> str:
     )
 
 
-def gauge_svg(score: int, color: str = "#00BFA5", size: int = 260,
-              label: str = "", show_micro: bool = True) -> str:
+def gauge_svg(score: int, color: str = "#00BFA5", size: int = 280,
+              label: str = "", show_micro: bool = False) -> str:
     """
     Circular gauge SVG. Teal ring partially filled by score (0-100).
-    Large score number centred, band label below.
+    Score number centred, optional band label below.
+    show_micro is off by default — put context text below gauge via st.caption.
     """
     r = int(size * 0.34)
     cx = cy = size // 2
@@ -195,18 +209,8 @@ def gauge_svg(score: int, color: str = "#00BFA5", size: int = 260,
     filled = circumference * score / 100
     gap = circumference - filled
     glow_id = f"glow_{score}"
-    # Scale font sizes with gauge size
-    score_fs = max(28, int(size * 0.215))  # 56px at 260
-    label_fs = max(11, int(size * 0.05))   # 13px at 260
-    micro_fs = max(8, int(size * 0.035))   # 9px at 260
-
-    micro_line = ""
-    if show_micro:
-        micro_line = (
-            f'<text x="{cx}" y="{cy + int(r * 0.72)}" text-anchor="middle" '
-            f'font-size="{micro_fs}" fill="rgba(255,255,255,0.25)" letter-spacing="0.04em">'
-            f'9-factor weighted \u00b7 0\u2013100 \u00b7 March 2026</text>'
-        )
+    score_fs = max(28, int(size * 0.20))   # 56px at 280
+    label_fs = max(11, int(size * 0.05))   # 14px at 280
 
     label_line = ""
     if label:
@@ -222,28 +226,22 @@ def gauge_svg(score: int, color: str = "#00BFA5", size: int = 260,
         f'<feGaussianBlur stdDeviation="5" result="blur"/>'
         f'<feComposite in="SourceGraphic" in2="blur" operator="over"/>'
         f'</filter></defs>'
-        # Track
         f'<circle cx="{cx}" cy="{cy}" r="{r}" fill="none" '
         f'stroke="rgba(255,255,255,0.04)" stroke-width="9"/>'
-        # Filled arc
         f'<circle cx="{cx}" cy="{cy}" r="{r}" fill="none" '
         f'stroke="{color}" stroke-width="9" '
         f'stroke-dasharray="{filled:.1f} {gap:.1f}" '
         f'stroke-linecap="round" '
         f'transform="rotate(-90 {cx} {cy})" '
         f'filter="url(#{glow_id})"/>'
-        # Score number
         f'<text x="{cx}" y="{cy + int(score_fs * 0.3)}" text-anchor="middle" '
         f'font-size="{score_fs}" font-weight="700" fill="#F1F5F9">{score}</text>'
-        # Label
         + label_line +
-        # Micro
-        micro_line +
         f'</svg>'
     )
 
 
-def sparkline_svg(values: list, width: int = 80, height: int = 24,
+def sparkline_svg(values: list, width: int = 80, height: int = 28,
                   color: str = "#00BFA5") -> str:
     """Tiny SVG sparkline polyline from a list of numbers."""
     if not values or len(values) < 2:
@@ -259,7 +257,7 @@ def sparkline_svg(values: list, width: int = 80, height: int = 24,
         points.append(f"{x:.1f},{y:.1f}")
     pts_str = " ".join(points)
     return (
-        f'<svg width="{width}" height="{height}" style="display:block;margin-top:8px">'
+        f'<svg width="{width}" height="{height}" style="display:block">'
         f'<polyline points="{pts_str}" fill="none" stroke="{color}" '
         f'stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>'
         f'</svg>'

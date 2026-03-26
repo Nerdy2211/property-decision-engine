@@ -52,12 +52,16 @@ def factor_bar_chart(sub_scores: dict) -> go.Figure:
     fig.update_layout(
         title=dict(text="Factor Scores", font=dict(size=15, color="#F1F5F9")),
         xaxis=dict(range=[0, 115], showgrid=False, zeroline=False, showticklabels=False),
-        yaxis=dict(autorange="reversed", tickfont=dict(size=12)),
-        plot_bgcolor="#111827",
-        paper_bgcolor="#111827",
-        font=dict(color="#F1F5F9"),
+        yaxis=dict(
+            autorange="reversed",
+            tickfont=dict(size=12, color="rgba(255,255,255,0.4)"),
+            gridcolor="rgba(255,255,255,0.03)",
+        ),
+        plot_bgcolor="rgba(0,0,0,0)",
+        paper_bgcolor="rgba(0,0,0,0)",
+        font=dict(color="rgba(255,255,255,0.4)"),
         margin=dict(l=10, r=60, t=40, b=10),
-        height=360,
+        height=280,
         bargap=0.35,
     )
     return fig

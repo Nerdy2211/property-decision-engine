@@ -190,7 +190,7 @@ def _history_chart(years, values, title, yaxis_label, line_color,
             zeroline=False, tickfont=dict(size=11, color="#666"),
             tickformat=",.0f",
         ),
-        plot_bgcolor="#111827", paper_bgcolor="#111827",
+        plot_bgcolor="rgba(0,0,0,0)", paper_bgcolor="rgba(0,0,0,0)",
         font=dict(color="#F1F5F9"),
         margin=dict(l=10, r=20, t=40, b=10),
         height=220, showlegend=False,
@@ -263,7 +263,8 @@ _FREQ = {"Weekly": (52, "/wk"), "Fortnightly": (26, "/fn"), "Monthly": (12, "/mo
 def _fmt_cf(annual_amount):
     """Convert annual cash flow to selected frequency."""
     periods, suffix = _FREQ[cf_freq]
-    return f"{'+'if annual_amount >= 0 else ''}${annual_amount / periods:,.0f}{suffix}"
+    v = annual_amount / periods
+    return f"+${v:,.0f}{suffix}" if v >= 0 else f"-${abs(v):,.0f}{suffix}"
 
 _detailed = expense_mode == "Detailed"
 
@@ -349,7 +350,7 @@ if purchase_price > 0 and weekly_rent > 0:
         <div class="val">{_fmt_cf(cash_flow)}</div>
         <span class="{_cf_badge}">{gear_label}</span>
       </div>
-      <div class="card">
+      <div class="card" style="border-left: 3px solid {verdict_color}">
         <div class="lbl">Deal Score</div>
         <div class="val" style="color:{verdict_color}">{deal} / 100</div>
         <span class="{_deal_badge}">{verdict_label}</span>
@@ -464,7 +465,7 @@ if purchase_price > 0 and weekly_rent > 0:
     with ds_gauge:
         st.markdown(
             f'<div style="text-align:center;padding-top:8px">'
-            f'{gauge_svg(deal, verdict_color, size=120, label=verdict_label, show_micro=False)}'
+            f'{gauge_svg(deal, verdict_color, size=140, label=verdict_label, show_micro=False)}'
             f'</div>',
             unsafe_allow_html=True,
         )

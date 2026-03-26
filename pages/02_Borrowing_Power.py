@@ -322,15 +322,15 @@ if combined > 0:
     if avail <= 0:
         st.error("Expenses and debts exceed net income. No borrowing capacity.")
 
-    # Hero number
-    sig_color = "#00BFA5" if svc_max >= 400_000 else "#F59E0B" if svc_max >= 200_000 else "#EF4444"
+    # Hero number — full-width card
     st.markdown(
-        f'<div class="card" style="max-width:420px">'
+        f'<div class="card" style="text-align:center;border-top:2px solid rgba(0,191,165,0.3);margin-bottom:16px">'
         f'<div class="lbl">Max Borrowing (Serviceability)</div>'
-        f'<div class="val" style="font-size:36px">${svc_max:,.0f}</div>'
+        f'<div class="val" style="font-size:42px">${svc_max:,.0f}</div>'
         f'<span class="badge badge-neu">'
         f'Assessed at {assess_rate:.1f}% ({rate:.1f}% + {APRA_BUFFER:.0f}% buffer) '
         f'· {"P&I" if is_pi else "IO"} · {term}yr</span>'
+        f'<div class="sub" style="margin-top:8px">This is what your income supports. Your deposit and LVR determine what you can buy.</div>'
         f'</div>',
         unsafe_allow_html=True)
 
@@ -370,11 +370,6 @@ if combined > 0:
             f'</table>',
             unsafe_allow_html=True)
 
-    st.caption(
-        "This is what your income supports. "
-        "Your cash, equity, and target LVR determine what you can actually buy below."
-    )
-
     st.divider()
 
     # ═══════════════════════════════════════════════════════════════════════
@@ -390,14 +385,13 @@ if combined > 0:
         is_best = (lvr == best_lvr)
 
         best_cls = " tier-card-best" if is_best else ""
-        lmi_label = "No LMI" if lvr <= 80 else "LMI applies"
-        lmi_color = "#00BFA5" if lvr <= 80 else "#F59E0B"
+        lmi_badge = '<span class="badge badge-pos">No LMI</span>' if lvr <= 80 else '<span class="badge badge-cau">LMI applies</span>'
 
         # Cash-only row
         funded_cash = t_cash["shortfall"] == 0 and t_cash["loan"] > 0
         verdict_cash = (
             '<span class="badge badge-pos">Funded</span>' if funded_cash
-            else f'<span class="badge badge-neg">Short ${t_cash["shortfall"]:,.0f}</span>')
+            else f'<span class="badge badge-neg" style="font-size:12px">Short ${t_cash["shortfall"]:,.0f}</span>')
 
         lmi_row = (f'<tr><td class="lbl">LMI</td><td class="val">${t_cash["lmi"]:,.0f}</td></tr>'
                    if t_cash["lmi"] > 0 else "")
@@ -405,7 +399,7 @@ if combined > 0:
         html = (
             f'<div class="tier-card{best_cls}">'
             f'<div class="tier-title">{lvr}% LVR</div>'
-            f'<div style="font-size:10px;color:{lmi_color};margin-bottom:8px">{lmi_label}</div>'
+            f'<div style="margin-bottom:8px">{lmi_badge}</div>'
             f'<table class="tier-tbl">'
             f'<tr class="bold"><td class="lbl">Purchase</td><td class="val">${t_cash["purchase"]:,.0f}</td></tr>'
             f'<tr><td class="lbl">Loan</td><td class="val">${t_cash["loan"]:,.0f}</td></tr>'
@@ -424,7 +418,7 @@ if combined > 0:
             funded_eq = t_eq["shortfall"] == 0 and t_eq["loan"] > 0
             verdict_eq = (
                 '<span class="badge badge-pos">Funded</span>' if funded_eq
-                else f'<span class="badge badge-neg">Short ${t_eq["shortfall"]:,.0f}</span>')
+                else f'<span class="badge badge-neg" style="font-size:12px">Short ${t_eq["shortfall"]:,.0f}</span>')
 
             lmi_eq_row = (f'<tr><td class="lbl">LMI</td><td class="val">${t_eq["lmi"]:,.0f}</td></tr>'
                          if t_eq["lmi"] > 0 else "")
@@ -448,10 +442,13 @@ if combined > 0:
         with col:
             st.markdown(html, unsafe_allow_html=True)
             if is_best:
-                st.caption(
+                st.markdown(
+                    '<div class="card" style="padding:12px 16px;margin-top:8px">'
+                    '<span class="micro">'
                     "⬆ Best fit — lowest LVR where you're fully funded. "
                     "Higher LVR tiers let you buy more but cost more in LMI."
-                )
+                    '</span></div>',
+                    unsafe_allow_html=True)
 
     if use_equity:
         st.caption(
@@ -520,8 +517,22 @@ if combined > 0:
     pi_mo = _repay_pi(sel_loan, rate, term)
     io_mo = _repay_io(sel_loan, rate)
     rc1, rc2 = st.columns(2, gap="medium")
-    rc1.metric("P&I Repayment", _fmt_repay(pi_mo), delta=f"${pi_mo * 12:,.0f}/yr", delta_color="off")
-    rc2.metric("Interest Only", _fmt_repay(io_mo), delta=f"${io_mo * 12:,.0f}/yr", delta_color="off")
+    with rc1:
+        st.markdown(
+            f'<div class="card" style="padding:16px 20px">'
+            f'<div class="lbl">P&I Repayment</div>'
+            f'<div class="val">{_fmt_repay(pi_mo)}</div>'
+            f'<div class="sub">${pi_mo * 12:,.0f}/yr</div>'
+            f'</div>',
+            unsafe_allow_html=True)
+    with rc2:
+        st.markdown(
+            f'<div class="card" style="padding:16px 20px">'
+            f'<div class="lbl">Interest Only</div>'
+            f'<div class="val">{_fmt_repay(io_mo)}</div>'
+            f'<div class="sub">${io_mo * 12:,.0f}/yr</div>'
+            f'</div>',
+            unsafe_allow_html=True)
     st.caption(f"At actual rate {rate:.1f}% (not the {assess_rate:.1f}% assessment rate).")
 
     # Portfolio LVR (if investment properties exist)

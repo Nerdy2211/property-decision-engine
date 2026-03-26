@@ -20,7 +20,7 @@ st.caption("Indicative only \u00b7 Not financial advice.")
 st.divider()
 
 st.markdown("""
-<div class="card" style="max-width:700px">
+<div class="card" style="max-width:700px;margin:0 auto">
   <div class="lbl">Coming Soon</div>
   <div style="font-size:15px;color:#F1F5F9;font-weight:600;margin-bottom:12px">
     Due diligence and buying workflow support
@@ -40,4 +40,5 @@ st.markdown("""
     &mdash; Side-by-side notes for 2&ndash;3 properties
   </div>
 </div>
+<div class="micro" style="text-align:center;margin-top:16px">This page is under development</div>
 """, unsafe_allow_html=True)

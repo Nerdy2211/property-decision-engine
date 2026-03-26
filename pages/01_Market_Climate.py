@@ -70,7 +70,7 @@ st.markdown("""
     background: #111827;
     border: 1px solid rgba(0,191,165,0.06);
     border-radius: 12px;
-    padding: 16px 18px 14px;
+    padding: 20px 22px 18px 22px;
     margin-bottom: 8px;
     border-left: 3px solid #2A2D33;
     flex: 1;
@@ -94,7 +94,7 @@ st.markdown("""
     font-weight: 400;
 }
 .factor-num {
-    font-size: 26px;
+    font-size: 30px;
     font-weight: 800;
     line-height: 1;
     letter-spacing: -0.5px;
@@ -106,9 +106,9 @@ st.markdown("""
     margin-left: 1px;
 }
 .factor-desc {
-    font-size: 11px;
+    font-size: 12px;
     color: rgba(255,255,255,0.37);
-    line-height: 1.55;
+    line-height: 1.6;
     margin-top: 10px;
 }
 
@@ -119,7 +119,7 @@ st.markdown("""
     color: rgba(255,255,255,0.22);
     text-transform: uppercase;
     font-weight: 600;
-    margin: 20px 0 10px;
+    margin: 28px 0 10px;
 }
 
 /* ── Shift rows ──────────────────────────────────────────────────── */
@@ -127,7 +127,7 @@ st.markdown("""
     background: #111827;
     border: 1px solid rgba(0,191,165,0.06);
     border-radius: 12px;
-    padding: 16px 20px 14px;
+    padding: 16px 20px;
     margin-bottom: 8px;
     box-shadow: 0 1px 3px rgba(0,0,0,0.3), 0 1px 2px rgba(0,0,0,0.2);
 }
@@ -148,14 +148,14 @@ st.markdown("""
 }
 .rank-row:hover { background: #151d2e; }
 .rank-row.rank-top { border-left: 3px solid #00BFA5; }
-.rank-num   { font-size: 22px; font-weight: 800; color: rgba(255,255,255,0.25);
+.rank-num   { font-size: 24px; font-weight: 800; color: rgba(255,255,255,0.25);
               min-width: 40px; font-variant-numeric: tabular-nums; }
 .rank-city  { font-size: 15px; font-weight: 700; color: #F1F5F9; }
 .rank-state { font-size: 11px; color: rgba(255,255,255,0.25); margin-top: 2px; }
 .rank-right { margin-left: auto; text-align: right; }
 .rank-score { font-size: 20px; font-weight: 800; line-height: 1; }
 .rank-denom { font-size: 11px; color: rgba(255,255,255,0.22); font-weight: 400; }
-.rank-band  { font-size: 11px; color: rgba(255,255,255,0.25); margin-top: 3px; }
+.rank-band  { font-size: 11px; color: rgba(255,255,255,0.35); margin-top: 3px; }
 
 /* ── Signal items ────────────────────────────────────────────────── */
 .signal-head {
@@ -199,21 +199,22 @@ st.caption(
 # ============================================================================
 summary_text = get_national_summary(national_score, band_label)
 
-col_gauge, col_summary = st.columns([1, 2.2], gap="large")
+col_gauge, col_summary = st.columns([1.2, 2], gap="large")
 
 with col_gauge:
     st.markdown(
         f'<div style="text-align:center;margin-top:8px;">'
-        f'{gauge_svg(national_score, band_color, size=260, label=band_label)}'
+        f'{gauge_svg(national_score, band_color, size=280, label=band_label, show_micro=False)}'
         f'</div>',
         unsafe_allow_html=True,
     )
     st.markdown(
-        '<p style="text-align:center;font-size:10px;letter-spacing:2px;'
+        '<p style="text-align:center;font-size:10px;letter-spacing:3px;'
         'color:rgba(255,255,255,0.22);text-transform:uppercase;'
-        'font-weight:600;margin-top:2px;">Overall Climate Score</p>',
+        'font-weight:600;margin-top:10px;">Overall Climate Score</p>',
         unsafe_allow_html=True,
     )
+    st.caption("9-factor weighted model \u00b7 Score range 0\u2013100 \u00b7 Updated March 2026")
 
 with col_summary:
     st.markdown(
@@ -221,8 +222,12 @@ with col_summary:
         'text-transform:uppercase;font-weight:600;margin-bottom:12px;">Market Summary</p>',
         unsafe_allow_html=True,
     )
-    st.markdown(summary_text)
-    st.caption(f"9-factor weighted model · Score range 0–100 · Updated {data_as_of}")
+    st.markdown(
+        f'<div style="border-left:2px solid rgba(0,191,165,0.3);padding-left:16px;'
+        f'color:rgba(255,255,255,0.85);font-size:14px;line-height:1.6;">'
+        f'{summary_text}</div>',
+        unsafe_allow_html=True,
+    )
 
 st.divider()
 
@@ -269,14 +274,14 @@ kpi_items = [
 kpi_cols = st.columns(4, gap="small")
 for col, item in zip(kpi_cols, kpi_items):
     with col:
-        spark = sparkline_svg(item["sparkline"], width=80, height=20)
+        spark = sparkline_svg(item["sparkline"], width=80, height=28)
         st.markdown(
-            f'<div class="card" style="padding:22px 24px 16px;">'
+            f'<div class="card" style="padding:24px 24px 18px 24px;">'
             f'<div class="lbl" style="margin-bottom:8px">{item["label"]}</div>'
             f'<div class="val">{item["value"]}</div>'
             f'<span class="{item["badge_cls"]}">{item["badge_text"]}</span>'
             f'<div class="sub" style="margin-top:6px;">{item["sub"]}</div>'
-            f'<div style="margin-top:10px">{spark}</div>'
+            f'<div style="margin-top:12px">{spark}</div>'
             f'</div>',
             unsafe_allow_html=True,
         )
@@ -373,7 +378,7 @@ for col, batch in ((col_a, recent_shifts[:half]), (col_b, recent_shifts[half:]))
             icon = _shift_icon.get(d, "→")
             st.markdown(
                 f'<div class="shift-card">'
-                f'<span class="{bcls}">{icon} {s["factor"]}</span>'
+                f'<div style="margin-bottom:8px"><span class="{bcls}">{icon} {s["factor"]}</span></div>'
                 f'<div class="shift-body">{s["text"]}</div>'
                 f'</div>',
                 unsafe_allow_html=True,
@@ -452,8 +457,9 @@ sorted_cities = sorted(city_scores.items(), key=lambda x: x[1]["score"], reverse
 
 for rank, (city, d) in enumerate(sorted_cities, 1):
     top_cls = " rank-top" if rank == 1 else ""
+    alt_bg = "background:rgba(255,255,255,0.01);" if rank % 2 == 0 else ""
     st.markdown(
-        f'<div class="rank-row{top_cls}">'
+        f'<div class="rank-row{top_cls}" style="{alt_bg}">'
         f'<div class="rank-num">{rank:02d}</div>'
         f'<div>'
         f'<div class="rank-city">{city}</div>'
@@ -485,7 +491,9 @@ col_tw, col_rk = st.columns(2, gap="large")
 def _render_signals(col, title, title_color, items, dot_color):
     with col:
         st.markdown(
-            f'<span class="signal-head" style="color:{title_color};">{title}</span>',
+            f'<span class="signal-head" style="color:{title_color};">'
+            f'<span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:{title_color};margin-right:6px;vertical-align:middle"></span>'
+            f'{title}</span>',
             unsafe_allow_html=True,
         )
         for factor_label, desc in items:
