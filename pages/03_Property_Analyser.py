@@ -24,12 +24,11 @@ st.markdown(get_common_css(), unsafe_allow_html=True)
 st.sidebar.markdown(sidebar_branding(), unsafe_allow_html=True)
 
 # ---------------------------------------------------------------------------
-# Page-specific CSS (only classes NOT covered by shared styles.py)
+# Page-specific CSS — editorial design system
 # ---------------------------------------------------------------------------
 st.markdown("""
 <style>
-/* Override pa-card-row bottom margin for tighter spacing */
-.pa-card-row { margin-bottom: 0; }
+/* No extra page-specific overrides needed — shared styles handle everything */
 </style>
 """, unsafe_allow_html=True)
 
@@ -103,9 +102,9 @@ def _deal_score(ny_score: float, market_city: str, cf: float) -> int:
 
 
 def _verdict(score: int) -> tuple:
-    if score >= 65: return "Strong Deal", "#00BFA5"
-    if score >= 45: return "Reasonable",  "#F59E0B"
-    return "Avoid", "#EF4444"
+    if score >= 65: return "Strong Deal", "#C5A880"
+    if score >= 45: return "Reasonable",  "#8A8A93"
+    return "Avoid", "#C45C5C"
 
 
 def _yield_label(y: float) -> str:
@@ -178,20 +177,20 @@ def _history_chart(years, values, title, yaxis_label, line_color,
             line_color="rgba(255,255,255,0.25)",
             annotation_text=ref_label or f"This property: {current_value:,.0f}",
             annotation_position="top right",
-            annotation_font=dict(size=11, color="rgba(255,255,255,0.45)"),
+            annotation_font=dict(size=11, color="#8A8A93"),
         )
     fig.update_layout(
-        title=dict(text=title, font=dict(size=13, color="#F1F5F9"), x=0),
+        title=dict(text=title, font=dict(size=13, color="#F4F4F5"), x=0),
         xaxis=dict(showgrid=False, zeroline=False,
-                   tickfont=dict(size=11, color="#666"), dtick=1),
+                   tickfont=dict(size=11, color="#8A8A93"), dtick=1),
         yaxis=dict(
-            title=dict(text=yaxis_label, font=dict(size=10, color="#666")),
-            showgrid=True, gridcolor="rgba(255,255,255,0.04)",
-            zeroline=False, tickfont=dict(size=11, color="#666"),
+            title=dict(text=yaxis_label, font=dict(size=10, color="#8A8A93")),
+            showgrid=True, gridcolor="#2A2A2D",
+            zeroline=False, tickfont=dict(size=11, color="#8A8A93"),
             tickformat=",.0f",
         ),
         plot_bgcolor="rgba(0,0,0,0)", paper_bgcolor="rgba(0,0,0,0)",
-        font=dict(color="#F1F5F9"),
+        font=dict(color="#F4F4F5"),
         margin=dict(l=10, r=20, t=40, b=10),
         height=220, showlegend=False,
     )
@@ -201,7 +200,11 @@ def _history_chart(years, values, title, yaxis_label, line_color,
 # ---------------------------------------------------------------------------
 # Page header
 # ---------------------------------------------------------------------------
-st.markdown("## Property Analyser")
+st.markdown(
+    '<div style="font-family:Playfair Display,Georgia,serif;font-size:36px;'
+    'font-weight:600;color:#F4F4F5;margin-bottom:4px">Property Analyser</div>',
+    unsafe_allow_html=True,
+)
 st.caption(
     "Estimate yield, cash flow, and a blended deal score for a specific property. "
     "All figures are indicative. Not financial advice."
@@ -350,7 +353,7 @@ if purchase_price > 0 and weekly_rent > 0:
         <div class="val">{_fmt_cf(cash_flow)}</div>
         <span class="{_cf_badge}">{gear_label}</span>
       </div>
-      <div class="card" style="border-left: 3px solid {verdict_color}">
+      <div class="card" style="border-left:3px solid {verdict_color}">
         <div class="lbl">Deal Score</div>
         <div class="val" style="color:{verdict_color}">{deal} / 100</div>
         <span class="{_deal_badge}">{verdict_label}</span>
@@ -389,7 +392,7 @@ if purchase_price > 0 and weekly_rent > 0:
         """, unsafe_allow_html=True)
 
     with fin2:
-        _cf_color = "#00BFA5" if cash_flow >= 0 else "#EF4444"
+        _cf_color = "#C5A880" if cash_flow >= 0 else "#C45C5C"
         st.markdown(f"""
         <div class="card">
           <div class="lbl">Cash Flow</div>
@@ -488,7 +491,7 @@ if purchase_price > 0 and weekly_rent > 0:
         "but higher prices typically compress yields."
     )
     st.markdown(
-        f"<small style='color:rgba(255,255,255,0.45)'>"
+        f"<small style='color:#8A8A93'>"
         f"<b>{property_type} note:</b> {pt_note}</small>",
         unsafe_allow_html=True,
     )
@@ -565,7 +568,7 @@ if purchase_price > 0 and weekly_rent > 0:
                                 [p["value"] for p in ph],
                                 title=f"{suburb} — Median {type_label.title()} Price (2019–2025)",
                                 yaxis_label="Price ($)",
-                                line_color="#00BFA5",
+                                line_color="#C5A880",
                                 current_value=purchase_price,
                                 ref_label=f"This property: ${purchase_price:,.0f}",
                             ),
@@ -579,7 +582,7 @@ if purchase_price > 0 and weekly_rent > 0:
                                 [r["value"] for r in rh],
                                 title=f"{suburb} — Median Weekly Rent (2019–2025)",
                                 yaxis_label="Weekly rent ($)",
-                                line_color="#F59E0B",
+                                line_color="#C5A880",
                                 current_value=weekly_rent,
                                 ref_label=f"This property: ${weekly_rent:,.0f}/wk",
                             ),

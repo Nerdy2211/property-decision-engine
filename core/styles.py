@@ -1,249 +1,286 @@
 """
-Shared CSS design system for the Property Decision Engine.
+Shared design system — Editorial / Luxury aesthetic.
 
-All pages import get_common_css() and inject it once.
-Page-specific CSS stays in the page file.
+Inspired by Monocle Magazine and Bloomberg Terminal.
+Playfair Display for headings, DM Sans for body, Cormorant Garamond for data.
+Gold (#C5A880) accent, sharp edges (0px radius), generous whitespace.
 """
 
 
 def get_common_css() -> str:
-    """Return the full shared CSS block wrapped in <style> tags."""
     return """<style>
-/* ── Design tokens ──────────────────────────────────────────────────── */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@400;500;600&family=Cormorant+Garamond:wght@400;500;600&display=swap');
+
 :root {
-    --bg-card: #111827;
-    --border-card: 1px solid rgba(0,191,165,0.06);
-    --radius-card: 12px;
-    --accent: #00BFA5;
-    --cyan: #06B6D4;
-    --pos: #00BFA5;
-    --neg: #EF4444;
-    --caution: #F59E0B;
-    --text-1: #F1F5F9;
-    --text-2: rgba(255,255,255,0.45);
-    --text-3: rgba(255,255,255,0.25);
+    --color-primary: #C5A880;
+    --color-background: #161618;
+    --color-surface: #222225;
+    --color-text: #F4F4F5;
+    --color-muted: #8A8A93;
+    --color-border: #333336;
+    --color-accent: #3B4A42;
+    --color-neg: #C45C5C;
+    --color-neg-border: #8B3A3A;
+    --color-alt-row: #1A1A1C;
+    --font-heading: 'Playfair Display', Georgia, serif;
+    --font-body: 'DM Sans', sans-serif;
+    --font-data: 'Cormorant Garamond', Georgia, serif;
+    --radius: 0px;
 }
 
 /* ── Streamlit overrides ────────────────────────────────────────────── */
-.main .block-container { padding: 2rem 2.5rem 4rem; max-width: 1400px; }
+.main .block-container { padding: 2.5rem 3rem 4rem; max-width: 1300px; }
 .main [data-testid="stMarkdown"] h2 {
-    font-size: 22px !important; font-weight: 600 !important;
-    color: #F1F5F9 !important; letter-spacing: -0.3px;
-    margin-bottom: 4px !important;
+    font-family: var(--font-heading) !important;
+    font-size: 28px !important; font-weight: 600 !important;
+    color: var(--color-text) !important;
+    border-left: 4px solid var(--color-primary);
+    padding-left: 16px;
+    margin-bottom: 8px !important;
 }
 .main [data-testid="stMarkdown"] h3 {
-    font-size: 18px !important; font-weight: 600 !important;
-    color: #F1F5F9 !important; letter-spacing: -0.3px;
+    font-family: var(--font-heading) !important;
+    font-size: 22px !important; font-weight: 600 !important;
+    color: var(--color-text) !important;
 }
 .main hr {
     border: none !important;
-    border-top: 1px solid rgba(255,255,255,0.03) !important;
+    border-top: 1px solid var(--color-border) !important;
     margin: 2rem 0 !important;
 }
-.main .stCaption p { font-size: 12px !important; color: rgba(255,255,255,0.35) !important; }
-.main label { font-size: 12px !important; color: rgba(255,255,255,0.5) !important; font-weight: 500 !important; }
+.main .stCaption p {
+    font-family: var(--font-body) !important;
+    font-size: 13px !important; color: var(--color-muted) !important;
+}
+.main label {
+    font-family: var(--font-body) !important;
+    font-size: 13px !important; color: var(--color-muted) !important;
+}
+section[data-testid="stSidebar"] {
+    background-color: #161618 !important;
+    border-right: 1px solid var(--color-border) !important;
+}
 
 /* ── Base card ──────────────────────────────────────────────────────── */
 .card {
-    background: var(--bg-card);
-    border: var(--border-card);
-    border-radius: var(--radius-card);
-    padding: 20px;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.3), 0 1px 2px rgba(0,0,0,0.2);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    padding: 24px;
 }
 .card-row {
     display: flex;
-    gap: 12px;
+    gap: 14px;
     align-items: stretch;
 }
 .card-row > .card { flex: 1; box-sizing: border-box; }
 
 /* ── Typography ─────────────────────────────────────────────────────── */
 .lbl {
-    font-size: 10px;
+    font-family: var(--font-body);
+    font-size: 11px;
     text-transform: uppercase;
-    letter-spacing: 0.1em;
-    color: var(--text-3);
-    margin-bottom: 6px;
-}
-.val {
-    font-size: 28px;
-    font-weight: 700;
-    color: var(--text-1);
-    line-height: 1.15;
+    letter-spacing: 0.12em;
+    color: var(--color-muted);
     margin-bottom: 8px;
 }
+.val {
+    font-family: var(--font-data);
+    font-size: 28px;
+    font-weight: 500;
+    color: var(--color-text);
+    font-variant-numeric: tabular-nums;
+    line-height: 1.1;
+    margin-bottom: 8px;
+}
+.val-lg {
+    font-family: var(--font-data);
+    font-size: 72px;
+    font-weight: 500;
+    color: var(--color-text);
+    font-variant-numeric: tabular-nums;
+    line-height: 1;
+}
 .val-sm {
+    font-family: var(--font-data);
     font-size: 20px;
-    font-weight: 700;
-    color: var(--text-1);
+    font-weight: 500;
+    color: var(--color-text);
+    font-variant-numeric: tabular-nums;
     line-height: 1.15;
     margin-bottom: 4px;
 }
+.denom {
+    font-family: var(--font-data);
+    font-size: 16px;
+    color: var(--color-muted);
+    font-weight: 400;
+}
 .sub {
-    font-size: 12px;
-    color: var(--text-2);
+    font-family: var(--font-body);
+    font-size: 13px;
+    color: var(--color-muted);
+    line-height: 1.6;
 }
 .micro {
-    font-size: 10px;
-    color: var(--text-3);
-    letter-spacing: 0.04em;
+    font-family: var(--font-body);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--color-muted);
 }
 
-/* ── Delta badge pills ──────────────────────────────────────────────── */
+/* ── Badges — sharp, outlined ───────────────────────────────────────── */
 .badge {
     display: inline-block;
+    font-family: var(--font-body);
     font-size: 11px;
-    font-weight: 600;
-    padding: 2px 8px;
-    border-radius: 6px;
-    line-height: 1.4;
+    font-weight: 500;
+    padding: 2px 10px;
+    border-radius: var(--radius);
+    line-height: 1.5;
+    background: transparent;
+    border: 1px solid var(--color-border);
+    color: var(--color-muted);
 }
-.badge-pos {
-    background: rgba(0,191,165,0.15);
-    color: #00BFA5;
-}
-.badge-neg {
-    background: rgba(239,68,68,0.15);
-    color: #EF4444;
-}
-.badge-cau {
-    background: rgba(245,158,11,0.15);
-    color: #F59E0B;
-}
-.badge-neu {
-    background: rgba(255,255,255,0.06);
-    color: rgba(255,255,255,0.45);
-}
+.badge-pos { border-color: var(--color-accent); color: var(--color-accent); }
+.badge-neg { border-color: var(--color-neg-border); color: var(--color-neg); }
+.badge-cau { border-color: var(--color-primary); color: var(--color-primary); }
+.badge-neu { border-color: var(--color-border); color: var(--color-muted); }
 
-/* ── Math / breakdown tables ────────────────────────────────────────── */
+/* ── Math / ledger tables ───────────────────────────────────────────── */
 .math-tbl {
     width: 100%;
-    font-size: 13px;
-    color: var(--text-1);
+    font-family: var(--font-body);
+    font-size: 14px;
+    color: var(--color-text);
     border-collapse: collapse;
     margin-top: 8px;
 }
-.math-tbl td { padding: 4px 0; }
-.math-tbl .mlbl { color: var(--text-2); }
-.math-tbl .mval { text-align: right; }
-.math-tbl .sep { border-top: 1px solid rgba(255,255,255,0.06); }
-.math-tbl .sep td { padding-top: 8px; }
-.math-tbl .total td { font-weight: 700; }
+.math-tbl td { padding: 6px 0; border-bottom: 1px solid #2A2A2D; }
+.math-tbl .mlbl { color: var(--color-muted); }
+.math-tbl .mval { text-align: right; font-variant-numeric: tabular-nums; }
+.math-tbl .sep { border-top: 1px solid var(--color-border); }
+.math-tbl .sep td { padding-top: 10px; border-bottom: 1px solid #2A2A2D; }
+.math-tbl .total td { font-weight: 600; }
 
-/* ── Progress bar ───────────────────────────────────────────────────── */
+/* Ledger header row */
+.ledger-head {
+    font-family: var(--font-body);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-muted);
+    border-bottom: 1px solid var(--color-primary);
+    padding-bottom: 8px;
+    margin-bottom: 4px;
+}
+
+/* ── Progress bar — gold fill ───────────────────────────────────────── */
 .prog-track {
     width: 100%;
     height: 4px;
-    background: rgba(255,255,255,0.06);
-    border-radius: 2px;
+    background: var(--color-border);
+    border-radius: var(--radius);
     margin: 12px 0;
     overflow: hidden;
 }
 .prog-fill {
     height: 100%;
-    border-radius: 2px;
-    transition: width 0.3s;
+    border-radius: var(--radius);
+    background: var(--color-primary);
 }
 
-/* ── Signal colours (utility) ───────────────────────────────────────── */
-.sig-pos { color: #00BFA5; }
-.sig-neg { color: #EF4444; }
-.sig-cau { color: #F59E0B; }
-.sig-neu { color: var(--text-2); }
+/* ── Signal / status colours ────────────────────────────────────────── */
+.sig-pos { color: var(--color-accent); }
+.sig-neg { color: var(--color-neg); }
+.sig-cau { color: var(--color-primary); }
+.sig-neu { color: var(--color-muted); }
 
-/* ── Disclaimer / footnote ──────────────────────────────────────────── */
+/* ── Gold hairline divider ──────────────────────────────────────────── */
+.gold-line {
+    width: 60%;
+    height: 1px;
+    background: var(--color-primary);
+    margin: 12px auto;
+}
+
+/* ── Disclaimer ─────────────────────────────────────────────────────── */
 .disclaimer {
+    font-family: var(--font-body);
     font-size: 11px;
-    color: var(--text-3);
+    color: var(--color-muted);
     font-style: italic;
     margin-top: 8px;
 }
 
 /* ── Sidebar branding ───────────────────────────────────────────────── */
-section[data-testid="stSidebar"] > div:first-child {
-    padding-top: 0;
-}
+section[data-testid="stSidebar"] > div:first-child { padding-top: 0; }
 .sidebar-brand {
-    padding: 16px 16px 12px 16px;
-    border-bottom: 1px solid rgba(0,191,165,0.15);
+    padding: 18px 16px 14px 16px;
+    border-bottom: 1px solid var(--color-border);
     margin-bottom: 12px;
 }
 .sidebar-brand-title {
+    font-family: 'Playfair Display', Georgia, serif;
     font-size: 15px;
-    font-weight: 700;
-    color: var(--text-1);
-    margin-bottom: 2px;
+    font-weight: 600;
+    color: var(--color-text);
+    margin-bottom: 3px;
 }
 .sidebar-brand-sub {
+    font-family: 'DM Sans', sans-serif;
     font-size: 9px;
     text-transform: uppercase;
     letter-spacing: 0.15em;
-    color: #00BFA5;
+    color: #C5A880;
 }
 </style>"""
 
 
 def sidebar_branding() -> str:
-    """Return the sidebar brand HTML."""
     return (
         '<div class="sidebar-brand">'
-        '<div class="sidebar-brand-title">Property Decision Engine '
-        '<span class="badge badge-neu" style="font-size:9px;vertical-align:middle;margin-left:4px">v1.0</span>'
-        '</div>'
-        '<div class="sidebar-brand-sub">Decision Terminal</div>'
+        '<div class="sidebar-brand-title">Property Decision Engine</div>'
+        '<div class="sidebar-brand-sub">Institutional Brief</div>'
         '</div>'
     )
 
 
-def gauge_svg(score: int, color: str = "#00BFA5", size: int = 280,
-              label: str = "", show_micro: bool = False) -> str:
+def score_card_html(score, label: str = "", size: str = "large",
+                    prefix: str = "", suffix: str = "/100") -> str:
     """
-    Circular gauge SVG. Teal ring partially filled by score (0-100).
-    Score number centred, optional band label below.
-    show_micro is off by default — put context text below gauge via st.caption.
+    Editorial score card — replaces the old SVG gauge.
+    size: "large" (72px, hero), "medium" (48px), "small" (28px)
+    prefix: e.g. "$" for dollar amounts
+    suffix: e.g. "/100" or "%"
     """
-    r = int(size * 0.34)
-    cx = cy = size // 2
-    circumference = 2 * 3.14159 * r
-    filled = circumference * score / 100
-    gap = circumference - filled
-    glow_id = f"glow_{score}"
-    score_fs = max(28, int(size * 0.20))   # 56px at 280
-    label_fs = max(11, int(size * 0.05))   # 14px at 280
-
-    label_line = ""
+    fs = {"large": 72, "medium": 48, "small": 28}[size]
+    suf_fs = {"large": 18, "medium": 14, "small": 12}[size]
+    label_html = ""
     if label:
-        label_line = (
-            f'<text x="{cx}" y="{cy + int(r * 0.48)}" text-anchor="middle" '
-            f'font-size="{label_fs}" fill="rgba(255,255,255,0.45)" font-weight="500">'
-            f'{label}</text>'
+        label_html = (
+            f'<div class="gold-line"></div>'
+            f'<div style="font-family:DM Sans,sans-serif;font-size:13px;'
+            f'color:#8A8A93;margin-top:4px">{label}</div>'
         )
-
     return (
-        f'<svg width="{size}" height="{size}" viewBox="0 0 {size} {size}">'
-        f'<defs><filter id="{glow_id}" x="-30%" y="-30%" width="160%" height="160%">'
-        f'<feGaussianBlur stdDeviation="5" result="blur"/>'
-        f'<feComposite in="SourceGraphic" in2="blur" operator="over"/>'
-        f'</filter></defs>'
-        f'<circle cx="{cx}" cy="{cy}" r="{r}" fill="none" '
-        f'stroke="rgba(255,255,255,0.04)" stroke-width="9"/>'
-        f'<circle cx="{cx}" cy="{cy}" r="{r}" fill="none" '
-        f'stroke="{color}" stroke-width="9" '
-        f'stroke-dasharray="{filled:.1f} {gap:.1f}" '
-        f'stroke-linecap="round" '
-        f'transform="rotate(-90 {cx} {cy})" '
-        f'filter="url(#{glow_id})"/>'
-        f'<text x="{cx}" y="{cy + int(score_fs * 0.3)}" text-anchor="middle" '
-        f'font-size="{score_fs}" font-weight="700" fill="#F1F5F9">{score}</text>'
-        + label_line +
-        f'</svg>'
+        f'<div class="card" style="text-align:center;padding:32px 24px">'
+        f'<div style="font-family:Cormorant Garamond,Georgia,serif;'
+        f'font-size:{fs}px;font-weight:500;color:#F4F4F5;'
+        f'font-variant-numeric:tabular-nums;line-height:1">'
+        f'{prefix}{score}'
+        f'<span style="font-size:{suf_fs}px;color:#8A8A93;font-weight:400;'
+        f'margin-left:2px">{suffix}</span>'
+        f'</div>'
+        + label_html +
+        f'</div>'
     )
 
 
 def sparkline_svg(values: list, width: int = 80, height: int = 28,
-                  color: str = "#00BFA5") -> str:
-    """Tiny SVG sparkline polyline from a list of numbers."""
+                  color: str = "#C5A880") -> str:
+    """Tiny SVG sparkline — gold by default."""
     if not values or len(values) < 2:
         return ""
     mn, mx = min(values), max(values)
@@ -255,26 +292,23 @@ def sparkline_svg(values: list, width: int = 80, height: int = 28,
         x = pad + i * (width - 2 * pad) / (n - 1)
         y = height - pad - (v - mn) / rng * (height - 2 * pad)
         points.append(f"{x:.1f},{y:.1f}")
-    pts_str = " ".join(points)
     return (
         f'<svg width="{width}" height="{height}" style="display:block">'
-        f'<polyline points="{pts_str}" fill="none" stroke="{color}" '
+        f'<polyline points="{" ".join(points)}" fill="none" stroke="{color}" '
         f'stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>'
         f'</svg>'
     )
 
 
 def score_color(score: int) -> str:
-    """Return accent colour for a 0-100 score."""
     if score >= 65:
-        return "#00BFA5"
+        return "#C5A880"   # gold
     if score >= 40:
-        return "#F59E0B"
-    return "#EF4444"
+        return "#8A8A93"   # muted
+    return "#C45C5C"       # muted red
 
 
 def badge_class(score_or_value, thresholds=(65, 40), invert=False):
-    """Return badge CSS class based on value vs thresholds."""
     high, low = thresholds
     if invert:
         if score_or_value <= low:
@@ -287,3 +321,11 @@ def badge_class(score_or_value, thresholds=(65, 40), invert=False):
     if score_or_value >= low:
         return "badge badge-cau"
     return "badge badge-neg"
+
+
+# Keep gauge_svg as a thin wrapper around score_card_html for backward compat
+def gauge_svg(score: int, color: str = "#C5A880", size: int = 280,
+              label: str = "", show_micro: bool = False) -> str:
+    """Backward-compatible wrapper — returns score card HTML, not SVG."""
+    sz = "large" if size >= 200 else "medium" if size >= 120 else "small"
+    return score_card_html(score, label=label, size=sz)

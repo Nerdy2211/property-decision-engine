@@ -1,5 +1,6 @@
 """
-Plotly chart builders for the Market Climate Dashboard.
+Plotly chart builders — editorial/luxury palette.
+Gold (#C5A880) primary, charcoal backgrounds, muted axis text.
 """
 
 import plotly.graph_objects as go
@@ -9,18 +10,14 @@ from core.config import FACTOR_LABELS, WEIGHTS
 
 def _score_color(score: float) -> str:
     if score >= 65:
-        return "#00BFA5"   # teal / green
+        return "#C5A880"
     elif score >= 40:
-        return "#F59E0B"   # amber
+        return "#8A8A93"
     else:
-        return "#EF4444"   # red
+        return "#C45C5C"
 
 
 def factor_bar_chart(sub_scores: dict) -> go.Figure:
-    """
-    Horizontal bar chart of factor sub-scores, grouped by category.
-    """
-    # Sort by weight descending so the chart reflects model priority
     sorted_keys = sorted(
         [k for k in WEIGHTS if k in sub_scores],
         key=lambda k: WEIGHTS[k],
@@ -32,7 +29,7 @@ def factor_bar_chart(sub_scores: dict) -> go.Figure:
     colors = []
 
     for key in sorted_keys:
-        score      = sub_scores[key]
+        score = sub_scores[key]
         weight_pct = int(WEIGHTS[key] * 100)
         labels.append(f"{FACTOR_LABELS[key]}  ({weight_pct}% wt)")
         scores.append(round(score))
@@ -45,21 +42,22 @@ def factor_bar_chart(sub_scores: dict) -> go.Figure:
         marker_color=colors,
         text=[f"{s}/100" for s in scores],
         textposition="outside",
-        textfont=dict(size=12),
+        textfont=dict(size=12, color="#8A8A93"),
         hovertemplate="%{y}: %{x}/100<extra></extra>",
     ))
 
     fig.update_layout(
-        title=dict(text="Factor Scores", font=dict(size=15, color="#F1F5F9")),
+        title=dict(text="Factor Scores", font=dict(size=15, color="#F4F4F5",
+                   family="Playfair Display, Georgia, serif")),
         xaxis=dict(range=[0, 115], showgrid=False, zeroline=False, showticklabels=False),
         yaxis=dict(
             autorange="reversed",
-            tickfont=dict(size=12, color="rgba(255,255,255,0.4)"),
+            tickfont=dict(size=12, color="#8A8A93", family="DM Sans, sans-serif"),
             gridcolor="rgba(255,255,255,0.03)",
         ),
         plot_bgcolor="rgba(0,0,0,0)",
         paper_bgcolor="rgba(0,0,0,0)",
-        font=dict(color="rgba(255,255,255,0.4)"),
+        font=dict(color="#8A8A93", family="DM Sans, sans-serif"),
         margin=dict(l=10, r=60, t=40, b=10),
         height=280,
         bargap=0.35,
@@ -71,25 +69,18 @@ def historical_line_chart(
     df: pd.DataFrame,
     title: str,
     yaxis_label: str,
-    line_color: str,
+    line_color: str = "#C5A880",
     current_value: float = None,
     reference_label: str = None,
     invert_signal: bool = False,
 ) -> go.Figure:
-    """
-    Clean line chart for a single historical time series.
-
-    df must have columns: 'date' (datetime) and 'value' (float).
-    current_value, if provided, adds a horizontal reference line.
-    invert_signal: True if lower value = better (used to colour the reference label).
-    """
     fig = go.Figure()
 
     fig.add_trace(go.Scatter(
         x=df["date"],
         y=df["value"],
         mode="lines",
-        line=dict(color=line_color, width=2.5),
+        line=dict(color=line_color, width=2),
         hovertemplate="%{x|%b %Y}: %{y:.2f}<extra></extra>",
     ))
 
@@ -97,31 +88,33 @@ def historical_line_chart(
         fig.add_hline(
             y=current_value,
             line_dash="dot",
-            line_color="rgba(255,255,255,0.25)",
+            line_color="rgba(255,255,255,0.15)",
             annotation_text=reference_label or f"Current: {current_value}",
             annotation_position="top right",
-            annotation_font=dict(size=11, color="rgba(255,255,255,0.45)"),
+            annotation_font=dict(size=11, color="#8A8A93",
+                                 family="DM Sans, sans-serif"),
         )
 
     fig.update_layout(
-        title=dict(text=title, font=dict(size=14, color="#F1F5F9"), x=0),
+        title=dict(text=title,
+                   font=dict(size=14, color="#F4F4F5",
+                             family="Playfair Display, Georgia, serif"),
+                   x=0),
         xaxis=dict(
-            title="",
-            showgrid=False,
-            zeroline=False,
-            tickfont=dict(size=11, color="#666"),
+            title="", showgrid=False, zeroline=False,
+            tickfont=dict(size=11, color="#8A8A93", family="DM Sans"),
             tickformat="%Y",
         ),
         yaxis=dict(
-            title=dict(text=yaxis_label, font=dict(size=11, color="#666")),
-            showgrid=True,
-            gridcolor="rgba(255,255,255,0.04)",
+            title=dict(text=yaxis_label,
+                       font=dict(size=11, color="#8A8A93", family="DM Sans")),
+            showgrid=True, gridcolor="rgba(255,255,255,0.04)",
             zeroline=False,
-            tickfont=dict(size=11, color="#666"),
+            tickfont=dict(size=11, color="#8A8A93", family="DM Sans"),
         ),
-        plot_bgcolor="#111827",
-        paper_bgcolor="#111827",
-        font=dict(color="#F1F5F9"),
+        plot_bgcolor="rgba(0,0,0,0)",
+        paper_bgcolor="rgba(0,0,0,0)",
+        font=dict(color="#F4F4F5", family="DM Sans, sans-serif"),
         margin=dict(l=10, r=20, t=40, b=10),
         height=240,
         showlegend=False,
@@ -130,15 +123,11 @@ def historical_line_chart(
 
 
 def city_bar_chart(city_scores: dict) -> go.Figure:
-    """
-    Horizontal bar chart of city adjusted investment scores, sorted descending.
-    """
     sorted_cities = sorted(city_scores.items(), key=lambda x: x[1]["score"], reverse=True)
 
     cities = [c for c, _ in sorted_cities]
     scores = [d["score"] for _, d in sorted_cities]
     colors = [_score_color(d["score"]) for _, d in sorted_cities]
-    labels = [f"{d['offset_direction']} {d['state']}" for _, d in sorted_cities]
 
     fig = go.Figure(go.Bar(
         x=scores,
@@ -147,18 +136,20 @@ def city_bar_chart(city_scores: dict) -> go.Figure:
         marker_color=colors,
         text=[f"{s}/100" for s in scores],
         textposition="outside",
-        textfont=dict(size=12),
+        textfont=dict(size=12, color="#8A8A93"),
         hovertemplate="%{y}: %{x}/100<extra></extra>",
-        customdata=labels,
     ))
 
     fig.update_layout(
-        title=dict(text="Adjusted Investment Score by City", font=dict(size=15, color="#F1F5F9")),
+        title=dict(text="Adjusted Investment Score by City",
+                   font=dict(size=15, color="#F4F4F5",
+                             family="Playfair Display, Georgia, serif")),
         xaxis=dict(range=[0, 115], showgrid=False, zeroline=False, showticklabels=False),
-        yaxis=dict(autorange="reversed", tickfont=dict(size=13)),
-        plot_bgcolor="#111827",
-        paper_bgcolor="#111827",
-        font=dict(color="#F1F5F9"),
+        yaxis=dict(autorange="reversed",
+                   tickfont=dict(size=13, color="#8A8A93", family="DM Sans")),
+        plot_bgcolor="rgba(0,0,0,0)",
+        paper_bgcolor="rgba(0,0,0,0)",
+        font=dict(color="#F4F4F5", family="DM Sans, sans-serif"),
         margin=dict(l=10, r=60, t=40, b=10),
         height=320,
         bargap=0.35,

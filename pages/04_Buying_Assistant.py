@@ -15,30 +15,41 @@ st.set_page_config(
 st.markdown(get_common_css(), unsafe_allow_html=True)
 st.sidebar.markdown(sidebar_branding(), unsafe_allow_html=True)
 
-st.markdown("## Buying Assistant")
+st.markdown(
+    '<div style="font-family:Playfair Display,Georgia,serif;font-size:36px;'
+    'font-weight:600;color:#F4F4F5;margin-bottom:4px">Buying Assistant</div>',
+    unsafe_allow_html=True,
+)
 st.caption("Indicative only \u00b7 Not financial advice.")
 st.divider()
 
 st.markdown("""
-<div class="card" style="max-width:700px;margin:0 auto">
-  <div class="lbl">Coming Soon</div>
-  <div style="font-size:15px;color:#F1F5F9;font-weight:600;margin-bottom:12px">
+<div class="card" style="max-width:700px;margin:0 auto;border-left:3px solid #C5A880">
+  <div class="lbl" style="color:#C5A880">Coming Soon</div>
+  <div style="font-family:Playfair Display,Georgia,serif;font-size:18px;
+       color:#F4F4F5;font-weight:600;margin-bottom:16px">
     Due diligence and buying workflow support
   </div>
-  <div style="font-size:12px;color:rgba(255,255,255,0.45);line-height:1.7">
-    <strong style="color:rgba(255,255,255,0.6)">Pre-purchase checklist</strong>
+  <div style="font-family:DM Sans,sans-serif;font-size:13px;color:#8A8A93;line-height:1.8">
+    <strong style="color:#F4F4F5;font-weight:500">Pre-purchase checklist</strong>
     &mdash; Building inspection, pest, strata report, flood zone, zoning, title search<br>
-    <strong style="color:rgba(255,255,255,0.6)">Questions for the agent</strong>
+    <strong style="color:#F4F4F5;font-weight:500">Questions for the agent</strong>
     &mdash; Body corp fees, tenancy, reason for sale, days on market, comparables<br>
-    <strong style="color:rgba(255,255,255,0.6)">Upfront cost summary</strong>
+    <strong style="color:#F4F4F5;font-weight:500">Upfront cost summary</strong>
     &mdash; Deposit, stamp duty, LMI, legals in one view<br>
-    <strong style="color:rgba(255,255,255,0.6)">Risk flags</strong>
+    <strong style="color:#F4F4F5;font-weight:500">Risk flags</strong>
     &mdash; Auto-flag high LVR, negative gearing, low yield, high strata<br>
-    <strong style="color:rgba(255,255,255,0.6)">Settlement timeline</strong>
+    <strong style="color:#F4F4F5;font-weight:500">Settlement timeline</strong>
     &mdash; Contract &rarr; cooling off &rarr; finance &rarr; settlement (~6 weeks)<br>
-    <strong style="color:rgba(255,255,255,0.6)">Property comparison</strong>
+    <strong style="color:#F4F4F5;font-weight:500">Property comparison</strong>
     &mdash; Side-by-side notes for 2&ndash;3 properties
   </div>
 </div>
 <div class="micro" style="text-align:center;margin-top:16px">This page is under development</div>
 """, unsafe_allow_html=True)
+
+st.markdown(
+    '<div class="disclaimer" style="text-align:center;margin-top:32px">'
+    'Indicative only \u00b7 Not financial advice \u00b7 Data as of March 2026</div>',
+    unsafe_allow_html=True,
+)

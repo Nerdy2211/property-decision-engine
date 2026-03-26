@@ -18,7 +18,7 @@ from core.reporting import (
     get_methodology_rows,
     FACTOR_DESCRIPTIONS,
 )
-from core.styles import get_common_css, sidebar_branding, gauge_svg, sparkline_svg, score_color, badge_class
+from core.styles import get_common_css, sidebar_branding, gauge_svg, score_color, badge_class
 
 st.set_page_config(
     page_title="Market Climate | Property Decision Engine",
@@ -46,7 +46,7 @@ band_color     = results["color"]
 city_scores    = results["city_scores"]
 
 # ---------------------------------------------------------------------------
-# Page-specific CSS only (shared classes now in core/styles.py)
+# Page-specific CSS — editorial luxury design system
 # ---------------------------------------------------------------------------
 st.markdown("""
 <style>
@@ -67,47 +67,51 @@ st.markdown("""
 
 /* ── Factor cards ────────────────────────────────────────────────── */
 .factor-card {
-    background: #111827;
-    border: 1px solid rgba(0,191,165,0.06);
-    border-radius: 12px;
+    background: #222225;
+    border: 1px solid #333336;
+    border-radius: 0px;
     padding: 20px 22px 18px 22px;
     margin-bottom: 8px;
-    border-left: 3px solid #2A2D33;
+    border-left: 3px solid #333336;
     flex: 1;
     box-sizing: border-box;
 }
-.factor-card.green { border-left-color: #00BFA5; }
-.factor-card.amber { border-left-color: #F59E0B; }
-.factor-card.red   { border-left-color: #EF4444; }
+.factor-card.green { border-left-color: #C5A880; }
+.factor-card.amber { border-left-color: #8A8A93; }
+.factor-card.red   { border-left-color: #C45C5C; }
 .factor-name {
-    font-size: 10px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
     letter-spacing: 1px;
-    color: rgba(255,255,255,0.25);
+    color: #8A8A93;
     text-transform: uppercase;
     font-weight: 600;
     margin-bottom: 8px;
 }
 .factor-wt {
     font-size: 10px;
-    color: rgba(255,255,255,0.18);
+    color: #8A8A93;
     text-transform: none;
     font-weight: 400;
 }
 .factor-num {
-    font-size: 30px;
-    font-weight: 800;
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 28px;
+    font-weight: 500;
+    color: #F4F4F5;
     line-height: 1;
     letter-spacing: -0.5px;
 }
 .factor-denom {
     font-size: 12px;
-    color: rgba(255,255,255,0.22);
+    color: #8A8A93;
     font-weight: 400;
     margin-left: 1px;
 }
 .factor-desc {
+    font-family: 'DM Sans', sans-serif;
     font-size: 12px;
-    color: rgba(255,255,255,0.37);
+    color: #8A8A93;
     line-height: 1.6;
     margin-top: 10px;
 }
@@ -116,7 +120,7 @@ st.markdown("""
 .group-label {
     font-size: 10px;
     letter-spacing: 2px;
-    color: rgba(255,255,255,0.22);
+    color: #C5A880;
     text-transform: uppercase;
     font-weight: 600;
     margin: 28px 0 10px;
@@ -124,41 +128,57 @@ st.markdown("""
 
 /* ── Shift rows ──────────────────────────────────────────────────── */
 .shift-card {
-    background: #111827;
-    border: 1px solid rgba(0,191,165,0.06);
-    border-radius: 12px;
+    background: #222225;
+    border: 1px solid #333336;
+    border-radius: 0px;
     padding: 16px 20px;
     margin-bottom: 8px;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.3), 0 1px 2px rgba(0,0,0,0.2);
 }
-.shift-body { font-size: 12px; color: rgba(255,255,255,0.42); line-height: 1.55; margin-top: 4px; }
+.shift-body { font-family: 'DM Sans', sans-serif; font-size: 12px; color: #8A8A93; line-height: 1.55; margin-top: 4px; }
 
 /* ── City rank rows ──────────────────────────────────────────────── */
-.rank-row {
-    background: #111827;
-    border: 1px solid rgba(0,191,165,0.06);
-    border-radius: 12px;
-    padding: 14px 20px;
-    margin-bottom: 8px;
+.rank-header {
     display: flex;
     align-items: center;
     gap: 12px;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.3), 0 1px 2px rgba(0,0,0,0.2);
-    transition: background 0.15s;
+    padding: 0 20px 10px 20px;
+    border-bottom: 1px solid #C5A880;
+    margin-bottom: 4px;
 }
-.rank-row:hover { background: #151d2e; }
-.rank-row.rank-top { border-left: 3px solid #00BFA5; }
-.rank-num   { font-size: 24px; font-weight: 800; color: rgba(255,255,255,0.25);
+.rank-header-lbl {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: #8A8A93;
+    font-weight: 600;
+}
+.rank-row {
+    background: #222225;
+    border: 1px solid #333336;
+    border-radius: 0px;
+    padding: 14px 20px;
+    margin-bottom: 0px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+.rank-row.rank-alt { background: #1A1A1C; }
+.rank-row.rank-top { border-left: 3px solid #C5A880; }
+.rank-num   { font-family: 'Cormorant Garamond', Georgia, serif; font-size: 24px; font-weight: 500; color: #8A8A93;
               min-width: 40px; font-variant-numeric: tabular-nums; }
-.rank-city  { font-size: 15px; font-weight: 700; color: #F1F5F9; }
-.rank-state { font-size: 11px; color: rgba(255,255,255,0.25); margin-top: 2px; }
-.rank-right { margin-left: auto; text-align: right; }
-.rank-score { font-size: 20px; font-weight: 800; line-height: 1; }
-.rank-denom { font-size: 11px; color: rgba(255,255,255,0.22); font-weight: 400; }
-.rank-band  { font-size: 11px; color: rgba(255,255,255,0.35); margin-top: 3px; }
+.rank-city  { font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 600; color: #F4F4F5; }
+.rank-state { font-family: 'DM Sans', sans-serif; font-size: 11px; color: #8A8A93; margin-top: 2px; }
+.rank-right { margin-left: auto; text-align: right; display: flex; align-items: center; gap: 16px; }
+.rank-score { font-family: 'Cormorant Garamond', Georgia, serif; font-size: 20px; font-weight: 500; color: #C5A880; line-height: 1; }
+.rank-denom { font-size: 11px; color: #8A8A93; font-weight: 400; }
+.rank-band  { font-family: 'DM Sans', sans-serif; font-size: 11px; color: #8A8A93; opacity: 0.5; margin-top: 3px; }
+.rank-bar-track { width: 120px; height: 4px; background: #333336; border-radius: 0px; overflow: hidden; }
+.rank-bar-fill  { height: 100%; background: #C5A880; border-radius: 0px; }
 
 /* ── Signal items ────────────────────────────────────────────────── */
 .signal-head {
+    font-family: 'DM Sans', sans-serif;
     font-size: 10px;
     font-weight: 700;
     letter-spacing: 2px;
@@ -167,35 +187,37 @@ st.markdown("""
     margin-bottom: 20px;
 }
 .signal-card {
-    background: #111827;
-    border: 1px solid rgba(0,191,165,0.06);
-    border-radius: 12px;
+    background: #222225;
+    border: 1px solid #333336;
+    border-radius: 0px;
     padding: 16px 20px;
     margin-bottom: 8px;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.3), 0 1px 2px rgba(0,0,0,0.2);
 }
-.signal-factor { font-size: 13px; font-weight: 700; margin-bottom: 3px; }
-.signal-desc   { font-size: 12px; color: rgba(255,255,255,0.40); line-height: 1.55; }
+.signal-factor { font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 700; margin-bottom: 3px; }
+.signal-desc   { font-family: 'DM Sans', sans-serif; font-size: 12px; color: #8A8A93; line-height: 1.55; }
 
 </style>
 """, unsafe_allow_html=True)
 
 
 # ============================================================================
-# PAGE HEADER — native Streamlit
+# PAGE HEADER — editorial title
 # ============================================================================
 data_as_of = meta.get("data_as_of", "")
 
-st.markdown("## Market Climate Dashboard")
+st.markdown(
+    '<div style="font-family:Playfair Display,Georgia,serif;font-size:36px;'
+    'font-weight:600;color:#F4F4F5;margin-bottom:4px;">Market Climate Dashboard</div>',
+    unsafe_allow_html=True,
+)
 st.caption(
-    f"Australia · Property Investment Climate · Baseline v2 · "
-    f"Data as of {data_as_of} · Indicative only · Not financial advice"
+    f"Australia \u00b7 Property Investment Climate \u00b7 Baseline v2 \u00b7 "
+    f"Data as of {data_as_of} \u00b7 Indicative only \u00b7 Not financial advice"
 )
 
 
 # ============================================================================
-# SECTION 1 — Hero: gauge + summary
-# Streamlit-native layout; gauge is one self-contained SVG block
+# SECTION 1 — Hero: score card + summary
 # ============================================================================
 summary_text = get_national_summary(national_score, band_label)
 
@@ -204,13 +226,13 @@ col_gauge, col_summary = st.columns([1.2, 2], gap="large")
 with col_gauge:
     st.markdown(
         f'<div style="text-align:center;margin-top:8px;">'
-        f'{gauge_svg(national_score, band_color, size=280, label=band_label, show_micro=False)}'
+        f'{gauge_svg(national_score, size=280, label=band_label, show_micro=False)}'
         f'</div>',
         unsafe_allow_html=True,
     )
     st.markdown(
-        '<p style="text-align:center;font-size:10px;letter-spacing:3px;'
-        'color:rgba(255,255,255,0.22);text-transform:uppercase;'
+        '<p style="text-align:center;font-family:DM Sans,sans-serif;font-size:10px;'
+        'letter-spacing:3px;color:#8A8A93;text-transform:uppercase;'
         'font-weight:600;margin-top:10px;">Overall Climate Score</p>',
         unsafe_allow_html=True,
     )
@@ -218,13 +240,15 @@ with col_gauge:
 
 with col_summary:
     st.markdown(
-        '<p style="font-size:10px;letter-spacing:2px;color:rgba(255,255,255,0.25);'
-        'text-transform:uppercase;font-weight:600;margin-bottom:12px;">Market Summary</p>',
+        '<p style="font-family:DM Sans,sans-serif;font-size:10px;letter-spacing:2px;'
+        'color:#8A8A93;text-transform:uppercase;font-weight:600;margin-bottom:12px;">'
+        'Market Summary</p>',
         unsafe_allow_html=True,
     )
     st.markdown(
-        f'<div style="border-left:2px solid rgba(0,191,165,0.3);padding-left:16px;'
-        f'color:rgba(255,255,255,0.85);font-size:14px;line-height:1.6;">'
+        f'<div style="border-left:3px solid #C5A880;padding-left:16px;'
+        f'color:rgba(255,255,255,0.85);font-family:DM Sans,sans-serif;'
+        f'font-size:14px;line-height:1.6;">'
         f'{summary_text}</div>',
         unsafe_allow_html=True,
     )
@@ -233,8 +257,7 @@ st.divider()
 
 
 # ============================================================================
-# SECTION 2 — KPI Row
-# st.columns layout; one st.markdown per card (no concatenated loops)
+# SECTION 2 — KPI Row (no sparklines)
 # ============================================================================
 kpi_items = [
     {
@@ -243,7 +266,6 @@ kpi_items = [
         "badge_text": "Restrictive",
         "badge_cls": "badge badge-neg",
         "sub": "Current policy rate",
-        "sparkline": [0.10, 0.10, 0.35, 1.85, 3.60, 4.35, 4.10],
     },
     {
         "label": "Rental Vacancy",
@@ -251,7 +273,6 @@ kpi_items = [
         "badge_text": "Near Record Low",
         "badge_cls": "badge badge-pos",
         "sub": "National average",
-        "sparkline": [2.2, 1.8, 1.3, 1.0, 1.1, 1.2, 1.1],
     },
     {
         "label": "Net Migration",
@@ -259,7 +280,6 @@ kpi_items = [
         "badge_text": "Above Average",
         "badge_cls": "badge badge-pos",
         "sub": "Persons per year",
-        "sparkline": [240, 195, -85, 170, 510, 440, 380],
     },
     {
         "label": "Dwelling Approvals",
@@ -267,21 +287,20 @@ kpi_items = [
         "badge_text": "Supply Gap",
         "badge_cls": "badge badge-cau",
         "sub": "Annual, below demand",
-        "sparkline": [220, 195, 180, 175, 165, 162, 160],
     },
 ]
 
 kpi_cols = st.columns(4, gap="small")
 for col, item in zip(kpi_cols, kpi_items):
     with col:
-        spark = sparkline_svg(item["sparkline"], width=80, height=28)
         st.markdown(
-            f'<div class="card" style="padding:24px 24px 18px 24px;">'
+            f'<div class="card" style="padding:24px 24px 18px 24px;position:relative;">'
+            f'<div style="display:flex;justify-content:space-between;align-items:flex-start;">'
             f'<div class="lbl" style="margin-bottom:8px">{item["label"]}</div>'
-            f'<div class="val">{item["value"]}</div>'
             f'<span class="{item["badge_cls"]}">{item["badge_text"]}</span>'
-            f'<div class="sub" style="margin-top:6px;">{item["sub"]}</div>'
-            f'<div style="margin-top:12px">{spark}</div>'
+            f'</div>'
+            f'<div class="val">{item["value"]}</div>'
+            f'<div class="sub">{item["sub"]}</div>'
             f'</div>',
             unsafe_allow_html=True,
         )
@@ -291,11 +310,10 @@ st.divider()
 
 # ============================================================================
 # SECTION 3 — Factor Scores
-# st.columns per group; one st.markdown per factor card
 # ============================================================================
 st.subheader("Factor Scores")
 st.caption(
-    "Each factor scored 0–100 and weighted by its estimated influence on Australian "
+    "Each factor scored 0\u2013100 and weighted by its estimated influence on Australian "
     "property market conditions. Grouped by theme."
 )
 
@@ -336,11 +354,8 @@ for group_name, factor_keys in FACTOR_GROUPS.items():
     present_keys = [k for k in factor_keys if k in sub_scores]
 
     if len(present_keys) == 1:
-        # Single full-width card — no flex row needed
         st.markdown(_build_card_html(present_keys[0]), unsafe_allow_html=True)
     else:
-        # Render all cards for this group in one flex row so align-items:stretch
-        # guarantees equal height without relying on Streamlit column internals.
         row_html = '<div class="factor-row">'
         for key in present_keys:
             row_html += _build_card_html(key)
@@ -355,12 +370,11 @@ st.divider()
 
 # ============================================================================
 # SECTION 4 — What's Changed Recently?
-# st.columns layout; one st.markdown per shift row
 # ============================================================================
-st.subheader("What's Changed Recently?")
+st.subheader("What\u2019s Changed Recently?")
 st.caption("Directional context on recent shifts across key factors.")
 
-_shift_icon  = {"positive": "↑", "negative": "↓", "neutral": "→"}
+_shift_icon  = {"positive": "\u2191", "negative": "\u2193", "neutral": "\u2192"}
 _shift_badge = {
     "positive": "badge badge-pos",
     "negative": "badge badge-neg",
@@ -374,11 +388,13 @@ for col, batch in ((col_a, recent_shifts[:half]), (col_b, recent_shifts[half:]))
     with col:
         for s in batch:
             d    = s.get("direction", "neutral")
-            bcls = _shift_badge.get(d, "badge badge-cau")
-            icon = _shift_icon.get(d, "→")
+            icon = _shift_icon.get(d, "\u2192")
+            # Badge with gold border for factor name
             st.markdown(
                 f'<div class="shift-card">'
-                f'<div style="margin-bottom:8px"><span class="{bcls}">{icon} {s["factor"]}</span></div>'
+                f'<div style="margin-bottom:8px">'
+                f'<span class="badge" style="border-color:#C5A880;color:#C5A880;">'
+                f'{icon} {s["factor"]}</span></div>'
                 f'<div class="shift-body">{s["text"]}</div>'
                 f'</div>',
                 unsafe_allow_html=True,
@@ -389,12 +405,11 @@ st.divider()
 
 # ============================================================================
 # SECTION 5 — Historical Trends
-# Unchanged — already stable (native st.columns + st.plotly_chart)
 # ============================================================================
 st.subheader("Historical Trends")
 st.caption(
     "A point-in-time score shows where conditions are today. "
-    "Trend context shows whether they are improving, deteriorating, or stuck — "
+    "Trend context shows whether they are improving, deteriorating, or stuck \u2014 "
     "which matters more for timing than any single reading."
 )
 
@@ -408,7 +423,7 @@ with h_col1:
     st.plotly_chart(
         historical_line_chart(
             df_rates, title="RBA Cash Rate", yaxis_label="% p.a.",
-            line_color="#06B6D4",
+            line_color="#C5A880",
             current_value=national_values["interest_rate"],
             reference_label=f"Current: {national_values['interest_rate']}%",
             invert_signal=True,
@@ -420,7 +435,7 @@ with h_col2:
     st.plotly_chart(
         historical_line_chart(
             df_cpi, title="Inflation (CPI, Annual)", yaxis_label="% annual",
-            line_color="#06B6D4",
+            line_color="#C5A880",
             current_value=national_values["inflation"],
             reference_label=f"Current: {national_values['inflation']}%",
             invert_signal=True,
@@ -432,7 +447,7 @@ with h_col3:
     st.plotly_chart(
         historical_line_chart(
             df_unemp, title="Unemployment Rate", yaxis_label="%",
-            line_color="#06B6D4",
+            line_color="#C5A880",
             current_value=national_values["unemployment"],
             reference_label=f"Current: {national_values['unemployment']}%",
             invert_signal=True,
@@ -444,32 +459,48 @@ st.divider()
 
 
 # ============================================================================
-# SECTION 6 — City Rankings
-# Loop of individual st.markdown calls — one per row, never concatenated
+# SECTION 6 — City Rankings (ledger style)
 # ============================================================================
 st.subheader("Adjusted Investment Score by City")
 st.caption(
-    "National score adjusted for local structural factors — "
+    "National score adjusted for local structural factors \u2014 "
     "migration, supply, vacancy, and market conditions. Indicative, not objective rankings."
 )
 
 sorted_cities = sorted(city_scores.items(), key=lambda x: x[1]["score"], reverse=True)
 
+# Header row
+st.markdown(
+    '<div class="rank-header">'
+    '<div class="rank-header-lbl" style="min-width:40px;">Rank</div>'
+    '<div class="rank-header-lbl" style="flex:1;">City</div>'
+    '<div class="rank-header-lbl" style="text-align:right;">Score</div>'
+    '<div class="rank-header-lbl" style="width:120px;"></div>'
+    '</div>',
+    unsafe_allow_html=True,
+)
+
 for rank, (city, d) in enumerate(sorted_cities, 1):
     top_cls = " rank-top" if rank == 1 else ""
-    alt_bg = "background:rgba(255,255,255,0.01);" if rank % 2 == 0 else ""
+    alt_cls = " rank-alt" if rank % 2 == 0 else ""
+    bar_width = int(d["score"] * 120 / 100)
     st.markdown(
-        f'<div class="rank-row{top_cls}" style="{alt_bg}">'
+        f'<div class="rank-row{top_cls}{alt_cls}">'
         f'<div class="rank-num">{rank:02d}</div>'
-        f'<div>'
+        f'<div style="flex:1;">'
         f'<div class="rank-city">{city}</div>'
         f'<div class="rank-state">{d["state"]}</div>'
         f'</div>'
         f'<div class="rank-right">'
-        f'<div class="rank-score" style="color:#00BFA5;">'
+        f'<div>'
+        f'<div class="rank-score">'
         f'{d["score"]}<span class="rank-denom">/100</span>'
         f'</div>'
         f'<div class="rank-band">{d["offset_direction"]} {d["band_label"]}</div>'
+        f'</div>'
+        f'<div class="rank-bar-track">'
+        f'<div class="rank-bar-fill" style="width:{bar_width}px;"></div>'
+        f'</div>'
         f'</div>'
         f'</div>',
         unsafe_allow_html=True,
@@ -480,7 +511,6 @@ st.divider()
 
 # ============================================================================
 # SECTION 7 — Tailwinds & Risks
-# st.columns layout; one st.markdown per signal item
 # ============================================================================
 st.subheader("Key Tailwinds & Risks")
 st.caption("Derived from top and bottom scoring factors under the current model.")
@@ -492,7 +522,7 @@ def _render_signals(col, title, title_color, items, dot_color):
     with col:
         st.markdown(
             f'<span class="signal-head" style="color:{title_color};">'
-            f'<span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:{title_color};margin-right:6px;vertical-align:middle"></span>'
+            f'<span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:{dot_color};margin-right:6px;vertical-align:middle"></span>'
             f'{title}</span>',
             unsafe_allow_html=True,
         )
@@ -500,15 +530,15 @@ def _render_signals(col, title, title_color, items, dot_color):
             st.markdown(
                 f'<div class="signal-card">'
                 f'<div class="signal-factor" style="color:{dot_color};">'
-                f'<span style="font-size:8px;vertical-align:middle;margin-right:6px;">●</span>'
+                f'<span style="font-size:8px;vertical-align:middle;margin-right:6px;">\u25cf</span>'
                 f'{factor_label}</div>'
                 f'<div class="signal-desc">{desc}</div>'
                 f'</div>',
                 unsafe_allow_html=True,
             )
 
-_render_signals(col_tw, "Tailwinds",        "#00BFA5", tailwinds, "#00BFA5")
-_render_signals(col_rk, "Risks / Headwinds", "#EF4444", risks,     "#EF4444")
+_render_signals(col_tw, "Tailwinds",        "#C5A880", tailwinds, "#C5A880")
+_render_signals(col_rk, "Risks / Headwinds", "#C45C5C", risks,     "#C45C5C")
 
 st.divider()
 
@@ -519,26 +549,26 @@ st.divider()
 with st.expander("How scores are calculated"):
     st.markdown(
         "The national score is a weighted average of 9 factor sub-scores. "
-        "Each sub-score maps a raw value to a 0–100 scale using documented thresholds.\n\n"
+        "Each sub-score maps a raw value to a 0\u2013100 scale using documented thresholds.\n\n"
         "**Model priorities:** Interest rates carry the highest weight (28%) because they are the "
         "single largest lever on Australian property affordability and borrowing capacity. "
-        "Population growth (16%) and supply conditions — housing approvals (13%) plus rental vacancy (11%) — "
+        "Population growth (16%) and supply conditions \u2014 housing approvals (13%) plus rental vacancy (11%) \u2014 "
         "together account for 40% of the score, reflecting how structurally supply-constrained the Australian "
         "market has become relative to demand.\n\n"
         "**Inflation (10%)** is weighted below interest rates deliberately, as its main relevance to property "
-        "is through its influence on rate expectations — capturing it separately avoids double-counting the same signal.\n\n"
+        "is through its influence on rate expectations \u2014 capturing it separately avoids double-counting the same signal.\n\n"
         "**Global macro risk (6%)** acts as a meaningful overlay. Australian property is exposed to external shocks "
-        "— particularly China, commodity prices, and global credit conditions — but these are secondary to the "
+        "\u2014 particularly China, commodity prices, and global credit conditions \u2014 but these are secondary to the "
         "domestic rate and supply cycle.\n\n"
         "**Threshold calibration:** Scoring ranges were set to reflect realistic Australian conditions, "
         "not theoretical extremes. Specifically:\n"
         "- *Interest rates:* the bearish end is 6.0% (not 7.0%). Rates above 6% would be extraordinary in "
         "the modern Australian context. Using 7% as the floor made 4%+ rates look moderate when they are "
-        "genuinely restrictive. At 6% as the floor, current rates score just below neutral — a mild headwind.\n"
-        "- *Unemployment:* the bullish end is 3.0% (not 3.5%). Australia's all-time low was around 3.4%, "
-        "so using 3.5% as 'perfect' compressed too much of the realistic range into the top of the scale. "
+        "genuinely restrictive. At 6% as the floor, current rates score just below neutral \u2014 a mild headwind.\n"
+        "- *Unemployment:* the bullish end is 3.0% (not 3.5%). Australia\u2019s all-time low was around 3.4%, "
+        "so using 3.5% as \u2018perfect\u2019 compressed too much of the realistic range into the top of the scale. "
         "At 3.0% as the ceiling, a rate of 4%+ scores as good-but-not-excellent, which is a more honest read.\n\n"
-        "Weights and thresholds are the author's considered view, documented here for transparency. "
+        "Weights and thresholds are the author\u2019s considered view, documented here for transparency. "
         "This model is baseline v2, locked March 2026."
     )
 
