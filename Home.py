@@ -7,8 +7,8 @@ import streamlit as st
 from core.styles import get_common_css, sidebar_branding
 
 st.set_page_config(
-    page_title="Property Decision Engine",
-    page_icon="\U0001f3e0",
+    page_title="Aurelia",
+    page_icon="\u25C6",
     layout="wide",
     initial_sidebar_state="expanded",
 )
@@ -20,12 +20,12 @@ st.markdown("""<style>
 .home-hero { text-align: center; padding: 56px 0 0 0; }
 .home-title {
     font-family: 'Playfair Display', Georgia, serif;
-    font-size: 44px; font-weight: 600; color: #F4F4F5;
+    font-size: 52px; font-weight: 600; color: #F4F4F5;
     margin-bottom: 0; line-height: 1.2;
 }
 .home-sub {
     font-family: 'DM Sans', sans-serif;
-    font-size: 15px; color: #8A8A93; line-height: 1.7;
+    font-size: 16px; color: #8A8A93; line-height: 1.7;
     max-width: 600px; margin: 0 auto;
 }
 .home-accent {
@@ -40,9 +40,9 @@ st.markdown("""<style>
     background: #222225;
     border: 1px solid #333336;
     border-radius: 0px;
-    padding: 28px;
+    padding: 32px 28px 24px 28px;
     box-sizing: border-box;
-    transition: border-color 0.2s;
+    transition: border-color 0.2s, border-bottom 0.2s;
 }
 .page-tile:hover { border-color: #C5A880; }
 .page-tile-active { border-bottom: 2px solid #C5A880; }
@@ -79,10 +79,9 @@ st.markdown("""<style>
 
 st.markdown(
     '<div class="home-hero">'
-    '<div class="home-title">Property Decision Engine</div>'
+    '<div class="home-title">Aurelia</div>'
     '<div class="home-accent"></div>'
-    '<div class="home-sub">Institutional-grade property investment intelligence '
-    'for the Australian market</div>'
+    '<div class="home-sub">Property Investment Intelligence</div>'
     '</div>',
     unsafe_allow_html=True,
 )
@@ -122,6 +121,6 @@ st.markdown(
 )
 st.markdown(
     '<div class="disclaimer" style="text-align:center;margin-top:24px">'
-    'Property Decision Engine \u00b7 v1.0 \u00b7 March 2026</div>',
+    'Aurelia \u00b7 v1.0 \u00b7 March 2026</div>',
     unsafe_allow_html=True,
 )

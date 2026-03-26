@@ -1,7 +1,6 @@
 """
-Shared design system — Editorial / Luxury aesthetic.
+Shared design system — Aurelia Editorial aesthetic.
 
-Inspired by Monocle Magazine and Bloomberg Terminal.
 Playfair Display for headings, DM Sans for body, Cormorant Garamond for data.
 Gold (#C5A880) accent, sharp edges (0px radius), generous whitespace.
 """
@@ -34,19 +33,21 @@ def get_common_css() -> str:
     font-family: var(--font-heading) !important;
     font-size: 28px !important; font-weight: 600 !important;
     color: var(--color-text) !important;
-    border-left: 4px solid var(--color-primary);
-    padding-left: 16px;
+    border-left: 4px solid #C5A880 !important;
+    padding-left: 16px !important;
     margin-bottom: 8px !important;
 }
 .main [data-testid="stMarkdown"] h3 {
     font-family: var(--font-heading) !important;
     font-size: 22px !important; font-weight: 600 !important;
     color: var(--color-text) !important;
+    border-left: 4px solid #C5A880 !important;
+    padding-left: 16px !important;
 }
 .main hr {
     border: none !important;
     border-top: 1px solid var(--color-border) !important;
-    margin: 2rem 0 !important;
+    margin: 2.5rem 0 !important;
 }
 .main .stCaption p {
     font-family: var(--font-body) !important;
@@ -59,6 +60,30 @@ def get_common_css() -> str:
 section[data-testid="stSidebar"] {
     background-color: #161618 !important;
     border-right: 1px solid var(--color-border) !important;
+}
+
+/* ── Alert / info box overrides ─────────────────────────────────────── */
+.stAlert {
+    background-color: #222225 !important;
+    border: 1px solid #333336 !important;
+    border-left: 3px solid #C5A880 !important;
+    border-radius: 0px !important;
+    color: #8A8A93 !important;
+}
+
+/* ── st.metric overrides ────────────────────────────────────────────── */
+[data-testid="stMetricValue"] {
+    font-family: 'Cormorant Garamond', serif !important;
+    font-size: 28px !important; font-weight: 500 !important;
+}
+[data-testid="stMetricDelta"] {
+    font-family: 'DM Sans', sans-serif !important;
+    font-size: 12px !important;
+}
+[data-testid="stMetricLabel"] {
+    font-family: 'DM Sans', sans-serif !important;
+    font-size: 11px !important; text-transform: uppercase !important;
+    letter-spacing: 0.1em !important; color: #8A8A93 !important;
 }
 
 /* ── Base card ──────────────────────────────────────────────────────── */
@@ -125,28 +150,28 @@ section[data-testid="stSidebar"] {
 .micro {
     font-family: var(--font-body);
     font-size: 11px;
-    text-transform: uppercase;
-    letter-spacing: 0.12em;
+    letter-spacing: 0.04em;
     color: var(--color-muted);
 }
 
-/* ── Badges — sharp, outlined ───────────────────────────────────────── */
+/* ── Badges — sharp, outlined, editorial ────────────────────────────── */
 .badge {
     display: inline-block;
     font-family: var(--font-body);
     font-size: 11px;
     font-weight: 500;
-    padding: 2px 10px;
+    padding: 3px 12px;
     border-radius: var(--radius);
     line-height: 1.5;
+    letter-spacing: 0.03em;
     background: transparent;
-    border: 1px solid var(--color-border);
-    color: var(--color-muted);
+    border: 1px solid #444448;
+    color: #8A8A93;
 }
-.badge-pos { border-color: var(--color-accent); color: var(--color-accent); }
-.badge-neg { border-color: var(--color-neg-border); color: var(--color-neg); }
-.badge-cau { border-color: var(--color-primary); color: var(--color-primary); }
-.badge-neu { border-color: var(--color-border); color: var(--color-muted); }
+.badge-pos { border-color: #3B4A42; color: #6B8F7B; }
+.badge-neg { border-color: #6B3A3A; color: #C47070; }
+.badge-cau { border-color: #8A7A5A; color: #C5A880; }
+.badge-neu { border-color: #444448; color: #8A8A93; }
 
 /* ── Math / ledger tables ───────────────────────────────────────────── */
 .math-tbl {
@@ -164,7 +189,6 @@ section[data-testid="stSidebar"] {
 .math-tbl .sep td { padding-top: 10px; border-bottom: 1px solid #2A2A2D; }
 .math-tbl .total td { font-weight: 600; }
 
-/* Ledger header row */
 .ledger-head {
     font-family: var(--font-body);
     font-size: 11px;
@@ -191,10 +215,10 @@ section[data-testid="stSidebar"] {
     background: var(--color-primary);
 }
 
-/* ── Signal / status colours ────────────────────────────────────────── */
-.sig-pos { color: var(--color-accent); }
-.sig-neg { color: var(--color-neg); }
-.sig-cau { color: var(--color-primary); }
+/* ── Signal colours ─────────────────────────────────────────────────── */
+.sig-pos { color: #6B8F7B; }
+.sig-neg { color: #C47070; }
+.sig-cau { color: #C5A880; }
 .sig-neu { color: var(--color-muted); }
 
 /* ── Gold hairline divider ──────────────────────────────────────────── */
@@ -223,7 +247,7 @@ section[data-testid="stSidebar"] > div:first-child { padding-top: 0; }
 }
 .sidebar-brand-title {
     font-family: 'Playfair Display', Georgia, serif;
-    font-size: 15px;
+    font-size: 16px;
     font-weight: 600;
     color: var(--color-text);
     margin-bottom: 3px;
@@ -241,7 +265,7 @@ section[data-testid="stSidebar"] > div:first-child { padding-top: 0; }
 def sidebar_branding() -> str:
     return (
         '<div class="sidebar-brand">'
-        '<div class="sidebar-brand-title">Property Decision Engine</div>'
+        '<div class="sidebar-brand-title">Aurelia</div>'
         '<div class="sidebar-brand-sub">Institutional Brief</div>'
         '</div>'
     )
@@ -249,12 +273,6 @@ def sidebar_branding() -> str:
 
 def score_card_html(score, label: str = "", size: str = "large",
                     prefix: str = "", suffix: str = "/100") -> str:
-    """
-    Editorial score card — replaces the old SVG gauge.
-    size: "large" (72px, hero), "medium" (48px), "small" (28px)
-    prefix: e.g. "$" for dollar amounts
-    suffix: e.g. "/100" or "%"
-    """
     fs = {"large": 72, "medium": 48, "small": 28}[size]
     suf_fs = {"large": 18, "medium": 14, "small": 12}[size]
     label_html = ""
@@ -280,7 +298,6 @@ def score_card_html(score, label: str = "", size: str = "large",
 
 def sparkline_svg(values: list, width: int = 80, height: int = 28,
                   color: str = "#C5A880") -> str:
-    """Tiny SVG sparkline — gold by default."""
     if not values or len(values) < 2:
         return ""
     mn, mx = min(values), max(values)
@@ -302,10 +319,10 @@ def sparkline_svg(values: list, width: int = 80, height: int = 28,
 
 def score_color(score: int) -> str:
     if score >= 65:
-        return "#C5A880"   # gold
+        return "#C5A880"
     if score >= 40:
-        return "#8A8A93"   # muted
-    return "#C45C5C"       # muted red
+        return "#8A7A5A"
+    return "#6B3A3A"
 
 
 def badge_class(score_or_value, thresholds=(65, 40), invert=False):
@@ -323,9 +340,7 @@ def badge_class(score_or_value, thresholds=(65, 40), invert=False):
     return "badge badge-neg"
 
 
-# Keep gauge_svg as a thin wrapper around score_card_html for backward compat
 def gauge_svg(score: int, color: str = "#C5A880", size: int = 280,
               label: str = "", show_micro: bool = False) -> str:
-    """Backward-compatible wrapper — returns score card HTML, not SVG."""
     sz = "large" if size >= 200 else "medium" if size >= 120 else "small"
     return score_card_html(score, label=label, size=sz)

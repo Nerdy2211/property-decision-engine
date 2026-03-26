@@ -7,7 +7,7 @@ import streamlit as st
 from core.styles import get_common_css, sidebar_branding
 
 st.set_page_config(
-    page_title="Buying Assistant | Property Decision Engine",
+    page_title="Aurelia | Buying Assistant",
     layout="wide",
     initial_sidebar_state="expanded",
 )

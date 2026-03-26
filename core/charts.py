@@ -10,11 +10,11 @@ from core.config import FACTOR_LABELS, WEIGHTS
 
 def _score_color(score: float) -> str:
     if score >= 65:
-        return "#C5A880"
+        return "#C5A880"    # gold
     elif score >= 40:
-        return "#8A8A93"
+        return "#8A7A5A"    # muted amber
     else:
-        return "#C45C5C"
+        return "#6B3A3A"    # muted red
 
 
 def factor_bar_chart(sub_scores: dict) -> go.Figure:

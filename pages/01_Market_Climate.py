@@ -21,7 +21,8 @@ from core.reporting import (
 from core.styles import get_common_css, sidebar_branding, gauge_svg, score_color, badge_class
 
 st.set_page_config(
-    page_title="Market Climate | Property Decision Engine",
+    page_title="Aurelia | Market Climate",
+    page_icon="\u25C6",
     layout="wide",
     initial_sidebar_state="expanded",
 )
@@ -294,11 +295,9 @@ kpi_cols = st.columns(4, gap="small")
 for col, item in zip(kpi_cols, kpi_items):
     with col:
         st.markdown(
-            f'<div class="card" style="padding:24px 24px 18px 24px;position:relative;">'
-            f'<div style="display:flex;justify-content:space-between;align-items:flex-start;">'
-            f'<div class="lbl" style="margin-bottom:8px">{item["label"]}</div>'
-            f'<span class="{item["badge_cls"]}">{item["badge_text"]}</span>'
-            f'</div>'
+            f'<div class="card" style="padding:24px 24px 18px 24px;position:relative">'
+            f'<span class="{item["badge_cls"]}" style="position:absolute;top:20px;right:20px">{item["badge_text"]}</span>'
+            f'<div class="lbl">{item["label"]}</div>'
             f'<div class="val">{item["value"]}</div>'
             f'<div class="sub">{item["sub"]}</div>'
             f'</div>',
@@ -471,11 +470,10 @@ sorted_cities = sorted(city_scores.items(), key=lambda x: x[1]["score"], reverse
 
 # Header row
 st.markdown(
-    '<div class="rank-header">'
-    '<div class="rank-header-lbl" style="min-width:40px;">Rank</div>'
-    '<div class="rank-header-lbl" style="flex:1;">City</div>'
-    '<div class="rank-header-lbl" style="text-align:right;">Score</div>'
-    '<div class="rank-header-lbl" style="width:120px;"></div>'
+    '<div style="display:flex;align-items:center;gap:12px;padding:8px 20px;border-bottom:1px solid #C5A880;margin-bottom:8px">'
+    '<span style="font-family:DM Sans,sans-serif;font-size:11px;text-transform:uppercase;letter-spacing:0.1em;color:#8A8A93;min-width:40px">Rank</span>'
+    '<span style="font-family:DM Sans,sans-serif;font-size:11px;text-transform:uppercase;letter-spacing:0.1em;color:#8A8A93;flex:1">City</span>'
+    '<span style="font-family:DM Sans,sans-serif;font-size:11px;text-transform:uppercase;letter-spacing:0.1em;color:#8A8A93;text-align:right;min-width:120px">Score</span>'
     '</div>',
     unsafe_allow_html=True,
 )
@@ -598,6 +596,6 @@ with st.expander("How scores are calculated"):
 
     st.markdown(
         '<div class="disclaimer" style="text-align:center;margin-top:32px">'
-        'Indicative only \u00b7 Not financial advice \u00b7 Data as of March 2026</div>',
+        'Aurelia \u00b7 v1.0 \u00b7 March 2026</div>',
         unsafe_allow_html=True,
     )

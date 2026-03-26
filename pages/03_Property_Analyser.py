@@ -12,7 +12,8 @@ from core.tax import MARGINAL_TAX_RATES
 from core.styles import get_common_css, sidebar_branding, gauge_svg, score_color
 
 st.set_page_config(
-    page_title="Property Analyser | Property Decision Engine",
+    page_title="Aurelia | Property Analyser",
+    page_icon="\u25C6",
     layout="wide",
     initial_sidebar_state="expanded",
 )
@@ -128,7 +129,7 @@ def _diff_badge(diff: float, invert: bool = False) -> str:
     bad  = diff >= 5  if invert else diff <= -5
     if good: return "badge badge-pos"
     if bad:  return "badge badge-neg"
-    return "badge badge-cau"
+    return "badge badge-neu"
 
 
 def _arrow(val: float) -> str:
@@ -145,14 +146,14 @@ def _yield_badge(diff: float) -> str:
     """Return badge class for yield diff."""
     if diff >= 0.1: return "badge badge-pos"
     if diff <= -0.1: return "badge badge-neg"
-    return "badge badge-cau"
+    return "badge badge-neu"
 
 
 def _signal_badge(val: float, thresholds: tuple = (5.5, 4.0), labels: tuple = None) -> str:
     """Return badge class based on value vs two thresholds (high=pos, mid=cau, low=neg)."""
     high, low = thresholds
     if val >= high: return "badge badge-pos"
-    if val >= low:  return "badge badge-cau"
+    if val >= low:  return "badge badge-neu"
     return "badge badge-neg"
 
 
@@ -327,8 +328,8 @@ if purchase_price > 0 and weekly_rent > 0:
     type_label    = "unit" if is_unit else "house"
 
     # Badge helpers for KPI cards
-    _gy_badge = "badge badge-pos" if gross_yld_pct >= 5.5 else ("badge badge-cau" if gross_yld_pct >= 4.0 else "badge badge-neg")
-    _ny_badge = "badge badge-pos" if net_yld_pct >= 4.0 else ("badge badge-cau" if net_yld_pct >= 2.5 else "badge badge-neg")
+    _gy_badge = "badge badge-pos" if gross_yld_pct >= 5.5 else ("badge badge-neu" if gross_yld_pct >= 4.0 else "badge badge-neg")
+    _ny_badge = "badge badge-pos" if net_yld_pct >= 4.0 else ("badge badge-neu" if net_yld_pct >= 2.5 else "badge badge-neg")
     _cf_badge = "badge badge-pos" if cash_flow >= 0 else "badge badge-neg"
     _deal_badge = "badge badge-pos" if deal >= 65 else ("badge badge-cau" if deal >= 45 else "badge badge-neg")
     _ny_label = "Strong" if net_yld_pct >= 4.0 else ("Neutral" if net_yld_pct >= 2.5 else "Weak")
@@ -644,7 +645,7 @@ if purchase_price > 0 and weekly_rent > 0:
 
     st.markdown(
         '<div class="disclaimer" style="text-align:center;margin-top:32px">'
-        'Indicative only \u00b7 Not financial advice \u00b7 Data as of March 2026</div>',
+        'Aurelia \u00b7 Indicative only \u00b7 Not financial advice \u00b7 Data as of March 2026</div>',
         unsafe_allow_html=True,
     )
 

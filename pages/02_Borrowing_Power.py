@@ -9,7 +9,8 @@ from core.locations import STATES
 from core.styles import get_common_css, sidebar_branding, score_card_html  # noqa: F401
 
 st.set_page_config(
-    page_title="Borrowing Power | Property Decision Engine",
+    page_title="Aurelia | Borrowing Power",
+    page_icon="\u25C6",
     layout="wide",
     initial_sidebar_state="expanded",
 )
@@ -673,7 +674,7 @@ if combined > 0:
 
     st.markdown(
         '<div class="disclaimer" style="text-align:center;margin-top:32px">'
-        'Indicative only &middot; Not financial advice &middot; Data as of March 2026</div>',
+        'Aurelia &middot; Indicative only &middot; Not financial advice &middot; Data as of March 2026</div>',
         unsafe_allow_html=True,
     )
 
